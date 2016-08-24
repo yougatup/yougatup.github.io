@@ -41,6 +41,21 @@ function onPlayerReady(event) {
 	/* ------ bind ctrl + l to submitting question -- */
 
 	jQuery('#questionBox').bind('keydown', 'ctrl+l', submitBtnClicked);
+
+	/* ------ Progress Bar Initialization ------ */
+
+	$('#progressBar').show();
+	var playerTotalTime = player.getDuration();
+
+	setInterval(function() {
+		var playerCurrentTime = player.getCurrentTime();
+
+		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
+
+		progress(playerTimeDifference, $('#progressBar'));
+	}, 300);        
+
+	/* ---------------------------------------- */
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -49,16 +64,7 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING) {
-		$('#progressBar').show();
-		var playerTotalTime = player.getDuration();
 
-		setInterval(function() {
-			var playerCurrentTime = player.getCurrentTime();
-
-			var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
-
-			progress(playerTimeDifference, $('#progressBar'));
-		}, 500);        
 	} else {
 		//clearTimeout(mytimer);
 		//	$('#progressBar').hide();
