@@ -36,7 +36,7 @@ function onYouTubeIframeAPIReady() {
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
 	event.target.playVideo();
-
+	clearQuestionBox();
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -75,9 +75,6 @@ $(document).ready(function() {
 		submitBtnClicked();
 	});
 
-	$('#animateBtn').click(function() {
-		doAnimate();
-	});
 });
 
 var questionCnt = 0;
@@ -87,29 +84,18 @@ function submitBtnClicked() {
 	addElement(getQuestionStatement());
 	clearQuestionBox();
 
-
-	function getQuestionStatement() {
-		return $('#questionBox').val();
-	}
-
-	function clearQuestionBox() {
-		$('#questionBox').val('');
-	}
 }
 
-
-function moveUp(box) {
-	$box.animate({top: "+= 50" });
+function getQuestionStatement() {
+	return $('#questionBox').val();
 }
 
-function doAnimate() {
-	for(var i=1;i<questionArray.length-1;i++) {
-		$(questionArray[i]).animate({height: 'toggle'});
-	}
-	//$('#rightSecond').animate({top: '+= 50px'});
+function clearQuestionBox() {
+	$('#questionBox').val('');
 }
 
 function addElement(statement) {
+	//statement = statement.replace(/\r?\n/g, '\\r\\n');
 	var $newdiv = $('<div />',{
 		'id': "question"+questionCnt,
 		'text': statement,
