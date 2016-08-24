@@ -12,8 +12,9 @@ html, body { height: 100%; padding: 0; margin: 0; min-height: 100% }
 #rightDiv {background: #EEE;  height: 100%; width: 35%;  float: right;}
 #rightFirst {background: #FFF; height: 30%; box-sizing: border-box; border: 3px solid black;}
 #rightSecond {background: #ABC; height: 70%; box-sizing: border-box; border: 3px solid black;}
-#questionBox {height: 85%; width: 99%; text-align:left; box-sizing: border-box; padding:5px; font-size: 15px; }
-
+#questionBoxArea {height: 85%; width: 99%; }
+#questionBox {height: 90%; width: 99%; text-align:left; box-sizing: border-box; padding:5px;  margin: 5px; font-size: 15px; }
+#submitBtn {margin: 8px;}
 
 .questionElement {background: #AB0; margin: 5px 5px 5px 5px; padding: 5px 5px 5px 5px; height: 100px; box-sizing: border-box; border: 3px solid black; white-space: pre-wrap; overflow: scroll;}
 

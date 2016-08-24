@@ -37,6 +37,10 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
 	event.target.playVideo();
 	clearQuestionBox();
+
+	/* ------ bind ctrl + l to submitting question -- */
+
+	jQuery('#questionBox').bind('keydown', 'ctrl+l', submitBtnClicked);
 }
 
 // 5. The API calls this function when the player's state changes.
