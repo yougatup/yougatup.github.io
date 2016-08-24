@@ -19,7 +19,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 
 function onYouTubeIframeAPIReady() {
-
 	player = new YT.Player('leftFirst', {
 		height: '540',
 		   width: '960',
@@ -68,5 +67,17 @@ function onPlayerStateChange(event) {
 
 function stopVideo() {
 	player.stopVideo();
+}
+
+/* ------ Submit button click event handling ------  */
+
+$(document).ready(function() {
+	$('#submitBtn').click(function() {
+		submitBtnClicked();
+	});
+});
+
+function submitBtnClicked() {
+	$("#rightSecond").text($("#questionBox").val());
 }
 
