@@ -79,7 +79,10 @@ $(document).ready(function() {
 var questionCnt = 0;
 
 function submitBtnClicked() {
-	var $newdiv = $('<div style="height: 100px"/>').text(questionCnt);
+	var $newdiv = $('<div />',{
+		'text': questionCnt,
+		'height': '100px'
+	});
 
 	$('#rightSecond').append($newdiv);
 
