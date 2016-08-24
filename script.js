@@ -48,7 +48,7 @@ function onPlayerStateChange(event) {
 		$('#progressBar').show();
 		var playerTotalTime = player.getDuration();
 
-		mytimer = setInterval(function() {
+		setInterval(function() {
 			var playerCurrentTime = player.getCurrentTime();
 
 			var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
@@ -56,7 +56,7 @@ function onPlayerStateChange(event) {
 			progress(playerTimeDifference, $('#progressBar'));
 		}, 500);        
 	} else {
-		clearTimeout(mytimer);
+		//clearTimeout(mytimer);
 		//	$('#progressBar').hide();
 	}
 }
@@ -74,18 +74,54 @@ $(document).ready(function() {
 	$('#submitBtn').click(function() {
 		submitBtnClicked();
 	});
+
+	$('#animateBtn').click(function() {
+		doAnimate();
+	});
 });
 
 var questionCnt = 0;
+var questionArray = [];
 
 function submitBtnClicked() {
+	addElement(getQuestionStatement());
+	clearQuestionBox();
+
+
+	function getQuestionStatement() {
+		return $('#questionBox').val();
+	}
+
+	function clearQuestionBox() {
+		$('#questionBox').val('');
+	}
+}
+
+
+function moveUp(box) {
+	$box.animate({top: "+= 50" });
+}
+
+function doAnimate() {
+	for(var i=1;i<questionArray.length-1;i++) {
+		$(questionArray[i]).animate({height: 'toggle'});
+	}
+	//$('#rightSecond').animate({top: '+= 50px'});
+}
+
+function addElement(statement) {
 	var $newdiv = $('<div />',{
-		'text': questionCnt,
-		'height': '100px'
+		'id': "question"+questionCnt,
+		'text': statement,
+		'class': "questionElement",
+		'height': '100px',
 	});
 
-	$('#rightSecond').append($newdiv);
+	$newdiv.animate({height: 'toggle'});
+
+	$('#rightSecond').prepend($newdiv);
+
+	questionArray.unshift($newdiv); // push from beginning
 
 	questionCnt++;
 }
-
