@@ -1,9 +1,7 @@
 function progress(percent, $element) {
 	var progressBarWidth = percent * $element.width() / 100;
 
-	$("#rightSecond").text(progressBarWidth+ " " + $element.width());
-
-	// $element.find('div').animate({ width: progressBarWidth }, 500).html(percent + "%&nbsp;");
+	$("#leftSecond").text(progressBarWidth+ " " + $element.width());
 
 	$element.find('div').animate({ width: progressBarWidth });
 }
@@ -69,15 +67,22 @@ function stopVideo() {
 	player.stopVideo();
 }
 
-/* ------ Submit button click event handling ------  */
 
 $(document).ready(function() {
+	/* ------ Submit button click event handling ------  */
+
 	$('#submitBtn').click(function() {
 		submitBtnClicked();
 	});
 });
 
+var questionCnt = 0;
+
 function submitBtnClicked() {
-	$("#rightSecond").text($("#questionBox").val());
+	var $newdiv = $('<div style="height: 100px"/>').text(questionCnt);
+
+	$('#rightSecond').append($newdiv);
+
+	questionCnt++;
 }
 
