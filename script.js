@@ -11,9 +11,19 @@ function makeQuestionStruct(names) {
 	return constructor;
 }
 
-var questionType = makeQuestionStruct("time question answer");
-var questionArray = [];
+var questionType = makeQuestionStruct("index time question answer div");
+var currentPoint = -1;
 var questionList = [];
+
+function checkQuestion(time) {
+	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time) {
+		if(questionList[currentPoint+1].time < time) {
+			questionList[currentPoint+1].div.show();
+
+			currentPoint++;
+		}
+	}
+}
 
 function moveTimeline(percent) {
 	var ctx = document.getElementById("progressBar");
@@ -113,13 +123,17 @@ function onPlayerReady(event) {
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
 		moveTimeline(playerTimeDifference);
+
+		checkQuestion(playerCurrentTime);
 	}, 100);        
 
-	/* ---------------------------------------- */
+	/* --------- Initialize question list --------- */
 
-	questionList.push(new questionType(10, "aa", "no"));
-	questionList.push(new questionType(30, "aa", "no"));
-	questionList.push(new questionType(50, "aa", "no"));
+	registerQuestion(10, "aa");
+	registerQuestion(30, "bb");
+	registerQuestion(50, "cc");
+	registerQuestion(40, "cc");
+	registerQuestion(20, "cool");
 
 	plotQuestionBar();
 }
@@ -150,13 +164,11 @@ $(document).ready(function() {
 	$('#submitBtn').click(function() {
 		submitBtnClicked();
 	});
-
-
 });
 
 
 function submitBtnClicked() {
-	addElement(getQuestionStatement());
+	//addElement(getQuestionStatement());
 	clearQuestionBox();
 }
 
@@ -168,17 +180,37 @@ function clearQuestionBox() {
 	$('#questionBox').val('');
 }
 
-function addElement(statement) {
+function registerQuestion(time, statement) {
+	var idx = questionList.length;
+
+	//questionList.push(new questionType(idx, time, statement));
+
 	var $newdiv = $('<div />',{
-		'id': "question"+questionList.length,
-		'text': statement,
+		'id': "question"+idx,
+		'text': time + " " + statement,
 		'class': "questionElement",
 		'height': '100px',
 	});
 
-	$newdiv.animate({height: 'toggle'});
+	$newdiv.hide();
+	var insertIndex = -1;
 
-	$('#rightSecond').prepend($newdiv);
+	for(var j=0;j<questionList.length;j++) {
+		if(questionList[j].time > time) {
+			insertIndex = j;
+			break;
+		}
+	}
 
-	questionArray.unshift($newdiv); // push from beginning
+	if(insertIndex == -1) {
+		questionList.push(new questionType(idx, time, statement, '', $newdiv));
+
+		$('#rightSecond').prepend($newdiv);
+	} else {
+		var Id = questionList[insertIndex].div[0].id;
+		questionList.splice(insertIndex, 0, new questionType(idx, time, statement, '', $newdiv));
+
+		$newdiv.insertAfter("#" + Id);
+	}
 }
+
