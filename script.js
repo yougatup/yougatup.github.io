@@ -1,9 +1,20 @@
-function progress(percent, $element) {
-	var progressBarWidth = percent * $element.width() / 100;
+var currentProgressBarWidth = 0;
 
-	$("#leftSecond").text(progressBarWidth+ " " + $element.width());
+function progress(percent) {
+	//var progressBarWidth = percent * $("#progressBar").width() / 100;
 
-	$element.find('div').animate({ width: progressBarWidth });
+	var ctx = document.getElementById("progressBar");
+	var c = ctx.getContext("2d");
+
+	var progressBarWidth = percent * c.canvas.width / 100;
+
+	$("#leftSecond").text(progressBarWidth+ " " + $("#progressBar").width() + " " + c.canvas.width + " " + c.canvas.height);
+
+	c.fillStyle = "#FFFFFF";
+	c.fillRect(0, 0, progressBarWidth, c.canvas.height);
+
+	c.fillStyle = "#AAA";
+	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
 }
 
 var tag = document.createElement('script');
@@ -52,8 +63,8 @@ function onPlayerReady(event) {
 
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
-		progress(playerTimeDifference, $('#progressBar'));
-	}, 300);        
+		progress(playerTimeDifference);
+	}, 100);        
 
 	/* ---------------------------------------- */
 }
