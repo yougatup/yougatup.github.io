@@ -1,14 +1,27 @@
-var currentProgressBarWidth = 0;
+function makeQuestionStruct(names) {
+	var names = names.split(' ');
+	var count = names.length;
 
-function progress(percent) {
-	//var progressBarWidth = percent * $("#progressBar").width() / 100;
+	function constructor() {
+		for (var i = 0; i < count; i++) {
+			this[names[i]] = arguments[i];
+		}
+	}
 
+	return constructor;
+}
+
+var questionType = makeQuestionStruct("time question answer");
+var questionArray = [];
+var questionList = [];
+
+function moveTimeline(percent) {
 	var ctx = document.getElementById("progressBar");
 	var c = ctx.getContext("2d");
 
 	var progressBarWidth = percent * c.canvas.width / 100;
 
-	$("#leftSecond").text(progressBarWidth+ " " + $("#progressBar").width() + " " + c.canvas.width + " " + c.canvas.height);
+	$("#leftSecond").text(progressBarWidth+ " " + $("#progressBar").width() + " " + c.canvas.width + " " + c.canvas.height + " " + questionList.length + " " + $("#questionBar").width());
 
 	c.fillStyle = "#FFFFFF";
 	c.fillRect(0, 0, progressBarWidth, c.canvas.height);
@@ -16,6 +29,28 @@ function progress(percent) {
 	c.fillStyle = "#AAA";
 	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
 }
+
+function plotQuestionBar() {
+	for(var i=0;i<questionList.length;i++){
+		plotSingleQuestion(questionList[i].time);
+	}
+}
+
+function plotSingleQuestion(questionTime) {
+	var ctx = document.getElementById("questionBar");
+	var c = ctx.getContext("2d");
+
+	var playerTotalTime = player.getDuration();
+	var relativePosition = (questionTime / playerTotalTime) * 100;
+
+	var drawPosition = relativePosition * c.canvas.width / 100;
+
+	c.beginPath();
+	c.moveTo(drawPosition, 0);
+	c.lineTo(drawPosition, c.canvas.height);
+	c.stroke();
+}
+
 
 var tag = document.createElement('script');
 
@@ -44,6 +79,12 @@ function onYouTubeIframeAPIReady() {
 	});
 }
 
+function resizeCanvas(elementId, width, height) {
+	c = document.getElementById(elementId);
+	c.setAttribute('width', width);
+	c.setAttribute('height', height);
+}
+
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
 	event.target.playVideo();
@@ -55,7 +96,15 @@ function onPlayerReady(event) {
 
 	/* ------ Progress Bar Initialization ------ */
 
+	var printedWidth = $('#progressBar').width();
+	var printedHeight = $('#progressBar').height();
+
+	resizeCanvas('progressBar', printedWidth, printedHeight);
+	resizeCanvas('questionBar', printedWidth, printedHeight);
+
 	$('#progressBar').show();
+	$('#questionBar').show();
+
 	var playerTotalTime = player.getDuration();
 
 	setInterval(function() {
@@ -63,10 +112,16 @@ function onPlayerReady(event) {
 
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
-		progress(playerTimeDifference);
+		moveTimeline(playerTimeDifference);
 	}, 100);        
 
 	/* ---------------------------------------- */
+
+	questionList.push(new questionType(10, "aa", "no"));
+	questionList.push(new questionType(30, "aa", "no"));
+	questionList.push(new questionType(50, "aa", "no"));
+
+	plotQuestionBar();
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -96,15 +151,13 @@ $(document).ready(function() {
 		submitBtnClicked();
 	});
 
+
 });
 
-var questionCnt = 0;
-var questionArray = [];
 
 function submitBtnClicked() {
 	addElement(getQuestionStatement());
 	clearQuestionBox();
-
 }
 
 function getQuestionStatement() {
@@ -116,9 +169,8 @@ function clearQuestionBox() {
 }
 
 function addElement(statement) {
-	//statement = statement.replace(/\r?\n/g, '\\r\\n');
 	var $newdiv = $('<div />',{
-		'id': "question"+questionCnt,
+		'id': "question"+questionList.length,
 		'text': statement,
 		'class': "questionElement",
 		'height': '100px',
@@ -129,6 +181,4 @@ function addElement(statement) {
 	$('#rightSecond').prepend($newdiv);
 
 	questionArray.unshift($newdiv); // push from beginning
-
-	questionCnt++;
 }
