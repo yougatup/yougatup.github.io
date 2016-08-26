@@ -16,12 +16,16 @@ var currentPoint = -1;
 var questionList = [];
 
 function checkQuestion(time) {
-	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time) {
-		if(questionList[currentPoint+1].time < time) {
-			questionList[currentPoint+1].div.show();
+	while(currentPoint-1 >= 0 && questionList[currentPoint].time >= time) {
+		questionList[currentPoint].div.hide();
 
-			currentPoint++;
-		}
+		currentPoint--;
+	}
+
+	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time) {
+		questionList[currentPoint+1].div.show();
+
+		currentPoint++;
 	}
 }
 
@@ -115,6 +119,8 @@ function onPlayerReady(event) {
 	$('#progressBar').show();
 	$('#questionBar').show();
 
+	/* ------ Preparing for regular job ----- */
+
 	var playerTotalTime = player.getDuration();
 
 	setInterval(function() {
@@ -134,8 +140,6 @@ function onPlayerReady(event) {
 	registerQuestion(50, "cc");
 	registerQuestion(40, "cc");
 	registerQuestion(20, "cool");
-
-	plotQuestionBar();
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -168,7 +172,9 @@ $(document).ready(function() {
 
 
 function submitBtnClicked() {
-	//addElement(getQuestionStatement());
+	var playerCurrentTime = player.getCurrentTime();
+
+	registerQuestion(playerCurrentTime, getQuestionStatement());
 	clearQuestionBox();
 }
 
@@ -212,5 +218,7 @@ function registerQuestion(time, statement) {
 
 		$newdiv.insertAfter("#" + Id);
 	}
+
+	plotSingleQuestion(time);
 }
 
