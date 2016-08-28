@@ -1,3 +1,21 @@
+
+var questionType = makeQuestionStruct("index time question answer div");
+var currentPoint = -1;
+var questionList = [];
+var videoId = 'UDxzMcCrOyI';
+// Newton's first law of motion 2 : D1NubiWCpQg
+
+var tag = document.createElement('script');
+
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 3. This function creates an <iframe> (and YouTube player)
+//    after the API code downloads.
+var player;
+var contextStack = [];
+
 function makeQuestionStruct(names) {
 	var names = names.split(' ');
 	var count = names.length;
@@ -10,13 +28,8 @@ function makeQuestionStruct(names) {
 
 	return constructor;
 }
-
-var questionType = makeQuestionStruct("index time question answer div");
-var currentPoint = -1;
-var questionList = [];
-
 function checkQuestion(time) {
-	while(currentPoint-1 >= 0 && questionList[currentPoint].time >= time) {
+	while(currentPoint >= 0 && questionList[currentPoint].time >= time) {
 		questionList[currentPoint].div.hide();
 
 		currentPoint--;
@@ -35,7 +48,7 @@ function moveTimeline(percent) {
 
 	var progressBarWidth = percent * c.canvas.width / 100;
 
-	$("#leftSecond").text(progressBarWidth+ " " + $("#progressBar").width() + " " + c.canvas.width + " " + c.canvas.height + " " + questionList.length + " " + $("#questionBar").width());
+	$("#leftSecond").text("current time : " + player.getCurrentTime());
 
 	c.fillStyle = "#FFFFFF";
 	c.fillRect(0, 0, progressBarWidth, c.canvas.height);
@@ -66,21 +79,12 @@ function plotSingleQuestion(questionTime) {
 }
 
 
-var tag = document.createElement('script');
-
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
-var player;
 
 function onYouTubeIframeAPIReady() {
-	player = new YT.Player('leftFirst', {
+	player = new YT.Player('mySlider', {
 		height: '540',
 		   width: '960',
-		   videoId: 'UDxzMcCrOyI',
+		   videoId: videoId,
 		   playerVars: {
 			   'modestbranding' : 1,
 		   'rel' : 0,
@@ -101,7 +105,7 @@ function resizeCanvas(elementId, width, height) {
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-	event.target.playVideo();
+	//event.target.playVideo();
 	clearQuestionBox();
 
 	/* ------ bind ctrl + l to submitting question -- */
@@ -136,10 +140,12 @@ function onPlayerReady(event) {
 	/* --------- Initialize question list --------- */
 
 	loadDataFromFirebase();
+
+	/* -------------------------------------------- */
 }
 
 function readData() {
-	var questionRef = firebase.database().ref('questions');
+	var questionRef = firebase.database().ref('questions/' + videoId);
 
 	questionRef.once("value", function(snapshot) {
 		var obj = snapshot.val()
@@ -179,11 +185,11 @@ function writeToDB(time, question, answer) {
 	};
 
 	// Get a key for a new Post.
-	var newPostKey = firebase.database().ref().child('questions').push().key;
+	var newPostKey = firebase.database().ref().child('questions/' + videoId).push().key;
 
 	// Write the new post's data simultaneously in the posts list and the user's post list.
 	var updates = {};
-	updates['/questions/' + newPostKey] = postData;
+	updates['/questions/' + videoId + '/' + newPostKey] = postData;
 
 	return firebase.database().ref().update(updates);
 }
@@ -239,8 +245,37 @@ $(document).ready(function() {
 	$('#submitBtn').click(function() {
 		submitBtnClicked();
 	});
+
+	$('#popBtn').click(function() {
+		popBtnClicked();
+	});
+
+	/* ------ Question div click event handling ------  */
+
+	$('#rightSecond').on("click", ".questionElement", function() {
+		contextStack.push($('#leftFirst').html());
+
+		//$('#leftFirst').empty();
+		//$('#leftFirst').text($(this).text());
+
+		$('#mySlider').hide();
+
+		//alert("wow! clicked!" + $(this).text());
+	});
 });
 
+function popBtnClicked() {
+	if(contextStack.length >= 1){
+		//var contextTop = contextStack[contextStack.length-1];
+		
+		//contextStack.pop();
+
+		//$('#leftFirst').html(contextTop);
+		//contextStack.push($('#leftFirst'));
+
+		$('#mySlider').show();
+	}
+}
 
 function submitBtnClicked() {
 	var playerCurrentTime = player.getCurrentTime();
@@ -265,7 +300,7 @@ function registerQuestion(time, statement) {
 
 	var $newdiv = $('<div />',{
 		'id': "question"+idx,
-		'text': time + " " + statement,
+		'text': time + "\n" + statement,
 		'class': "questionElement",
 		'height': '100px',
 	});
@@ -292,5 +327,6 @@ function registerQuestion(time, statement) {
 	}
 
 	plotSingleQuestion(time);
+
 }
 
