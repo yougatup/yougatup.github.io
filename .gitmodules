@@ -1,3 +1,6 @@
 [submodule "jquery.hotkeys"]
 	path = jquery.hotkeys
 	url = https://github.com/jeresig/jquery.hotkeys
+[submodule "examples/quickstart-js"]
+	path = examples/quickstart-js
+	url = https://github.com/firebase/quickstart-js.git

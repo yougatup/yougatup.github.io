@@ -135,12 +135,83 @@ function onPlayerReady(event) {
 
 	/* --------- Initialize question list --------- */
 
-	registerQuestion(10, "aa");
-	registerQuestion(30, "bb");
-	registerQuestion(50, "cc");
-	registerQuestion(40, "cc");
-	registerQuestion(20, "cool");
+	loadDataFromFirebase();
 }
+
+function readData() {
+	var questionRef = firebase.database().ref('questions');
+
+	questionRef.once("value", function(snapshot) {
+		var obj = snapshot.val()
+		for (var key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				registerQuestion(obj[key].time, obj[key].question);
+			}
+		}
+	}, function (errorObject) {
+		console.log("The read failed: " + errorObject.code);
+	});
+}
+
+function InitializeDB(){
+	// Initialize Firebase
+	var config = {
+		apiKey: "AIzaSyCl2ihXRpdU0C708JxRPZo5_Qa3M3G613U",
+		authDomain: "documentimprovement-ebf04.firebaseapp.com",
+		databaseURL: "https://documentimprovement-ebf04.firebaseio.com",
+		storageBucket: "documentimprovement-ebf04.appspot.com",
+	};
+	firebase.initializeApp(config);
+}
+
+function loadDataFromFirebase(){
+	InitializeDB();
+	toggleSignIn();
+	readData();
+}
+
+function writeToDB(time, question, answer) {
+	// A post entry.
+	var postData = {
+		'time': time,
+		'question': question,
+		'answer': answer
+	};
+
+	// Get a key for a new Post.
+	var newPostKey = firebase.database().ref().child('questions').push().key;
+
+	// Write the new post's data simultaneously in the posts list and the user's post list.
+	var updates = {};
+	updates['/questions/' + newPostKey] = postData;
+
+	return firebase.database().ref().update(updates);
+}
+
+function toggleSignIn() {
+	if (firebase.auth().currentUser) {
+		// [START signout]
+		firebase.auth().signOut();
+		// [END signout]
+	} else {
+		// [START authanon]
+		firebase.auth().signInAnonymously().catch(function(error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			// [START_EXCLUDE]
+			if (errorCode === 'auth/operation-not-allowed') {
+				alert('You must enable Anonymous auth in the Firebase Console.');
+			} else {
+				console.error(error);
+			}
+			// [END_EXCLUDE]
+		});
+		// [END authanon]
+	}
+	//document.getElementById('quickstart-sign-in').disabled = true;
+}
+
 
 // 5. The API calls this function when the player's state changes.
 //    The function indicates that when playing a video (state=1),
@@ -175,6 +246,7 @@ function submitBtnClicked() {
 	var playerCurrentTime = player.getCurrentTime();
 
 	registerQuestion(playerCurrentTime, getQuestionStatement());
+	writeToDB(playerCurrentTime, getQuestionStatement(), '');
 	clearQuestionBox();
 }
 
