@@ -141,7 +141,9 @@ function onPlayerReady(event) {
 
 	loadDataFromFirebase();
 
-	/* -------------------------------------------- */
+	/* ----------Context stack initialize----------- */
+
+	contextStack.push($('#mySlider'));
 }
 
 function readData() {
@@ -253,27 +255,39 @@ $(document).ready(function() {
 	/* ------ Question div click event handling ------  */
 
 	$('#rightSecond').on("click", ".questionElement", function() {
-		contextStack.push($('#leftFirst').html());
-
-		//$('#leftFirst').empty();
-		//$('#leftFirst').text($(this).text());
-
-		$('#mySlider').hide();
-
-		//alert("wow! clicked!" + $(this).text());
+		contextPush($(this));
 	});
 });
 
+function contextPush(element) {
+	if (contextStack.length == 1) {
+		player.pauseVideo();
+	}
+
+	var topElement = contextStack[contextStack.length-1];
+
+	topElement.hide();
+
+	var text = element.text();
+
+	var $newdiv = $('<div />',{
+		'id': "stackElem" + contextStack.length,
+		'text': text,
+		'class': "stackElement",
+	});
+
+	contextStack.push($newdiv);
+
+	$('#leftFirst').append($newdiv);
+}
+
 function popBtnClicked() {
-	if(contextStack.length >= 1){
-		//var contextTop = contextStack[contextStack.length-1];
-		
-		//contextStack.pop();
+	while(contextStack.length > 1) {
+		var popElement = contextStack.pop();
 
-		//$('#leftFirst').html(contextTop);
-		//contextStack.push($('#leftFirst'));
+		popElement.remove();
 
-		$('#mySlider').show();
+		contextStack[contextStack.length-1].show();
 	}
 }
 
@@ -295,8 +309,6 @@ function clearQuestionBox() {
 
 function registerQuestion(time, statement) {
 	var idx = questionList.length;
-
-	//questionList.push(new questionType(idx, time, statement));
 
 	var $newdiv = $('<div />',{
 		'id': "question"+idx,
