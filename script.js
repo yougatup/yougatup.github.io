@@ -362,8 +362,10 @@ function questionBarMouseEffectSetting() {
 			c.beginPath();
 			c.rect(r.x, 0, r.w, c.canvas.height);
 
-			if(r.c == true || c.isPointInPath(x, y)) {
-				selectedIdx = (r.c == true) ? i : -1;
+			if(rightDivAppeared && (r.c == true || c.isPointInPath(x, y))) {
+				if(selectedIdx == -1 && r.c == true) 
+					selectedIdx = i;
+
 				c.fillStyle = "red";
 			} else {
 				c.fillStyle = "black";
@@ -383,6 +385,10 @@ function questionBarMouseEffectSetting() {
 				} else {
 					questionList[i].div.slideUp();
 				}
+			}
+		} else {
+			for(var i=0;i<questionList.length;i++) {
+				questionList[i].div.slideUp();
 			}
 		}
 	}
