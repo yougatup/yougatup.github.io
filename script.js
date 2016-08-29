@@ -6,6 +6,7 @@ var videoId = '5-ZFOhHQS68';
 var subsInfo = [];
 var subsFrequency = [];
 var questionRects = [];
+var clickedRect;
 
 // Newton's first law of motion 2 : D1NubiWCpQg
 
@@ -77,6 +78,13 @@ function plotQuestionBar() {
 	var ctx = document.getElementById("questionBar");
 	var c = ctx.getContext("2d");
 
+	clickedRects = {
+		x: -1,
+		y: -1,
+		w: -1,
+		h: -1
+	};
+
 	for(var i=1;i<subsFrequency.length;i++) { // subsInfo starts from 1
 		// plot rectangle in subsInfo[i].start ~ subsInfo[i].end
 
@@ -88,7 +96,10 @@ function plotQuestionBar() {
 			x: startPoint, 
 			y: (c.canvas.height - myHeight), 
 			w: endPoint - startPoint, 
-			h: myHeight});
+			h: myHeight,
+			c: false,
+			i: i
+		});
 	}
 
 	c.fillStyle = "#000000";
@@ -181,7 +192,7 @@ function onPlayerReady(event) {
 
 		moveTimeline(playerTimeDifference);
 
-		checkQuestion(playerCurrentTime);
+		//checkQuestion(playerCurrentTime);
 	}, 100);        
 
 	/* --------- Initialize question list --------- */
@@ -350,12 +361,14 @@ $(document).ready(function() {
 
 	var questionBarCtx = document.getElementById("questionBar");
 	var questionBarC = questionBarCtx.getContext("2d");
+	var mouseIsDown;
 
-	questionBarC.canvas.onmousemove = function(e) {
-		var rect = this.getBoundingClientRect();
+	function checkQuestionBarColor(e) {
+		var rect = questionBarC.canvas.getBoundingClientRect();
 		var x = e.clientX - rect.left;
 		var y = e.clientY - rect.top;
-		
+		var selectedIdx = -1;
+
 		questionBarC.clearRect(0, 0, questionBarC.canvas.width, questionBarC.canvas.height);
 
 		for(var i=0;i<questionRects.length;i++) {
@@ -363,14 +376,78 @@ $(document).ready(function() {
 
 			questionBarC.beginPath();
 			questionBarC.rect(r.x, 0, r.w, questionBarC.canvas.height);
-			questionBarC.fillStyle = questionBarC.isPointInPath(x, y) ? "red" : "black" ;
+
+			if(r.c == true || questionBarC.isPointInPath(x, y)) {
+				selectedIdx = (r.c == true) ? i : -1;
+				questionBarC.fillStyle = "red";
+			} else {
+				questionBarC.fillStyle = "black";
+			}
 
 			questionBarC.beginPath();
 			questionBarC.rect(r.x, r.y, r.w, r.h);
 			questionBarC.fill();
 		}
+
+		if(selectedIdx != -1) {
+			var subsInfoIdx = questionRects[selectedIdx].i;
+
+			for(var i=0;i<questionList.length;i++) {
+				if(subsInfo[subsInfoIdx].start <= questionList[i].time && questionList[i].time < subsInfo[subsInfoIdx].end) {
+					questionList[i].div.slideDown();
+				} else {
+					questionList[i].div.slideUp();
+				}
+			}
+		}
 	}
 
+	questionBarC.canvas.onmousedown = function(e) {
+		mouseIsDown = true;
+	}
+
+	questionBarC.canvas.onmouseup = function(e) {
+		var rect = this.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+
+		if(mouseIsDown) mouseClick(e, x, y);
+
+		mouseIsDown = false;
+
+		function mouseClick(e, x, y) {
+			var idx = -1;
+
+			for(var i=0;i<questionRects.length;i++) {
+				var r = questionRects[i];
+
+				questionBarC.beginPath();
+				questionBarC.rect(r.x, 0, r.w, questionBarC.canvas.height);
+
+				if(questionBarC.isPointInPath(x, y)) {
+					idx = i;
+					break;
+				}
+			}
+
+			if(idx == -1) {
+				for(var i=0;i<questionRects.length;i++) {
+					questionRects[i].c = false;
+				}
+			} else {
+				for(var i=0;i<questionRects.length;i++) {
+					if(i == idx) questionRects[i].c = true;
+					else questionRects[i].c = false;
+				}
+			}
+
+			checkQuestionBarColor(e);
+		}
+	}
+
+	questionBarC.canvas.onmousemove = checkQuestionBarColor;
+
+	/* ------ play bar mouse move setting ------ */
 
 
 });
