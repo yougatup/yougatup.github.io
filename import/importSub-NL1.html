@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<script type="text/javascript">
+			window.onload = function() {
+
+				function InitializeDB(){
+					// Initialize Firebase
+					var config = {
+						apiKey: "AIzaSyCl2ihXRpdU0C708JxRPZo5_Qa3M3G613U",
+						authDomain: "documentimprovement-ebf04.firebaseapp.com",
+						databaseURL: "https://documentimprovement-ebf04.firebaseio.com",
+						storageBucket: "documentimprovement-ebf04.appspot.com",
+					};
+
+					firebase.initializeApp(config);
+				}
+
+				function toggleSignIn() {
+					if (firebase.auth().currentUser) {
+						// [START signout]
+						firebase.auth().signOut();
+						// [END signout]
+					} else {
+						// [START authanon]
+						firebase.auth().signInAnonymously().catch(function(error) {
+								// Handle Errors here.
+								var errorCode = error.code;
+								var errorMessage = error.message;
+								// [START_EXCLUDE]
+								if (errorCode === 'auth/operation-not-allowed') {
+								alert('You must enable Anonymous auth in the Firebase Console.');
+								} else {
+								console.error(error);
+								}
+								// [END_EXCLUDE]
+								});
+						// [END authanon]
+					}
+					//document.getElementById('quickstart-sign-in').disabled = true;
+				}
+
+				function exportData(index, start, end, statement) {
+					var videoId = '5-ZFOhHQS68';
+
+					// A post entry.
+					var postData = {
+						'index': index,
+						'start': start,
+						'end': end,
+						'statement': statement
+					};
+
+					// Get a key for a new Post.
+					var newPostKey = firebase.database().ref().child('subsInfo/' + videoId).push().key;
+
+					// Write the new post's data simultaneously in the posts list and the user's post list.
+					var updates = {};
+					updates['/subsInfo/' + videoId + '/' + newPostKey] = postData;
+
+					return firebase.database().ref().update(updates);
+				}
+
+				function getLine(stmt) {
+					var ret_value = "";
+					var i;
+
+					for(i=0;i<stmt.length;i++){
+						if(stmt[i] == '\n') break;
+						ret_value = ret_value + stmt[i];
+					}
+
+					return [ret_value, i];
+				}
+
+				var fileInput = document.getElementById('fileInput');
+				var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+				fileInput.addEventListener('change', function(e) {
+						var file = fileInput.files[0];
+						var textType = /text.*/;
+
+						if (file.type.match(textType)) {
+						var reader = new FileReader();
+
+						reader.onload = function(e) {
+
+						InitializeDB();
+						toggleSignIn();
+
+						var inputString = reader.result.slice(0);
+						var cnt = 0;
+						var start = -1, end = -1;
+						var subIndex = -1;
+
+						while(inputString != ""){
+							cnt++;
+
+							var [stmt, idx] = getLine(inputString);
+
+							if(idx < inputString.length) inputString = inputString.slice(idx+1);
+							else inputStrng = "";
+
+							if(cnt % 4 == 0) {
+								// stmt should be blank
+
+								start = -1;
+								end = -1;
+								subIndex = -1;
+							}
+							else if(cnt % 4 == 1) {
+								// stmt = inex
+
+								subIndex = Number(stmt);
+							}
+							else if(cnt % 4 == 2) {
+								// stmt = time
+
+								start = Number(stmt.slice(0, 2)) * 3600;
+								start += Number(stmt.slice(3, 5)) * 60;
+								start += Number(stmt.slice(6, 8));
+
+								start += Number(stmt.slice(9, 12)) * 0.001;
+
+								end = Number(stmt.slice(17, 19)) * 3600;
+								end += Number(stmt.slice(20, 22)) * 60;
+								end += Number(stmt.slice(23, 25));
+
+								end += Number(stmt.slice(26, 29)) * 0.001;
+							}
+							else {
+								// stmt = question statement
+								// all the materials are now ready
+
+								fileDisplayArea.innerText  += subIndex + " " + start + " " + end + "\n" + stmt + "\n";
+
+								if(subIndex == 15) {
+									subIndex = 15;
+								}
+								exportData(subIndex, start, end, stmt);
+							}
+						}
+
+						}
+						reader.readAsText(file);	
+						} else {
+							fileDisplayArea.innerText = "File not supported!"
+						}
+				});
+			}
+
+		</script>
+
+
+	</head>
+	<body>
+
+
+		<div id="page-wrapper">
+
+			<h1>Text File Reader</h1>
+			<div>
+				Select a text file: 
+				<input type="file" id="fileInput">
+			</div>
+
+			<pre id="fileDisplayArea"><pre>
+	</div>
+
+	</body>
+</html>
+

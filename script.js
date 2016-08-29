@@ -2,7 +2,8 @@
 var questionType = makeQuestionStruct("index time question answer div");
 var currentPoint = -1;
 var questionList = [];
-var videoId = 'UDxzMcCrOyI';
+var videoId = '5-ZFOhHQS68';
+
 // Newton's first law of motion 2 : D1NubiWCpQg
 
 var tag = document.createElement('script');

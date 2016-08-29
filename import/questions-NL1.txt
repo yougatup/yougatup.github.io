@@ -1,0 +1,602 @@
+132	#	I wonder how Galileo and Newton lived to be 78 & 84 years old!? Thats amazing for their time.									#	-1	1	0	-1
+140	#	what scientific method									#	-1	0	0	-1
+151	#	Why does the apple not come out?									#	-1	1	0	-1
+172	#	too bad newtons 3rd law isnt up yet									#	-1	1	0	-1
+208	#	Did Descartes and Calculas described...or found									#	-1	1	0	-1
+212	#	"Why is that if two balls (wooden and metal) fall down, we solve for F in F = ma? But, if we roll them on the floor, we solve for a in a = F/m? I thought 
+gravity was an acceleration?
+"									#	-1	1	0	-1
+232	#	what thing is he useing to make t his video									#	-1	0	0	-1
+251	#	How many g' is a newton									#	-1	1	0	-1
+269	#	Is there a way to save videos in "Favorites" like I can in YouTube?									#	-1	1	0	-1
+284	#	do u have any problems or numericals based on the concept of motion									#	-1	0	0	-1
+295	#	what did galileo has to do with anything?									#	-1	1	0	-1
+307	#	Does any generator work forever?									#	-1	1	0	-1
+329	#	"there is no sentence translation i.e the speech is seen by the sentences in the video. I Observed it in previous
+videos. But this speech is different"									#	-1	0	0	-1
+330	#	How do I add this to a class I'm the coach of??									#	-1	0	0	-1
+338	#	What is a leap year									#	-1	1	0	-1
+354	#	why we are not able to pierce the potato with a straw									#	-1	1	0	-1
+358	#	where i can find kinematic of 3 dimensions and relative velocity									#	-1	0	0	-1
+369	#	"My question is neither about this video nor the topic in general, but about something else. Next school year I am going 
+to take an AP Physics course. To refresh my knowledge about MECHANICS, ELECTRICITY and WAVES I would like to 
+watch all KhanAcademy videos about the topics. Where do I find all of them?"									#	-1	0	0	-1
+377	#	is there any video about the variation of weight in a lift and space : weightlessness ?									#	-1	0	0	-1
+408	#	can someone tell the famous physics scientist that were born in washington									#	-1	0	0	-1
+91	#	Can you make the work output of a machine greater than the work input?									#	0	1	0	-1
+129	#	is the net force produced by interaction of objects in the directions opposite to motion									#	0	1	0	-1
+173	#	"No. Gravity is a force that does not need interaction between objects because it is always present. 
+However, on the moon where the gravitational pull is so weak, you can't really feel the gravity pulling."									#	0	1	0	-1
+334	#	"In Isaac Newton's time, did they have balloons, blown with helium? because if they did, then they didn't need to 
+go to outer space to test that..."									#	0	0	0	-1
+337	#	Is'nt there force for the core to keep it moving?									#	0	0	0	-1
+356	#	does force support gravitational power?									#	0	0	0	-1
+401	#	How could you explain this to a 2nd grader?									#	0	1	0	-1
+402	#	It's gravity another force thats acts against another object when forced is applied to an object at rest, like friction.									#	0	1	0	-1
+405	#	what about matter,all create friction,but a solid starts motion and stops motion.									#	0	0	0	-1
+243	#	"from 00:29, we can only observe this kind of movement in space, where the absence of friction enables an object to 
+move at a constant rate"									#	1	0	0	-1
+72	#	0:41 they made mention of greeks is that where the founding of force started									#	2	1	0	-1
+56	#	"when the objects change their motion[rest/moving] due to unbalanced forces right the what happens 
+when it is acted by balanced forces for moving/rest as per newtons law of motion"									#	4	1	0	-1
+150	#	but if your carpet runs one way if the object went with the flow of the carpet wouldn't it go farther									#	7	1	0	-1
+8	#	What is pseudo forse? ??									#	-1	1	1	-1
+35	#	What is a vacuum?									#	-1	1	1	-1
+37	#	What is meant by the center of mass of an object ?									#	-1	1	1	-1
+205	#	what is hookes law									#	-1	1	1	-1
+215	#	what is momemtum and what is the SI unit of momemtum?									#	-1	1	1	-1
+217	#	what is displacement?									#	-1	1	1	-1
+218	#	What measuring tool will we use on mars?Spring balance or a Mass balance?									#	-1	1	1	-1
+234	#	what is pascal principle									#	-1	0	1	-1
+292	#	What is work Energy Theorem									#	-1	1	1	-1
+304	#	Does Acceleration = Displacement / Time^2 ?									#	-1	1	1	-1
+317	#	"Has anyone know what the unit Pa (Pascal) is belong to? Force/Energy or something like that? If you do, can you tell me 
+the unit for Pascal like for example if Joule, the units are kg m2/s2? Thank you"									#	-1	1	1	-1
+378	#	what is accelerated frame ?									#	-1	1	1	-1
+379	#	what is the variation of weight in a lift and in space ?									#	-1	1	1	-1
+382	#	what is pseudo force? why is it necessary to introduce it. give one example to make it clear. thank you									#	-1	1	1	-1
+403	#	what is vernier constant									#	-1	1	1	-1
+19	#	What kind of force is gravity.									#	0	1	1	-1
+43	#	What is the formula for speed and velocity?									#	0	1	1	-1
+55	#	What is velocity of a man if he get separated from his satellite does any force acts on him									#	0	1	1	-1
+65	#	What kind of math did Gallileo use to note down his observations? Just words?									#	0	1	1	-1
+74	#	are their any other forces than just gravity,magnetism,and friction.									#	0	1	1	-1
+84	#	what is the source of gravity									#	0	1	1	-1
+85	#	What is the difference between velocity and average velocity?									#	0	1	1	-1
+93	#	What is centripetal acceleration									#	0	1	1	-1
+112	#	What is a static force ?									#	0	1	1	-1
+118	#	How many forces are present on earth, and what are they?									#	0	1	1	-1
+149	#	How do we explain Relative Motion?									#	0	1	1	-1
+181	#	What is Newton's third law?									#	0	1	1	-1
+182	#	What is an object's momentum?									#	0	1	1	-1
+231	#	What is the full unit of Newton?									#	0	1	1	-1
+348	#	What is the symbol for distance and displacement?									#	0	1	1	-1
+371	#	what is newtons second law of motion									#	0	1	1	-1
+389	#	what are the 4 rules of force?									#	0	0	1	-1
+393	#	"Is there something called relative force? Like, if I am sitting in an accelerating train, can I say that force is not being applied 
+on the train in which I am in, but on everything else in the opposite direction?"									#	0	1	1	-1
+9	#	what other forces exist?									#	0	1	1	-1
+48	#	what is the purpose of newtons laws of motion?, how are they beneficial?									#	0	1	1	-1
+116	#	what about gravity,is it another force?[I'm a third grader									#	0	1	1	-1
+301	#	what is GRAVITY									#	0	1	1	-1
+308	#	What are net forces acting in the space?Please help.THANKS									#	0	1	1	-1
+321	#	Who first discovered Newton's first law of motion?									#	0	1	1	-1
+351	#	"1. I know what force is but what's net force? And what's unbalanced force?
+2. Does Newton's laws have any proof? Or they are more like axioms or hypothesis based on observations and thinking? 
+3. If they have proofs, then are they theoretical or experimental? What're the proofs?"									#	0	1	1	-1
+388	#	How much friction does steel have?									#	0	1	1	-1
+397	#	How many fundamental forces in the world are there?									#	0	1	1	-1
+410	#	Who are the 3 ?									#	0	0	1	-1
+44	#	What is force? ?									#	1	1	1	11
+387	#	What is force?									#	1	1	1	11
+38	#	What is net force ?									#	2	1	1	23
+41	#	what is net force									#	2	1	1	23
+68	#	At 1:16, a "net force" is mentioned. What is this?									#	2	1	1	23
+143	#	What is net force? Does it mean total force?									#	2	1	1	23
+169	#	What is net force?									#	2	1	1	23
+209	#	At 1:15, Sal mentioned net force. What is this force? Why is it called "net"?									#	2	1	1	23
+223	#	what is a net force									#	2	1	1	23
+233	#	What is a net force, actually?									#	2	1	1	23
+238	#	what is net force									#	2	1	1	23
+240	#	In 1:22 what is a net force									#	2	1	1	23
+289	#	What is a net force?									#	2	1	1	23
+309	#	What is a net force?									#	2	1	1	23
+340	#	What is a net force?									#	2	1	1	23
+350	#	"1. I know what force is but what's net force? And what's unbalanced force?
+2. Does Newton's laws have any proof? Or they are more like axioms or hypothesis based on observations and thinking? 
+3. If they have proofs, then are they theoretical or experimental? What're the proofs?"									#	2	1	1	23
+391	#	what is 2000+ years supposed to means?									#	2	1	1	54
+6	#	what is the definition of newton's first law of motion									#	3	1	1	29
+134	#	What does Newton's first law of motion means?									#	3	1	1	29
+146	#	Is it just saying that issac neton is 3 different people in 0:27									#	3	1	1	102
+161	#	so in short, what is the first law of motion?									#	3	1	1	29
+176	#	I never heard of Descartes, before now. Someone plz tell me who he is!									#	3	1	1	38
+195	#	"What did Descartes do to add to the first Newton's Law of motion? I know the law is also called the law of inertia 
+because inertia plays to it but did Descartes add to that?"									#	3	0	1	38
+264	#	What is Descartes contribution to Newton's first law?									#	3	0	1	38
+288	#	what is newton's first law all about?									#	3	0	1	29
+311	#	what is first law of motion									#	3	1	1	29
+325	#	How did The two others hep newton because newton was born around about the time the passed away									#	3	1	1	28
+335	#	what is the exact statement of newtons first law of motion ?									#	3	1	1	29
+373	#	"In the video, two other physicists were mentioned (along with Newton) what did they do or what were their contributions 
+to the first law of motion?"									#	3	1	1	28
+385	#	How would you state Newton's First Law of Motion?									#	3	1	1	29
+392	#	How come Newton created his laws of motion?									#	3	1	1	29
+396	#	So what is the definition of newtons first law?									#	3	1	1	29
+409	#	what is the defination of newtons 1st law of motion									#	3	1	1	29
+413	#	What are Newtons Laws Of motion									#	3	1	1	29
+105	#	what is inertia ? and why newton's first law known as inertia ?									#	4	1	1	50
+178	#	What is inertia?									#	4	1	1	50
+214	#	what is inertia?									#	4	1	1	50
+303	#	what is inertia ?									#	4	1	1	50
+310	#	What is inertia?									#	4	1	1	50
+346	#	what is inertia?									#	4	1	1	50
+376	#	what is inertial system ?									#	4	1	1	50
+47	#	What is the meaning of an 'unbalanced' force?									#	4	1	1	52
+66	#	What does velocity technically mean?									#	4	1	1	50
+83	#	what is velocity?									#	4	1	1	50
+92	#	"Newton,Galileo,Descartes didn't have any modern techniques to prove First law of motion so how did they proved this 
+statement-""Objects have tendency to maintain velocity unless acted on by unbalanced force"""									#	4	1	1	50
+103	#	what is acceleration , speed and velocity ?									#	4	1	1	59
+117	#	What is velocity?									#	4	1	1	50
+167	#	At around 2:50, what is an example of a balanced force?									#	4	1	1	52
+186	#	What does velocity mean?									#	4	1	1	50
+192	#	"Why does Sal use the term ""unbalanced force""? The word ""unbalanced"" is particularly confusing since I learned Newton's law as follows:
+objects have the tendency to remain in motion until acted on by an ""outside"" force.
+"									#	4	1	1	52
+239	#	What is the meaning of 'unbalanced force' ?									#	4	1	1	52
+273	#	What is velocity?									#	4	1	1	50
+285	#	What does Sal mean by an unbalanced force?									#	4	1	1	52
+336	#	what is velocity									#	4	1	1	50
+355	#	sir, can you tell me about balanced and unbalanced force									#	4	0	1	52
+362	#	A small question. What do you mean by unbalanced forces?									#	4	1	1	52
+372	#	what is velocity?									#	4	1	1	50
+384	#	throughout the video you used the word velocity what is velocity?									#	4	1	1	50
+400	#	what is velocity?									#	4	1	1	50
+104	#	what is acceleration , speed and velocity ?									#	5	1	1	59
+164	#	"From 2:56 and 3:01 Sal says 2000 years+ people believe that Objects have tendency to stop on their own, if you want to keep it moving apply force.
+On 3:01 Objects have tendency to maintain velocity unless acted on by an unbalanced force.
+So my question is who made these two rues? Was it Newton or someone else?"									#	5	1	1	56
+20	#	"At 4:00 - 4:10, Sal mentioned a net force... would that be the same thing a gravity? 
+Or would gravity full under one of the net forces?"									#	6	1	1	79
+30	#	at 4:31 Sal mentions about net force , what exactly is net force ?									#	6	1	1	79
+59	#	please define friction									#	6	1	1	79
+63	#	What is friction?									#	6	1	1	79
+86	#	What is friction? Why does it slow things down?									#	6	1	1	79
+190	#	What is friction?									#	6	1	1	79
+380	#	"At 4:00 - 4:10, Sal mentioned a net force... would that be the same thing a gravity? Or would gravity 
+full under one of the net forces?"									#	6	1	1	79
+216	#	Can weight of a body be zero or negative									#	-1	1	2	-1
+219	#	"This might seem like a silly doubt . But sorry for asking .. Should nt the force exerted by gravity of earth on a freely 
+falling body be equal to f = gm1m2/r^2 ? why is it mg i.e mass * gravity ... correct me if i am wrong thank you ..."									#	-1	1	2	-1
+222	#	How does the coefficient of static friction differ from the coefficient of kinetic friction for a car?									#	-1	1	2	-1
+226	#	can plzz anybody tell me that why the kinetic friction is less than static friction??									#	-1	0	2	-1
+260	#	How come the law is called Newton's first law of motion if the other scientists discovered it before him?									#	-1	1	2	-1
+109	#	How did Galileo make a suggestion on newton's first law when he died a year before Newton was born?									#	0	1	2	-1
+154	#	Can I drive a car on the moon?									#	0	1	2	-1
+171	#	"there are instuments to measure any thing, how can we measure a foce i.e we say that a force of 
+78N is acting on a body,how we measured it"									#	0	1	2	-1
+241	#	"y the acceleration is the same 9.8? 
+proven?
+F=am
+F=Gmamb/r*?
+cuz idk"									#	0	1	2	-1
+248	#	why inertia dependent on mass of the object.??									#	0	1	2	-1
+255	#	Why does the earth rotates on its axis?									#	0	1	2	-1
+73	#	"When I first studied friction I faced f = μ N where f is force of friction, μ is coefficient of friction for the surface considered and N is the normal force for the
+body on surface. Now f is a force so it must be a vector which means it has a direction. N is normal force so it has direction too. But both f and N are 
+mutually perpendicular to each other! And μ is a constant, so how can we write f and N in one equation? They do not have the same direction!
+
+I think this is not clear to me because I have never read about the origin of this equation. From where do we get it?"									#	0	1	2	-1
+75	#	does this mean all things are always moving but they are staying motionless because of a unbalanced force?									#	0	1	2	-1
+79	#	"so does it mean that if the object is at constant velocity or stationary; 
+the upward and downward forces are equal to the forward and backward forces"									#	0	1	2	-1
+81	#	"I dont understand why an object going at constant velocity has zero net force. If I through a ball into space, 
+with Force F, and no other forces act on it, will the ball keep accelerating to the speed of light?"									#	0	1	2	-1
+123	#	Is it possible to create a frictionless surface? If so, how?									#	0	1	2	-1
+126	#	"It was said that if we were pushing with exactly enough force to counter-act the forces holding the box in place that it 
+would move with constant velocity, however isn't the fact that the box is moving in the pushed/pulled direction mean 
+that there is a net force in that direction? If the forces were perfectly balanced, why does the object not stay still?"									#	0	1	2	-1
+159	#	"So, are the forces balanced even when the object has velocity, or just when it is sitting still? Is unbalanced force 
+a change in velocity (acceleration)?"									#	0	1	2	-1
+196	#	"What would the particular unbalanced force be? How do you completely take friction out of a situation? Would eliminating 
+friction have a positive or negative impact on the world? If eliminating friction is positive why don't we take friction out 
+of the world?"									#	0	1	2	-1
+259	#	How is a non- zero net force required to cause an acceleration?									#	0	1	2	-1
+267	#	"So by the 1600's Galileo,Descartes and Newton had completely radicalised the long held views that Objects stopped 
+themselves, and they proved it was an unbalanced force stopped them?"									#	0	0	2	-1
+270	#	Why is said that Newton's Laws cannot be proved?									#	0	1	2	-1
+271	#	"I read that objects at constant velocity have 0 net force, but then how are they even moving. Isn't a force needed to make an obj move? Doesn't the fact 
+that an obj at constant velocity move mean that there must be a force acting on it to make it move? My second question is if the net force is 0 then that
+means all the forces canceled out so how will an obj still have a constant veloctiy instead of just being at rest?"									#	0	1	2	-1
+283	#	"In the second 22 (too specific) you said that there is always a force causing motion to a moving object, so what force in 
+keeping the Earth rotating around the Sun? Is it gravity? And what would happen if this force just disappeared? Would 
+the Earth just come to a stop?"									#	0	1	2	-1
+286	#	"my question is actually related to Galileo's inclined plane experiment , how does the rolling marble attain a velocity 
+and tries to reach out to the same height when it starts climbing the right side plane?"									#	0	1	2	-1
+341	#	Then who really made the laws of gravity and motion? Who actually gets the credit and who actually made them?									#	0	1	2	-1
+345	#	"Hasn't animals from prehistory instinctively know that things eventually stop because 
+sometimes they chase things down to death?"									#	0	0	2	-1
+407	#	"so basically,object maintains its state of rest or motion under the influence of balanced force and to change this state of 
+rest or motion we need to apply an unbalanced force,right?"									#	0	0	2	-1
+412	#	why the object will stop?									#	0	1	2	-1
+108	#	At 1:23, Why did they believe objects had a natural tendency to stop?									#	2	1	2	20
+130	#	AT 1:13 how can you apply a net force on an object									#	2	1	2	23
+187	#	how do net forces work? I don't really understand.									#	2	1	2	23
+272	#	at 58,how is it that objects come to a stop because of gravity? I just don't get it!									#	2	1	2	20
+344	#	why does objects have tendency to stop ?									#	2	1	2	20
+36	#	why does newton get the credit									#	3	1	2	40
+69	#	"a bit of a weird question but I noticed i have no idea who the third guy is in the painting and I know three important 
+guys helped with physics, a greek philosopher, Newton and Galileo but how come I've never heard anyone mention 
+the third man? Did he have the same theory as the three I have learned about? Or is he that unimportant to not be 
+added in my physics lessons in class?"									#	3	1	2	38
+113	#	"At 1:49, when he mentions their names, he says Galileo, Newton, and Descartes. One thing that I am curious about is 
+why is he known as Galileo, not by his last name, Galilei like the other two?"									#	3	1	2	37
+124	#	"How did Newton prove his first law of motion? I understand that things move with a constant velocity in space but at 
+the time, there was no technology available to do experiments in space. Which experiment did he use to prove this 
+law at the time?"									#	3	1	2	29
+156	#	if galaleu got it first then i dont really see why newton got the credit, so why did he and not galaleu									#	3	1	2	40
+201	#	"Ok..so can anyone name a medium where this law will truly prove right...now it obviously can't be ground because ground 
+offers friction when an object is moving...in other words is there any instance which proves this law right"									#	3	1	2	29
+279	#	At 1:42, why is it that we name it after Newton if Descartes and Galileo did as much work?									#	3	1	2	33
+374	#	"Why doesn't Renae get as much ""popularity"" i guess? I've never heard of him, unlike Galileo and Newton. Is it because 
+this is the only thing he has helped discover, or has he done more?"									#	3	1	2	38
+23	#	i want some examples of newtons first law of motion with explanation									#	3	1	2	29
+18	#	"so an object in motion will stay in motion unless acted on by anouther force? is that correct or 
+am i totally wrong and what is this a bout net force?"									#	4	1	2	50
+33	#	"At 2:46, Sal said that objects have a tendency to maintain their velocity unless acted on by an unbalanced net force. 
+Does that force have to be acted on from an external source or not?"									#	4	1	2	52
+52	#	"Newton's first law states that an object at rest will stay at rest... unless acted upon by an unbalanced force. 
+But, is there really such a thing as an object at rest? If looked at from our everyday perspective, such as a 
+person sitting in a chair, we may think the answer would be yes. But, the person in that chair is also sitting 
+within an Earth that is spinning at nearly 1000 miles per hour, at the equator, while at the same time orbiting
+around the Sun at 18.5 miles per second. So, can thatobject, in this case a person sitting in a chair, still be 
+considered to be at rest? And what about the Sun rotating around the center of the Galaxy or our Universe 
+expanding, thereby moving one galaxy further away from another? I understand that ""rest"" may depend on 
+your perspective, but can anything truly be considered to be at rest when everything seems to be moving?"									#	4	1	2	52
+88	#	I didn't understand what did Sal say at "Objects have a tendency to maintain their velocity?"									#	4	1	2	50
+107	#	If the force is balanced doesn't that mean velocity=0?									#	4	1	2	52
+236	#	"So does ""balanced"" mean you have reached the equilibrium of counteracting the force of friction. (Therefore when you are able to move the TV set the 
+2 forces [the force of you pushing it and friction] are in equilibrium?) Is that what Sal was saying by them being balanced? Please Help. 
+
+Thank you so much!!"									#	4	1	2	52
+287	#	At 2:56 I thought that it was an equal or greater force that would oppose the object moving which one is it thanx									#	4	1	2	52
+290	#	at 2:45,how the obejects have tendency to maintain velocity?why there is unbalanced force									#	4	1	2	52
+163	#	"At 3:00, Sal said that objects have a tendency to maintain velocity unless acted on by unbalanced force. Why does it 
+have to be an unbalanced force? Why not a balanced force?"									#	4	1	2	50
+197	#	How can you change the volacity									#	5	1	2	59
+4	#	Is it possible to eliminate friction?									#	6	1	2	92
+50	#	I don't quite understand how the friction can slow an object after the force has propelled the object forward.									#	6	1	2	88
+54	#	The thing that I do not understand that said in the video is how can it move forever									#	6	1	2	88
+101	#	listening to that last piont on friction, friction effects an item when it is not moving? am i right?									#	6	1	2	-1
+119	#	Is gravity along with friction what makes things stop?									#	6	1	2	-1
+137	#	"at 4:28 sal siad that if we make the surface smoother and smoother the we can make the object go forever and 
+ever, but can we make the surface that much smooth ?"									#	6	1	2	91
+147	#	"If the forces are balanced and friction is equal to the force that you're putting on an object, how come to object even 
+moves? To my reasoning, you would need to overcome the friction for the object to start moving. I really don't get this."									#	6	1	2	111
+158	#	At 4:00 Sal tells us that friction is acting in the opposite direction, but air resistance is doing the same, right?									#	6	1	2	80
+252	#	how would you eliminate the friction? but can you even do that?									#	6	1	2	92
+275	#	isnt it possible to create a surface that has absolutly 0 friction?									#	6	1	2	92
+314	#	"how would we be able to mantain zero friction,? because friction is every where.
+what?"									#	6	1	2	92
+327	#	how do you draw free body diagrams? i dont understand at all!!									#	6	1	2	82
+363	#	"So everything would keep moving if the thing that it is resting on was perfectly smooth like if you were to put something 
+on ice and shoved it it goes for a long time dose that relate to the law at all?"									#	6	1	2	94
+367	#	"For friction to go on forever, does the surface of the object have to be smooth as well or just the 
+surface it is traveling needs to?"									#	6	0	2	94
+386	#	Would it be possible to not have friction and have something slide to no end?									#	6	1	2	92
+293	#	"I don't understand how balancing the force of pushing a block with the friction causes the block to move. If I push a 
+block and a friend pushing just as hard on the block but from the other direction, it wouldn't be moving now would it?"									#	7	1	2	112
+313	#	at6:50,if the surface is frictionless the object maintains velocity,but what about atmospheric friction									#	7	1	2	112
+353	#	"My science teacher said that friction can go with an object but that really didn't make any sense to me or her explanation. E.g if i push a 
+box the friction goes with the box in the boxes direction not against it. Anyone care to explain what is going on cause i am confused?"									#	7	0	2	108
+115	#	"I had this in my mind since a while now. At 5:11, Sal says that to move a TV across the carpet we need to apply a force equal to the 
+force of friction in the opposite direction. But in that case shouldn't the TV stop moving because the forces are equal and opposite.
+"									#	7	1	2	112
+121	#	"How does applying a force equal to the counter acting forces move an object? I mean the forces are balanced right? 
+So what's making the object move at a constant velocity? Shouldn't the push force be greater than the other opposite 
+forces in order to cause movement? I'm just really confused. Can someone please clarify it for me?"									#	7	1	2	112
+179	#	"At 5:13, he says that to maintain a constant velocity, the forces need to balanced. If they're balanced, wouldn't the object
+be still because there is no net force?"									#	7	1	2	112
+274	#	"At 5:00 Sal said to move an object with constant velocity you have to balance the applied force and the force of friction. 
+I know the velocity will be zero but Wouldn't the force applied have to overcome the force of friction to get any 
+movement at all?"									#	7	1	2	111
+278	#	how do you label a magnitude of force? how do you calculate the magnitude and direction of a resulting force?									#	7	0	2	111
+280	#	"At 5:00, Sal says how if you apply a force with a constant velocity, you are essentially just balancing it, does that mean 
+there is no acceleration? And also after that he mentions how if you want to accelerate the block you will have to apply 
+more force, so does that mean in this case there is constant acceleration?"									#	7	0	2	111
+324	#	"At the end of the video Sal is talking about how, if you want to move your TV set at a constant velocity, 
+you have to exactly counteract the force of friction. But since the TV set would be at rest when you begin 
+pushing, and you only just counteract friction, wouldn't this mean that there is no net force applied to your 
+TV set, and it would stay at rest? Shouldn't your push generate a larger force than the force of friction just 
+to get the TV set moving?"									#	7	1	2	112
+381	#	"in order to raise a mass of 100 kg a man of mass 60 kg fastens a rope to it and passes a rope over a smooth pulley.
+he climes the rope with an acceleration 5g/4 relative to rope.find the tension in the rope."									#	-1	1	3	-1
+127	#	if matter entered a vacuum, what'd happen?									#	-1	1	3	-1
+28	#	What would life be like nowadays if Isaac Newton had never published his laws on gravity and motion?									#	0	1	3	-1
+87	#	"if a person is walking along the straight and suddenly he strikes to the some thing which is in contact of earth, when he collids then he is falling towards his 
+walking direction :ok
+My question is that why not he falls towards back when he colloids a stone ??"									#	0	1	3	-1
+99	#	A object moves 1m in 1 second and 2m in next 2 seconds. Is object in uniform motion or not?									#	0	1	3	-1
+128	#	does gravity apply even on forces acting in the direction of gravity									#	0	1	3	-1
+133	#	can action and reaction forces cancel each other?									#	0	1	3	-1
+153	#	"sir as it is said that energy can neither be created nor be lost so if a blall is sliding from a triangle and another triangle of 
+same size is is kept in front of it so why dont the ball reach at the same height as in the case of 1st triangle"									#	0	1	3	-1
+162	#	What if a force is applied in the medium of gravitation (for eg- near black hole)?									#	0	0	3	-1
+183	#	Do action reaction forces cancel?									#	0	1	3	-1
+200	#	"Sir!The Gravity of earth is 9.807 m/s².
+So my question is?When we write the gravity so we use m/s² by the value of gravity.So sir it means the gravity increase and decrease again and again?"									#	0	1	3	-1
+203	#	Why isn't newton's 3rd law applicable to moon walk?									#	0	1	3	-1
+211	#	what would happen if the earth stopped rotating?									#	0	1	3	-1
+225	#	If there was no gravity then would friction still exist?									#	0	1	3	-1
+265	#	This might seem obvious but is there friction in a vacuum?									#	0	1	3	-1
+276	#	"a force of 20N moves a body with an acceleration of 2ms-2 
+what is it mass?"									#	0	1	3	-1
+305	#	The Earth keeps spinning because no force stops it. Then what causes it to start turning?									#	0	1	3	-1
+365	#	This may not be a question got to do this vid but is it posible to increase air resistance and decrease gravity?									#	0	1	3	-1
+368	#	relation between newtons 2 and 1 law									#	0	1	3	-1
+395	#	"How fast can you technically go with just the force of gravity because if you sling shot around a black 
+hole what would happen."									#	0	1	3	-1
+399	#	some people say that Earth speed of spinning is getting slower.Is that true?									#	0	1	3	-1
+294	#	What would happen to an object without inertia?									#	0	1	3	-1
+1	#	The Earth keeps spinning because no force stops it. Then what causes it to start turning?									#	0	1	3	-1
+2	#	"In science my teacher said that theres a lot of weight pushing us down because theres a lot of air above us 
+and he said our body is pushing back but how can other things push back to like a blade of grass and how 
+can they push back too"									#	0	1	3	-1
+3	#	If i spin a Gyro meter in space where there is no gravity, will it continue to rotate for ever. If YES/NO why ?									#	0	1	3	-1
+5	#	"I heard that earth's rotation time on its axis is slowing down (the dinosaurs had ten hour days), but
+why would that be happening if the earth's motion is supposed to go on forever?"									#	0	1	3	-1
+7	#	If Newton's third law of motion is correct,why don't the forces cancel each other?									#	0	1	3	-1
+10	#	"This may be a really simple question but I want to know, what force is keeping earth moving or orbiting the 
+sun. You might say that in Vacuum, with one force, the object will keep moving. Okay but where did the first 
+force come from if that is true. Also, Why is it that the earth is moving in circles (orbiting) when when you 
+push something, it goes straight, not in curves?"									#	0	1	3	-1
+12	#	why is it easier to open a door by applying the force at the free end of it?									#	0	1	3	-1
+13	#	Why is it that when a car accelerates the person on the passenger seat feels like they are being pressed into their seat?									#	0	1	3	-1
+14	#	if you apply a force to an object in space won't it slowly convert it's kinetic energy into other types like thermal energy?									#	0	1	3	-1
+15	#	Why doesn't the Sun move?									#	0	1	3	-1
+16	#	What will happen to the balloon(filled with Helium) when kept in a container and the container is pushed to the left?									#	0	1	3	-1
+17	#	Why does Galileo's discovery that objects fall at the same rate not apply to motion on the ground? Why is it different?									#	0	1	3	-1
+22	#	Has there been ANY phenomenon or theory that has violated the laws of physics?									#	0	1	3	-1
+24	#	"When I am pushing a boy hard, he is falling but by Newton's third law he is also giving equal 
+force backwards, but I am not falling - HOW??"									#	0	1	3	-1
+25	#	Does our earth's atmosphere also rotates Along the earth									#	0	1	3	-1
+26	#	Since the Earth keeps spinning with no force to stop it, is it possible for it to be stopped?									#	0	1	3	-1
+27	#	"Is it possible for if you had an object and threw it, would it continuously move until 
+it moves into the gravitational field of some star or something?"									#	0	1	3	-1
+29	#	So, technically, in space objects can maintain a constant velocity because there is no unbalanced force?									#	0	1	3	-1
+31	#	"suppose if a body is at rest at ground , gravity is holding it downwards to its surface. 
+then if there was a zero gravity then how would it continue being at rest?"									#	0	1	3	-1
+32	#	If a body is not accelerated then does a force act on it or not?									#	0	1	3	-1
+34	#	so if u threw something and gravity and air resistance somehow weren't there, the object would go on forever?									#	0	1	3	-1
+39	#	Why don't asteroids and meteoroids stop or even if there is no force to stop them, then why do they move ?									#	0	1	3	-1
+40	#	So, this is why when you push a toy car it stops in the middle of your track? And when it hits a chair it stops?									#	0	1	3	-1
+42	#	"Is there a force that prevents the Earth from going directly into the Sun? What forces act upon Earth in order to keep 
+it in orbit? Why is Earth's orbit ovular? Does it have something to do with the net force and forces balancing out?"									#	0	1	3	-1
+46	#	if there are no "outside" forces shouldn't the objects own mass slow it to a stop									#	0	1	3	-1
+49	#	"When we are in a bus and when the bus starts we experience a jerk and we know that this is because of inertia of rest. 
+Now my question is that if there were no friction between our feet and the floor of the bus what would happen in the 
+above situation when the bus starts?"									#	0	1	3	-1
+51	#	Is friction different when there is greater or lesser gravity? Like if someone was somewhere else than earth.									#	0	1	3	-1
+53	#	"On the surface of the Earth, gravitational force acts upon us. Why is it that then, we do not tunnel through 
+the crust and instead remain in a state of inertia?"									#	0	1	3	-1
+57	#	i just want to know that if every action has an equal and opposite reaction, then why does any body shows any movement?									#	0	1	3	-1
+58	#	"I have a question not about this content and my question is If you are travelling in the car at the speed of 
+60 Km/h and there is a mosquito inside the car, why does the mosquito do not hit the rear glass and how 
+does it still fly's inside the car??"									#	0	1	3	-1
+60	#	if i spin a spinning top in outer space,will it keep spinning unless someone touches it?									#	0	1	3	-1
+61	#	"Is friction caused by the gravitational pull of the Earth?
+Assuming that it is, then can we really say there is friction because gravitational pull only gets weaker by distance but it never disappear?"									#	0	1	3	-1
+62	#	How is the sun spinning on and on with no forces on it? (except gravity!)									#	0	1	3	-1
+64	#	Will I not be able to stop if I start walking on a frictionless surface if there is no air resistance?									#	0	1	3	-1
+67	#	what if you throw something in space? What is the force that keeps it moving since there is no gravity									#	0	1	3	-1
+71	#	can friction of any surface be nil?									#	0	1	3	-1
+77	#	For example if I spin a top will it keep moving forever according to the law if no net forces are acting upon it?									#	0	1	3	-1
+78	#	"Scientists say that the earth is beginning to slow down, but hot can that be if an object (The earth) 
+in motion stays in motion unless acted on by an unbalanced force? What's making it slow down...."									#	0	1	3	-1
+82	#	"Since Friction is also present in air can an object stop moving due to friction, if we assume that 
+no gravitational force is applying on it."									#	0	1	3	-1
+89	#	"when a body is in motion,do force of gravity act on it?. and what makes a bird to fly 
+without falling back to the surface of the earth"									#	0	1	3	-1
+94	#	"Actually , if there was a negative force working on a moving object obviously 
+it would stop.But why didnt it move in the opposite direction ?"									#	0	1	3	-1
+95	#	"This seems like a silly question but, When people travel in a bus and are standing when the bus moves forward they move 
+backward. And when the driver the stops suddenly we moves move front . Why is that?"									#	0	1	3	-1
+96	#	"Does earth has inertia when it is rotating and revolving?If somehow gravity would disappear even there it would keep 
+the same state??"									#	0	1	3	-1
+97	#	"What abut the Earth and planets? they rotate on an axis and humans don't push it. There is no force that we cause 
+and there is no wind in space. So how is the Earth moving? Or do we do something that causes in to move?"									#	0	1	3	-1
+98	#	"Wait , if the net force if pushing one way then why does the object stop...Shouldn't it just start moving the the direction 
+the net force is pushing it?"									#	0	1	3	-1
+102	#	Is there any object that can travel forever and/or with no friction?									#	0	1	3	-1
+106	#	what cause people to move forward in a bus when the bus stop.									#	0	1	3	-1
+110	#	Is there any force which is applied on a bicycle which stops it after sometime we stop peddling it?									#	0	1	3	-1
+111	#	is the solar system is spinning itself ??									#	0	1	3	-1
+114	#	"I think LAW OF INERTIA is wrong ?
+An object cannot change its state of rest or motion unless and until compelled to a force...
+Let me travel in an accelerating spaceship and an object be resting in the galaxy in reference to me the body is accelerating but no force is applied to it... 
+this means that force is not require for a body to accelerate ...
+this contradicts with the law of inertia ..
+Where am I going wrong ?"									#	0	1	3	-1
+120	#	If there was no friction then wouldn't the air particles stop the thing?									#	0	1	3	-1
+122	#	"So does the Earth have friction acted upon it as it travels through space, or is there no friction in space and therefore 
+it can travel in its orbit, assuming the Sun's gravity, forever? Is momentum involved, or something?"									#	0	1	3	-1
+125	#	"I was wondering. Is there any exception to any of Newton's laws? Also, is there an easier way to remember Newton's 
+laws of motion?"									#	0	1	3	-1
+131	#	would a hill count as a way to apply force while moving									#	0	1	3	-1
+135	#	"Might be a geo question but what causes the earth to spin like a top rather than just spinning normally.I mean the 40000 
+year wobble cycle of the milankovitch cycle.No links please."									#	0	0	3	-1
+138	#	is gravity another force that acts upon an object when force is applied to an object at rest, like friction?									#	0	1	3	-1
+139	#	So friction stops moving objects unless acted on by an outside force									#	0	1	3	-1
+141	#	"Can anyone describe what the universe would be like if Newton's 1st Law was invalid? Perhaps, 
+both qualitatively and quantitatively?"									#	0	0	3	-1
+142	#	when two forces are the same, they cancel each other out, so doesnt that mean the object is still and now has no motion?									#	0	1	3	-1
+144	#	if everyone moved in the same direction would the earth turn?									#	0	1	3	-1
+145	#	"When you're riding in a descending elevator (going down), blood rushes from your head to your feet while the 
+elevator quickly stops as you are going down in the elevator. Why is that?"									#	0	1	3	-1
+152	#	Without friction wouldn't the box or oblect collapse?									#	0	1	3	-1
+155	#	If Newton's first law applies to everything Doesn't air move by it self?									#	0	1	3	-1
+157	#	what would happen if there was less gravity while rolling a marble off a ramp?									#	0	1	3	-1
+160	#	what causes all the planets to revolve ? what s the force acting on it ? how they started moving?									#	0	1	3	-1
+165	#	if there is no gravity which one of newton s law will work									#	0	1	3	-1
+166	#	can all objects move by itself									#	0	1	3	-1
+168	#	how does friction acts on our every day life? and how do you remove it?									#	0	1	3	-1
+170	#	would an object keep going and not stopping in space?									#	0	1	3	-1
+174	#	"If there are two balls one of 1 kg n the other of 10 kg and are droped at the same time from a great hight will the balls 
+fall at the same time if not then why n if yes then why?"									#	0	1	3	-1
+175	#	"I have a question: May seem stupid but lets see a satellite in the orbit. It is orbiting the earth under the influence of 
+gravity but see it is moving around the earth and to keep to moving energy is need or else we would lose it but then 
+isn't or should be some sort of limit like uh gravitational energy reverse or something like that? I know i didnt make 
+myself much but I kinda got struck into it!"									#	0	1	3	-1
+177	#	Does the weight of the object effect the velocity of it even though it has a smooth surface that it is sliding on?									#	0	0	3	-1
+180	#	"If you have a particle of light, or photon, would it be called an object in Newton's Law of motion and without energy slowly
+come to a halt? If this is false is it because a particle of light is a gauge boson, and doesn't have mass?"									#	0	1	3	-1
+184	#	"if an object is made to float in water(or say move).....will there be friction between the object and 
+the surface of water? if so then how"									#	0	1	3	-1
+185	#	will there be friction at a place if it's gravity is zero?									#	0	1	3	-1
+188	#	"When on a frictionless surface an object it requires no force to accelerate .
+Can we say it violates Newtons first law ??"									#	0	1	3	-1
+189	#	im trying to build a perpetual motion machine but how does this relate to newtons rules									#	0	1	3	-1
+191	#	"How much force would be necessary to push a 200-kilogram object fully around a frictionless Earth 
+encased inside of a vacuum?"									#	0	1	3	-1
+193	#	"Can a body resist acceleration under the application of force because of its inertia, even in outer 
+space where there is no kind of friction?"									#	0	1	3	-1
+199	#	So in space there would be no friction so something would keep moving because its a vacuum right?									#	0	1	3	-1
+202	#	"let us assume that i could survive in a vacuum.
+so if i was in a vacuum and someone or something applied a force on me which made me rotate at 1rpm/s.
+would there be any way in which i could stop rotating?by twisting my body or anything like that?"									#	0	1	3	-1
+204	#	"I have 2 questions about this video :
+
+An object of mass ""m"" is travelling at a constant velocity ""v"". It has *no* forces acting on it.
+
+1) What is the force required to stop it?
+2) What is the work done while stopping it?
+
+These are the somewhat fundamental questions that arose in my mind after watching the video.
+In the second part, the work done should be equal to the energy of the object. The energy in this case will be kinetic energy only. So is the work done equal 
+to (1/2)mv^2?
+I'm a little"									#	0	1	3	-1
+206	#	is friction a form of energy? like it says its a force between two objects so does it have heat and kinetic energy?									#	0	1	3	-1
+210	#	In circular motion , do the centripetal acceleration remains same of a moving particle in a circular path ?									#	0	1	3	-1
+213	#	So what if the object remains at rest how is this related to newtons first law of motion									#	0	1	3	-1
+221	#	why a ball stop automatically									#	0	1	3	-1
+229	#	-earth keeps on moving because nothing is applying force to stop it but what force make it turn?									#	0	1	3	-1
+230	#	"Hypothetically speaking here, if we were to get a friction less path on the moon with no obstructions, and began 
+pedaling a bike seeing mass has no interference with velocity, would the biker reach a speed similar to C?"									#	0	1	3	-1
+235	#	if the force stop . what will hapen ?									#	0	1	3	-1
+237	#	Why does a boxer always move along the direction of the punch of the opponent									#	0	1	3	-1
+242	#	So friction helps stopping objects or is the stopping of an object friction?									#	0	1	3	-1
+246	#	is first law of motion applicable to every body									#	0	1	3	-1
+247	#	do these objects stop in space with the forces in space(like gravity)									#	0	0	3	-1
+249	#	How come the Earth's atmosphere doesn't cause it to slow down? Or does the atmosphere spin with the Earth?									#	0	0	3	-1
+253	#	"if you slid something on the ground, friction would eventually stop it. if you were holding something and walking with it instead of slideing it, would there 
+still be friction on the object?"									#	0	1	3	-1
+254	#	"you said the body will keep on moving until acted upon by an unbalance force then why do space shuttles need so much 
+fuel . there is no friction in space ?"									#	0	1	3	-1
+257	#	"say you are on a train moving 100 mph and the train was moving 100 mph the opposite direction. What would happen if the train stopped? Would 
+you momentarily stop? Would you shoot forward even faster? or would you just continue going forward 100 mph? (you are inside the train moving
+in the opposite direction at EXACTLY the same speed) (I know from the outside it would appear as if you weren't moving, but what happens when 
+you stop?)"									#	0	1	3	-1
+258	#	"if more than one force acts on a body, according to newtons three laws, if all the forces are different in magnitude and direction, how do you know 
+which direction and with what magnitude of force does the object move?"									#	0	1	3	-1
+261	#	Lets say i push an object. And it slows down, is it the friction that slows it down?									#	0	1	3	-1
+262	#	if we fire a bullet in space, will it move with the same velocity forever?									#	0	1	3	-1
+263	#	What if an object is on ice? Since ice has friction, will the object ever stop?									#	0	1	3	-1
+268	#	"If nothing existed that would not stop an object the object would always go on forever but until those object stopping 
+things would stop the object of course, but will the object be hot? I don't know because if nothing that would stop an 
+object that does that mean friction still existed, even if friction was NOT to stop an object? I think friction is one thing
+that would stop an object."									#	0	0	3	-1
+277	#	The earth moves without applying any force how?									#	0	1	3	-1
+281	#	Is there any quantity in which inertia can be represented ?									#	0	0	3	-1
+296	#	"Is there friction in a vaccum?
+What if an object was (hypothetically) moving at the speed of light or close to it?
+Would there still be friction or would its infinite mass cause some weird change we don't know about? 
+What if this same speed of light object was in a vacuum like space? What would happen then?"									#	0	1	3	-1
+297	#	in evaporation molecules are moved upward since there is force that compelled them to do so?									#	0	1	3	-1
+298	#	"How do i solve for this equation?
+
+A river 690.0 ft wide flows with a speed of 8.0 ft/s with respect to the earth. A woman swims with a speed of 4.0 ft/s with respect to the water.
+
+1) If the woman heads directly across the river, how far downstream is she swept when she reaches the opposite bank?
+
+2) If she wants to be swept a smaller distance downstream, she heads a bit upstream. Suppose she orients her body in the water at an angle 
+of 21.0° upstream (where 0° means heading straight accross, as in"									#	0	1	3	-1
+299	#	If an object is moving in a vacuum, will its velocity remain the same the whole time.									#	0	1	3	-1
+300	#	"I understand why a cork moves to the edges of a cup filled with water, but after thinking about it, I sort of
+wondered what would happen if a cork was placed in water without disturbing the surface? I know it is 
+impossible to place a cork on water without disturbing the surface. But if we could, would it move to the 
+center, stay where it was put, or move to the edge of the cup? It would be nice if you would explain, put a 
+link, or tell me which video Sal has posted could help me."									#	0	1	3	-1
+302	#	"Hey,
+We know that the Earth rotates on its axis and around the Sun. How does the Earth do that and from where does the Earth get the force 
+to rotate and revolve?"									#	0	1	3	-1
+306	#	There is even the air resistance, gravity and friction but the thing I am confused in that is it sliding friction or not									#	0	0	3	-1
+312	#	so basicly gravity is an internal force against us so whats the force pushing us up?									#	0	1	3	-1
+315	#	if earth attracts all the objects then why it dies not attract moon?									#	0	1	3	-1
+318	#	The Earth keeps spinning. WHY									#	0	1	3	-1
+319	#	Friction and air resistance are only things that can make a moving object stop like a moving block or a rolling ball?									#	0	1	3	-1
+320	#	when we will feel weightlessness ?									#	0	1	3	-1
+326	#	"Since inertia is the amount of energy contained in a body, and is both positive and negative, so can we say 
+that inertia is of two types- positive and negative inertia?"									#	0	1	3	-1
+331	#	If it's about the ground fraction, then how come planes fall once they are out of oil?									#	0	1	3	-1
+332	#	the object wont come to a stop in space right??									#	0	1	3	-1
+333	#	Is there another force, besides friction and gravity that pushes against the object if you push it?									#	0	1	3	-1
+342	#	what are forces acting on object which is at rest?									#	0	0	3	-1
+343	#	How does Newton's law acts on our everyday life?									#	0	1	3	-1
+347	#	Why might it be better to try to bounce a puck off the wall rather than shoot it straight into your opponet's goal ?									#	0	1	3	-1
+349	#	If you push a ball forcefully, will it stop,or keep going?									#	0	1	3	-1
+352	#	what if they dont stop if you apply force									#	0	1	3	-1
+357	#	is there anything that can be move for a long time without applying force									#	0	1	3	-1
+360	#	Does every object need force to move?plz explain									#	0	1	3	-1
+361	#	how do the spinning wheel rotate									#	0	1	3	-1
+364	#	Does the gravity work with the force in order to move the object?									#	0	1	3	-1
+366	#	If we apply more force will it still keep going									#	0	0	3	-1
+370	#	So anything in space is in perpetual motion, because there is no friction in space?									#	0	1	3	-1
+375	#	When isn't friction applied on an object?									#	0	1	3	-1
+390	#	does this apply to a car?									#	0	1	3	-1
+398	#	"If there is a force acting against the body the body shouldn't move at all? But. Objects move until we apply 
+force and stops when we leave it."									#	0	1	3	-1
+404	#	why do we fall backwards when weare standing in a bus and it starts suddenly									#	0	1	3	-1
+406	#	what if it was in space?									#	0	1	3	-1
+411	#	what if i roll a bowling ball, will it keep rolling or stop by its friction?									#	0	1	3	-1
+100	#	"0:31 he said we have never seen that just keeps moving on and on without applying force with it but a ballon goes 
+up to the sky and we don't do anything to it"									#	1	1	3	13
+266	#	at :19 Sal says that an object will always stop eventually. what if the object is in outer space?									#	1	1	3	-1
+194	#	were there only 3 scientists who said that there is a force opposing an object?									#	3	0	3	-1
+198	#	what if its acted on by a balanced force,									#	4	1	3	-1
+227	#	Which r some example of the imbalance foces?									#	4	1	3	-1
+90	#	"Why does friction stop an object with gravity present? 
+Could you launch a ball into space without it ever stopping, provided it never hit anything?"									#	6	1	3	-1
+291	#	"I wonder what the world would be like with no restrictions in the environment? Would everything keep moving 
+in one direction, or would they stop abruptly once they collide?"									#	6	1	3	-1
+21	#	At 4:20, Sal says that friction slows the object down. Will it remain even if the objects bottom is flat and smooth?									#	6	1	3	-1
+282	#	what if the force you were applying(the yellow arrow) wasnt there?									#	7	1	3	-1
+224	#	What's the difference between an unbalanced force and a normal force?									#	-1	1	4	-1
+228	#	Q.What is the difference between relative motion and actual relative motion?									#	-1	0	4	-1
+316	#	What is the difference between mass, weight, and density?									#	0	1	4	-1
+339	#	how can we derive Newton's 1st law from Newton's 3rd law									#	0	1	4	-1
+383	#	is the friction bad guy or is it ok									#	0	1	4	-1
+11	#	Does inertia have any relation with gravity?									#	0	1	4	-1
+45	#	what is the reason that we study newton's 1st,2nd & 3rd laws of motion, Are they helpful to us?									#	0	1	4	-1
+70	#	What is the difference between inertia and friction									#	0	1	4	-1
+76	#	"I watched one of Walter Lewin's lectures on Newton's laws, in which he said that the law of inertia is only valid in 
+inertial frames of reference. My question is that how is it not valid in a non inertial frame of reference? And is it the 
+same for the other two laws too?"									#	0	1	4	-1
+148	#	Why do we need the first law? Isn't it just a special case of second law?									#	0	1	4	-1
+207	#	is air resistance an advantage...? why do we need it? how does it help...?									#	0	1	4	-1
+244	#	Can I get Derivation of 1st and 2nd law from 3rd law ?									#	0	1	4	-1
+245	#	does the frictional force exist to act on a body and maintain balance or some other reason?									#	0	1	4	-1
+250	#	What is the difference between the pressure of skate blades on ice and the pressure of air in atmosphere?									#	0	1	4	-1
+256	#	"why did it take so long for people to figure out that there was a force that made objects fall? 
+And who named it gravity? why?"									#	0	1	4	-1
+322	#	Sorry if this question had already been answered but whats the difference between motion and movement?									#	0	1	4	-1
+323	#	Newtons first law of motion is also called the Law of Inertia. Why is that?									#	0	1	4	-1
+359	#	Why do we need to know about all of Newton's laws? How do they help us with everyday life?									#	0	0	4	-1
+136	#	Is there any difference between gravity and gravitation.									#	0	0	4	-1
+394	#	how is newton's 1st law related to inertia?									#	3	1	4	-1
+328	#	How does Newton's first law of motion relate to inertia									#	3	1	4	-1
+220	#	What is the difference between law of inertia according to Sir Issac Newton and according to Galileo									#	4	0	4	-1
+80	#	"FYI, Newtonian Physics, pragmatically, works but is false. Contemporary physics tends to use general relativity, because 
+Einstein proved Newton false, and yet Einsteinian physics is better but still isn't entirely accurate either. What should we 
+have in mind when using physics in light of these criticisms?"									#	0	1	5	-1
+
