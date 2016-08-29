@@ -343,6 +343,7 @@ function questionBarMouseEffectSetting() {
 	var ctx = document.getElementById("questionBar");
 	var c = ctx.getContext("2d");
 	var mouseIsDown;
+	var mouseIsOver = false;
 
 	function checkcolor(e) {
 		var rect = c.canvas.getBoundingClientRect();
@@ -383,6 +384,23 @@ function questionBarMouseEffectSetting() {
 		}
 	}
 
+
+	function drawCursorLine(e) {
+		var rect = c.canvas.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+
+		var relativeX = x / c.canvas.width;
+		var posX = relativeX * c.canvas.width;
+
+		c.beginPath();
+		c.moveTo(posX, 0);
+		c.lineTo(posX, c.canvas.height);
+
+		c.strokeStyle = "red";
+		c.stroke();
+	}
+
 	c.canvas.onmousedown = function(e) {
 		mouseIsDown = true;
 	}
@@ -394,6 +412,7 @@ function questionBarMouseEffectSetting() {
 
 		if(mouseIsDown) mouseClick(e, x, y);
 
+		drawCursorLine(e);
 		mouseIsDown = false;
 
 		function mouseClick(e, x, y) {
@@ -426,12 +445,25 @@ function questionBarMouseEffectSetting() {
 		}
 	}
 
-	c.canvas.onmousemove = checkcolor;
+	c.canvas.onmousemove = function(e) {
+		checkcolor(e);
+		drawCursorLine(e);
+	}
+
+	c.canvas.onmouseleave = function(e) {
+		checkcolor(e);
+
+		// not to draw cursor line
+	}
 }
 
 function progressBarMouseEffectSetting() {
 	var ctx = document.getElementById("progressBar");
 	var c = ctx.getContext("2d");
+
+	var questionBarCtx = document.getElementById("questionBar");
+	var questionBarC = questionBarCtx.getContext("2d");
+
 	var mouseIsDown;
 
 	c.canvas.onmousedown = function(e) {
@@ -453,6 +485,14 @@ function progressBarMouseEffectSetting() {
 			moveTimeline(relativePosition);
 			player.seekTo(relativePosition * player.getDuration());
 		}
+	}
+
+	c.canvas.onmousemove = function(e) {
+		questionBarC.canvas.onmousemove(e);
+	}
+
+	c.canvas.onmouseleave = function(e) {
+		questionBarC.canvas.onmouseleave(e);
 	}
 }
 
