@@ -5,6 +5,7 @@ var questionList = [];
 var videoId = '5-ZFOhHQS68';
 var subsInfo = [];
 var subsFrequency = [];
+var questionRects = [];
 
 // Newton's first law of motion 2 : D1NubiWCpQg
 
@@ -83,8 +84,17 @@ function plotQuestionBar() {
 		var endPoint = ((subsInfo[i].end/1000) / player.getDuration()) * c.canvas.width;
 		var myHeight = (subsFrequency[i] / max) * c.canvas.height;
 
-		c.fillStyle = "#000000";
-		c.fillRect(startPoint, (c.canvas.height - myHeight), endPoint - startPoint, myHeight);
+		questionRects.push( {
+			x: startPoint, 
+			y: (c.canvas.height - myHeight), 
+			w: endPoint - startPoint, 
+			h: myHeight});
+	}
+
+	c.fillStyle = "#000000";
+
+	for(var i=0;i<questionRects.length;i++) {
+		c.fillRect(questionRects[i].x, questionRects[i].y, questionRects[i].w, questionRects[i].h);
 	}
 }
 
@@ -335,6 +345,34 @@ $(document).ready(function() {
 	$('#rightSecond').on("click", ".questionElement", function() {
 		contextPush($(this));
 	});
+
+	/* ------ Question bar mouse move setting ----- */
+
+	var questionBarCtx = document.getElementById("questionBar");
+	var questionBarC = questionBarCtx.getContext("2d");
+
+	questionBarC.canvas.onmousemove = function(e) {
+		var rect = this.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+		
+		questionBarC.clearRect(0, 0, questionBarC.canvas.width, questionBarC.canvas.height);
+
+		for(var i=0;i<questionRects.length;i++) {
+			var r = questionRects[i];
+
+			questionBarC.beginPath();
+			questionBarC.rect(r.x, 0, r.w, questionBarC.canvas.height);
+			questionBarC.fillStyle = questionBarC.isPointInPath(x, y) ? "red" : "black" ;
+
+			questionBarC.beginPath();
+			questionBarC.rect(r.x, r.y, r.w, r.h);
+			questionBarC.fill();
+		}
+	}
+
+
+
 });
 
 function contextPush(element) {
