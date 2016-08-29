@@ -7,6 +7,7 @@ var subsInfo = [];
 var subsFrequency = [];
 var questionRects = [];
 var clickedRect;
+var rightDivAppeared = false;
 
 // Newton's first law of motion 2 : D1NubiWCpQg
 
@@ -53,8 +54,6 @@ function moveTimeline(percent) {
 
 	var progressBarWidth = percent * c.canvas.width / 100;
 
-	$("#leftSecond").text("current time : " + player.getCurrentTime());
-
 	c.fillStyle = "#FFFFFF";
 	c.fillRect(0, 0, progressBarWidth, c.canvas.height);
 
@@ -64,9 +63,9 @@ function moveTimeline(percent) {
 
 function plotQuestionBar() {
 	/*
-	   // straight-forward way !
+	// straight-forward way !
 	for(var i=0;i<questionList.length;i++){
-		plotSingleQuestion(questionList[i].time);
+	plotSingleQuestion(questionList[i].time);
 	}*/
 
 	var max = 0;
@@ -78,12 +77,16 @@ function plotQuestionBar() {
 	var ctx = document.getElementById("questionBar");
 	var c = ctx.getContext("2d");
 
+	c.clearRect(0, 0, c.canvas.width, c.canvas.height);
+
 	clickedRects = {
 		x: -1,
 		y: -1,
 		w: -1,
 		h: -1
 	};
+
+	questionRects = [];
 
 	for(var i=1;i<subsFrequency.length;i++) { // subsInfo starts from 1
 		// plot rectangle in subsInfo[i].start ~ subsInfo[i].end
@@ -237,8 +240,8 @@ function loadSubsInfoFromFirebase() {
 			}
 		}
 
-		getQuestionHistogram();
-		plotQuestionBar();
+	getQuestionHistogram();
+	plotQuestionBar();
 
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
@@ -410,7 +413,7 @@ function questionBarMouseEffectSetting() {
 		var x = e.clientX - rect.left;
 		var y = e.clientY - rect.top;
 
-		if(mouseIsDown) mouseClick(e, x, y);
+		if(mouseIsDown && rightDivAppeared) mouseClick(e, x, y);
 
 		drawCursorLine(e);
 		mouseIsDown = false;
@@ -496,11 +499,64 @@ function progressBarMouseEffectSetting() {
 	}
 }
 
+function appearBtnClicked() {
+	if(rightDivAppeared == false){
+		rightDivAppeared = true;
+
+		$('#leftDiv').animate({width: '65%'}, 200, function() { 
+			$('#rightDiv').show(200, function() {
+
+				var progressBarWidth = $('#progressBar').width();
+				var progressBarHeight = $('#progressBar').height();
+
+				var questionBarWidth = $('#questionBar').width();
+				var questionBarHeight = $('#questionBar').height();
+
+				resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
+				resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
+
+				plotQuestionBar();
+			});
+		});
+	}
+}
+
+function disappearBtnClicked() {
+	if(rightDivAppeared == true) {
+		rightDivAppeared = false;
+
+		$('#rightDiv').hide(200, function() {
+			$('#leftDiv').animate({width: '100%'}, 200, function() {
+
+				var progressBarWidth = $('#progressBar').width();
+				var progressBarHeight = $('#progressBar').height();
+
+				var questionBarWidth = $('#questionBar').width();
+				var questionBarHeight = $('#questionBar').height();
+
+				resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
+				resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
+
+				plotQuestionBar();
+			});
+		});
+	}
+
+}
+
 $(document).ready(function() {
 	/* ------ Submit button click event handling ------  */
 
 	$('#submitBtn').click(function() {
 		submitBtnClicked();
+	});
+
+	$('#appearBtn').click(function() {
+		appearBtnClicked();
+	});
+
+	$('#disappearBtn').click(function() {
+		disappearBtnClicked();
 	});
 
 	$('#popBtn').click(function() {
