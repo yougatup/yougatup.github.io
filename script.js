@@ -30,13 +30,13 @@ function makeQuestionStruct(names) {
 }
 function checkQuestion(time) {
 	while(currentPoint >= 0 && questionList[currentPoint].time >= time) {
-		questionList[currentPoint].div.hide();
+		questionList[currentPoint].div.slideUp();
 
 		currentPoint--;
 	}
 
 	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time) {
-		questionList[currentPoint+1].div.show();
+		questionList[currentPoint+1].div.slideDown();
 
 		currentPoint++;
 	}
@@ -314,10 +314,9 @@ function registerQuestion(time, statement) {
 		'id': "question"+idx,
 		'text': time + "\n" + statement,
 		'class': "questionElement",
-		'height': '100px',
 	});
 
-	$newdiv.hide();
+
 	var insertIndex = -1;
 
 	for(var j=0;j<questionList.length;j++) {
@@ -331,11 +330,15 @@ function registerQuestion(time, statement) {
 		questionList.push(new questionType(idx, time, statement, '', $newdiv));
 
 		$('#rightSecond').prepend($newdiv);
+	
+		questionList[questionList.length-1].div.slideUp(0);
 	} else {
 		var Id = questionList[insertIndex].div[0].id;
 		questionList.splice(insertIndex, 0, new questionType(idx, time, statement, '', $newdiv));
 
 		$newdiv.insertAfter("#" + Id);
+
+		questionList[insertIndex].div.slideUp(0);
 	}
 
 	plotSingleQuestion(time);
