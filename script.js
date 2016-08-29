@@ -339,6 +339,122 @@ function stopVideo() {
 	player.stopVideo();
 }
 
+function questionBarMouseEffectSetting() {
+	var ctx = document.getElementById("questionBar");
+	var c = ctx.getContext("2d");
+	var mouseIsDown;
+
+	function checkcolor(e) {
+		var rect = c.canvas.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+		var selectedIdx = -1;
+
+		c.clearRect(0, 0, c.canvas.width, c.canvas.height);
+
+		for(var i=0;i<questionRects.length;i++) {
+			var r = questionRects[i];
+
+			c.beginPath();
+			c.rect(r.x, 0, r.w, c.canvas.height);
+
+			if(r.c == true || c.isPointInPath(x, y)) {
+				selectedIdx = (r.c == true) ? i : -1;
+				c.fillStyle = "red";
+			} else {
+				c.fillStyle = "black";
+			}
+
+			c.beginPath();
+			c.rect(r.x, r.y, r.w, r.h);
+			c.fill();
+		}
+
+		if(selectedIdx != -1) {
+			var subsInfoIdx = questionRects[selectedIdx].i;
+
+			for(var i=0;i<questionList.length;i++) {
+				if(subsInfo[subsInfoIdx].start <= questionList[i].time && questionList[i].time < subsInfo[subsInfoIdx].end) {
+					questionList[i].div.slideDown();
+				} else {
+					questionList[i].div.slideUp();
+				}
+			}
+		}
+	}
+
+	c.canvas.onmousedown = function(e) {
+		mouseIsDown = true;
+	}
+
+	c.canvas.onmouseup = function(e) {
+		var rect = this.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+
+		if(mouseIsDown) mouseClick(e, x, y);
+
+		mouseIsDown = false;
+
+		function mouseClick(e, x, y) {
+			var idx = -1;
+
+			for(var i=0;i<questionRects.length;i++) {
+				var r = questionRects[i];
+
+				c.beginPath();
+				c.rect(r.x, 0, r.w, c.canvas.height);
+
+				if(c.isPointInPath(x, y)) {
+					idx = i;
+					break;
+				}
+			}
+
+			if(idx == -1) {
+				for(var i=0;i<questionRects.length;i++) {
+					questionRects[i].c = false;
+				}
+			} else {
+				for(var i=0;i<questionRects.length;i++) {
+					if(i == idx) questionRects[i].c = true;
+					else questionRects[i].c = false;
+				}
+			}
+
+			checkcolor(e);
+		}
+	}
+
+	c.canvas.onmousemove = checkcolor;
+}
+
+function progressBarMouseEffectSetting() {
+	var ctx = document.getElementById("progressBar");
+	var c = ctx.getContext("2d");
+	var mouseIsDown;
+
+	c.canvas.onmousedown = function(e) {
+		mouseIsDown = true;
+	}
+
+	c.canvas.onmouseup = function(e) {
+		var rect = this.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+
+		if(mouseIsDown) mouseClick(e, x, y);
+
+		mouseIsDown = false;
+
+		function mouseClick(e, x, y) {
+			var relativePosition = (x / c.canvas.width);
+
+			moveTimeline(relativePosition);
+			player.seekTo(relativePosition * player.getDuration());
+		}
+	}
+}
 
 $(document).ready(function() {
 	/* ------ Submit button click event handling ------  */
@@ -359,97 +475,10 @@ $(document).ready(function() {
 
 	/* ------ Question bar mouse move setting ----- */
 
-	var questionBarCtx = document.getElementById("questionBar");
-	var questionBarC = questionBarCtx.getContext("2d");
-	var mouseIsDown;
-
-	function checkQuestionBarColor(e) {
-		var rect = questionBarC.canvas.getBoundingClientRect();
-		var x = e.clientX - rect.left;
-		var y = e.clientY - rect.top;
-		var selectedIdx = -1;
-
-		questionBarC.clearRect(0, 0, questionBarC.canvas.width, questionBarC.canvas.height);
-
-		for(var i=0;i<questionRects.length;i++) {
-			var r = questionRects[i];
-
-			questionBarC.beginPath();
-			questionBarC.rect(r.x, 0, r.w, questionBarC.canvas.height);
-
-			if(r.c == true || questionBarC.isPointInPath(x, y)) {
-				selectedIdx = (r.c == true) ? i : -1;
-				questionBarC.fillStyle = "red";
-			} else {
-				questionBarC.fillStyle = "black";
-			}
-
-			questionBarC.beginPath();
-			questionBarC.rect(r.x, r.y, r.w, r.h);
-			questionBarC.fill();
-		}
-
-		if(selectedIdx != -1) {
-			var subsInfoIdx = questionRects[selectedIdx].i;
-
-			for(var i=0;i<questionList.length;i++) {
-				if(subsInfo[subsInfoIdx].start <= questionList[i].time && questionList[i].time < subsInfo[subsInfoIdx].end) {
-					questionList[i].div.slideDown();
-				} else {
-					questionList[i].div.slideUp();
-				}
-			}
-		}
-	}
-
-	questionBarC.canvas.onmousedown = function(e) {
-		mouseIsDown = true;
-	}
-
-	questionBarC.canvas.onmouseup = function(e) {
-		var rect = this.getBoundingClientRect();
-		var x = e.clientX - rect.left;
-		var y = e.clientY - rect.top;
-
-		if(mouseIsDown) mouseClick(e, x, y);
-
-		mouseIsDown = false;
-
-		function mouseClick(e, x, y) {
-			var idx = -1;
-
-			for(var i=0;i<questionRects.length;i++) {
-				var r = questionRects[i];
-
-				questionBarC.beginPath();
-				questionBarC.rect(r.x, 0, r.w, questionBarC.canvas.height);
-
-				if(questionBarC.isPointInPath(x, y)) {
-					idx = i;
-					break;
-				}
-			}
-
-			if(idx == -1) {
-				for(var i=0;i<questionRects.length;i++) {
-					questionRects[i].c = false;
-				}
-			} else {
-				for(var i=0;i<questionRects.length;i++) {
-					if(i == idx) questionRects[i].c = true;
-					else questionRects[i].c = false;
-				}
-			}
-
-			checkQuestionBarColor(e);
-		}
-	}
-
-	questionBarC.canvas.onmousemove = checkQuestionBarColor;
+	questionBarMouseEffectSetting();
 
 	/* ------ play bar mouse move setting ------ */
-
-
+	progressBarMouseEffectSetting();
 });
 
 function contextPush(element) {
