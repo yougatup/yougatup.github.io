@@ -49,8 +49,8 @@
 					// A post entry.
 					var postData = {
 						'index': index,
-						'start': start,
-						'end': end,
+						'start': Number(start * 1000),
+						'end': Number(end * 1000),
 						'statement': statement
 					};
 

@@ -3,6 +3,8 @@ var questionType = makeQuestionStruct("index time question answer div");
 var currentPoint = -1;
 var questionList = [];
 var videoId = '5-ZFOhHQS68';
+var subsInfo = [];
+var subsFrequency = [];
 
 // Newton's first law of motion 2 : D1NubiWCpQg
 
@@ -30,13 +32,13 @@ function makeQuestionStruct(names) {
 	return constructor;
 }
 function checkQuestion(time) {
-	while(currentPoint >= 0 && questionList[currentPoint].time >= time) {
+	while(currentPoint >= 0 && questionList[currentPoint].time >= time*1000) {
 		questionList[currentPoint].div.slideUp();
 
 		currentPoint--;
 	}
 
-	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time) {
+	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time*1000) {
 		questionList[currentPoint+1].div.slideDown();
 
 		currentPoint++;
@@ -59,24 +61,55 @@ function moveTimeline(percent) {
 }
 
 function plotQuestionBar() {
+	/*
+	   // straight-forward way !
 	for(var i=0;i<questionList.length;i++){
 		plotSingleQuestion(questionList[i].time);
+	}*/
+
+	var max = 0;
+	for(var i=0;i<subsFrequency.length;i++) {
+		if(max < subsFrequency[i])
+			max = subsFrequency[i];
+	}
+
+	var ctx = document.getElementById("questionBar");
+	var c = ctx.getContext("2d");
+
+	for(var i=1;i<subsFrequency.length;i++) { // subsInfo starts from 1
+		// plot rectangle in subsInfo[i].start ~ subsInfo[i].end
+
+		var startPoint = ((subsInfo[i].start/1000) / player.getDuration()) * c.canvas.width;
+		var endPoint = ((subsInfo[i].end/1000) / player.getDuration()) * c.canvas.width;
+		var myHeight = (subsFrequency[i] / max) * c.canvas.height;
+
+		c.fillStyle = "#000000";
+		c.fillRect(startPoint, (c.canvas.height - myHeight), endPoint - startPoint, myHeight);
 	}
 }
 
 function plotSingleQuestion(questionTime) {
-	var ctx = document.getElementById("questionBar");
-	var c = ctx.getContext("2d");
+	if(subsInfo.length == 0) {
+		// there is no subtitle information on this video, 
+		// so plot single line for each question
 
-	var playerTotalTime = player.getDuration();
-	var relativePosition = (questionTime / playerTotalTime) * 100;
+		var ctx = document.getElementById("questionBar");
+		var c = ctx.getContext("2d");
 
-	var drawPosition = relativePosition * c.canvas.width / 100;
+		var playerTotalTime = player.getDuration();
+		var relativePosition = (questionTime / playerTotalTime) * 100;
 
-	c.beginPath();
-	c.moveTo(drawPosition, 0);
-	c.lineTo(drawPosition, c.canvas.height);
-	c.stroke();
+		var drawPosition = relativePosition * c.canvas.width / 100;
+
+		c.beginPath();
+		c.moveTo(drawPosition, 0);
+		c.lineTo(drawPosition, c.canvas.height);
+		c.stroke();
+	} else {
+		// we have subtitle information.
+		// maybe we need to re-draw the whole bar ?
+
+	}
 }
 
 
@@ -115,11 +148,14 @@ function onPlayerReady(event) {
 
 	/* ------ Progress Bar Initialization ------ */
 
-	var printedWidth = $('#progressBar').width();
-	var printedHeight = $('#progressBar').height();
+	var progressBarWidth = $('#progressBar').width();
+	var progressBarHeight = $('#progressBar').height();
 
-	resizeCanvas('progressBar', printedWidth, printedHeight);
-	resizeCanvas('questionBar', printedWidth, printedHeight);
+	var questionBarWidth = $('#questionBar').width();
+	var questionBarHeight = $('#questionBar').height();
+
+	resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
+	resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
 
 	$('#progressBar').show();
 	$('#questionBar').show();
@@ -142,9 +178,50 @@ function onPlayerReady(event) {
 
 	loadDataFromFirebase();
 
+	/* --------- Initialize subtitle information ---- */
+
+	loadSubsInfoFromFirebase();
+
 	/* ----------Context stack initialize----------- */
 
 	contextStack.push($('#mySlider'));
+}
+
+function getQuestionHistogram() {
+	for(var j=0;j<subsInfo.length;j++)
+		subsFrequency[j] = 0;
+
+	for(var i=0;i<questionList.length;i++) {
+		for(var j=1;j<subsInfo.length;j++) { // subsInfo starts from 1
+			if(subsInfo[j].start <= questionList[i].time && questionList[i].time < subsInfo[j].end) {
+				subsFrequency[j] = subsFrequency[j] + 1;
+				break;
+			}
+		}
+	}
+}
+
+function loadSubsInfoFromFirebase() {
+	var subsInfoRef	= firebase.database().ref('subsInfo/' + videoId);
+
+	subsInfoRef.once("value", function(snapshot) {
+		var obj = snapshot.val()
+		for (var key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				subsInfo[obj[key].index] = {
+					'start': obj[key].start,
+		'end': obj[key].end,
+		'statement': obj[key].statement
+				};
+			}
+		}
+
+		getQuestionHistogram();
+		plotQuestionBar();
+
+	}, function (errorObject) {
+		console.log("The read failed: " + errorObject.code);
+	});
 }
 
 function readData() {
@@ -154,7 +231,7 @@ function readData() {
 		var obj = snapshot.val()
 		for (var key in obj) {
 			if (obj.hasOwnProperty(key)) {
-				registerQuestion(obj[key].time, obj[key].question);
+				registerQuestion(obj[key].time, obj[key].question, false);
 			}
 		}
 	}, function (errorObject) {
@@ -295,7 +372,7 @@ function popBtnClicked() {
 function submitBtnClicked() {
 	var playerCurrentTime = player.getCurrentTime();
 
-	registerQuestion(playerCurrentTime, getQuestionStatement());
+	registerQuestion(playerCurrentTime, getQuestionStatement(), true);
 	writeToDB(playerCurrentTime, getQuestionStatement(), '');
 	clearQuestionBox();
 }
@@ -308,7 +385,7 @@ function clearQuestionBox() {
 	$('#questionBox').val('');
 }
 
-function registerQuestion(time, statement) {
+function registerQuestion(time, statement, displayResult) {
 	var idx = questionList.length;
 
 	var $newdiv = $('<div />',{
@@ -331,7 +408,7 @@ function registerQuestion(time, statement) {
 		questionList.push(new questionType(idx, time, statement, '', $newdiv));
 
 		$('#rightSecond').prepend($newdiv);
-	
+
 		questionList[questionList.length-1].div.slideUp(0);
 	} else {
 		var Id = questionList[insertIndex].div[0].id;
@@ -342,7 +419,8 @@ function registerQuestion(time, statement) {
 		questionList[insertIndex].div.slideUp(0);
 	}
 
-	plotSingleQuestion(time);
-
+	if(displayResult == true) {
+		plotSingleQuestion(time);
+	}
 }
 

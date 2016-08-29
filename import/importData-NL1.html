@@ -83,6 +83,7 @@ apiKey: "AIzaSyCl2ihXRpdU0C708JxRPZo5_Qa3M3G613U",
 						var floating = false;
 						var myPower = 0.1;
 						var questionStatement = "";
+						var floating_cnt = 0;
 
 						for(var i=0;i<reader.result.length;i++){
 						if(reader.result[i] == '\n') {
@@ -96,6 +97,7 @@ apiKey: "AIzaSyCl2ihXRpdU0C708JxRPZo5_Qa3M3G613U",
 								floating = false;
 								myPower = 0.1;
 								questionStatement = "";
+								floating_cnt = 0;
 							}
 
 							sw *= -1;
@@ -104,11 +106,11 @@ apiKey: "AIzaSyCl2ihXRpdU0C708JxRPZo5_Qa3M3G613U",
 								if(reader.result[i] == '.') {
 									floating = true;
 								} else {
-									if(floating == false){
+									if(floating_cnt < 3)
 										myTime = (myTime * 10) + Number(reader.result[i]);
-									} else {
-										myTime = myTime + myPower * Number(reader.result[i]);
-										myPower *= (0.1);
+
+									if(floating == true) {
+										floating_cnt++;
 									}
 								}
 							}
