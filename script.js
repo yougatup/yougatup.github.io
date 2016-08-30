@@ -618,10 +618,11 @@ function popBtnClicked() {
 }
 
 function submitBtnClicked() {
-	var playerCurrentTime = player.getCurrentTime();
+	var playerCurrentTime = Number(player.getCurrentTime() * 1000);
 
 	registerQuestion(playerCurrentTime, getQuestionStatement(), true);
 	writeToDB(playerCurrentTime, getQuestionStatement(), '');
+	plotQuestionBar();
 	clearQuestionBox();
 }
 
@@ -638,10 +639,9 @@ function registerQuestion(time, statement, displayResult) {
 
 	var $newdiv = $('<div />',{
 		'id': "question"+idx,
-		'text': time + "\n" + statement,
+		'text': statement,
 		'class': "questionElement",
 	});
-
 
 	var insertIndex = -1;
 
