@@ -55,11 +55,11 @@ seen an object that just keeps moving
 on and on forever without anyone acting on it.
 
 15
-00:00:34,841 --> 00:00:37,630
+00:00:34,841 --> 00:00:37,063
 It seems like something will always stop.
 
 16
-00:00:37,630 --> 00:00:39,756
+00:00:37,063 --> 00:00:39,756
 And this is why, for most of human history,
 
 17
@@ -83,7 +83,7 @@ the assumption was "objects have a natural tendency to stop."
 Objects ... have ... tendency ... to come to rest or to stop.
 
 22
-00:01:03,355 --> 00:01:07,300
+00:01:03,355 --> 00:01:07,003
 And if you want to keep them moving,
 
 23
@@ -147,7 +147,7 @@ and they did it before Newton.
 This is Galileo.
 
 38
-00:01:53,850 --> 00:01:56,320
+00:01:53,085 --> 00:01:56,032
 And this is Rene Descarts.
 
 39
@@ -163,11 +163,11 @@ and Newton frankly get's the credit for it
 because he really encapsulates into a broader framework
 
 42
-00:02:02,766 --> 00:02:05,160
+00:02:02,766 --> 00:02:05,016
 with his other Laws, and the Laws of Gravitation,
 
 43
-00:02:05,160 --> 00:02:07,968
+00:02:05,016 --> 00:02:07,968
 which was really the basics of classical mechanics,
 
 44
@@ -191,11 +191,11 @@ And their big insight, and it was very unintuitive at the time,
 Is that these three gentlemen said,
 
 49
-00:02:21,215 --> 00:02:23,970
+00:02:21,215 --> 00:02:23,097
 maybe it works the other way.
 
 50
-00:02:23,970 --> 00:02:36,828
+00:02:23,097 --> 00:02:36,828
 Maybe objects have a tendency to maintain their velocity, their speed and their direction.
 
 51
@@ -203,7 +203,7 @@ Maybe objects have a tendency to maintain their velocity, their speed and their 
 And if their speed is zero, they'll maintain that restfulness.
 
 52
-00:02:41,706 --> 00:02:46,930
+00:02:41,706 --> 00:02:46,093
 Unless they're acted upon by an unbalanced force.
 
 53
@@ -223,15 +223,15 @@ if you want to keep the movement, apply a force.
 These guys say,
 
 57
-00:03:07,332 --> 00:03:10,870
+00:03:07,332 --> 00:03:10,087
 Objects hava tendency to maintain their motion forever
 
 58
-00:03:10,870 --> 00:03:13,930
+00:03:10,087 --> 00:03:13,093
 and the only way that your going to stop them is
 
 59
-00:03:13,930 --> 00:03:16,114
+00:03:13,093 --> 00:03:16,114
 if you act on it, or accelerate them, or change their velocity,
 
 60
@@ -247,11 +247,11 @@ is to act on them with an unbalanced force.
 But you might be saying,
 
 63
-00:03:22,560 --> 00:03:24,510
+00:03:22,560 --> 00:03:24,051
 Hey, come on Sal, what's going on?
 
 64
-00:03:24,510 --> 00:03:25,206
+00:03:24,051 --> 00:03:25,206
 You just went through this,
 
 65
@@ -363,11 +363,11 @@ But they saw, if you made this surface a little bit smoother
 this thing would travel further and further.
 
 92
-00:04:28,486 --> 00:04:31,600
+00:04:28,486 --> 00:04:31,060
 Maybe if you eliminated this friction,
 
 93
-00:04:31,600 --> 00:04:33,352
+00:04:31,060 --> 00:04:33,352
 if you made this surface completely friction-less,
 
 94
@@ -391,19 +391,19 @@ so it was a very, very unintuitive thought experiment.
 And you might say, what about this other thing,
 
 99
-00:04:46,584 --> 00:04:48,110
+00:04:46,584 --> 00:04:48,011
 what happens when I am applying the force?
 
 100
-00:04:48,110 --> 00:04:49,492
+00:04:48,011 --> 00:04:49,492
 Becuase in my everyday life,
 
 101
-00:04:49,492 --> 00:04:52,800
+00:04:49,492 --> 00:04:52,008
 If I want to drag my TV set across the room
 
 102
-00:04:52,800 --> 00:04:53,791
+00:04:52,008 --> 00:04:53,791
 I apply a force to it.
 
 103

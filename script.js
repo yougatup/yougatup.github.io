@@ -379,6 +379,8 @@ function questionBarMouseEffectSetting() {
 		if(selectedIdx != -1) {
 			var subsInfoIdx = questionRects[selectedIdx].i;
 
+			$('#forDebugging').text("# of question : " + subsFrequency[subsInfoIdx]);
+
 			for(var i=0;i<questionList.length;i++) {
 				if(subsInfo[subsInfoIdx].start <= questionList[i].time && questionList[i].time < subsInfo[subsInfoIdx].end) {
 					questionList[i].div.slideDown();
