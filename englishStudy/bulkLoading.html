@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<script type="text/javascript">
+			window.onload = function() {
+				var dataSet = "";
+
+				function InitializeDB(){
+					// Initialize Firebase
+					var config = {
+						apiKey: "AIzaSyCl2ihXRpdU0C708JxRPZo5_Qa3M3G613U",
+						authDomain: "documentimprovement-ebf04.firebaseapp.com",
+						databaseURL: "https://documentimprovement-ebf04.firebaseio.com",
+						storageBucket: "documentimprovement-ebf04.appspot.com",
+					};
+
+					firebase.initializeApp(config);
+				}
+
+				function toggleSignIn() {
+					if (firebase.auth().currentUser) {
+						// [START signout]
+						firebase.auth().signOut();
+						// [END signout]
+					} else {
+						// [START authanon]
+						firebase.auth().signInAnonymously().catch(function(error) {
+								// Handle Errors here.
+								var errorCode = error.code;
+								var errorMessage = error.message;
+								// [START_EXCLUDE]
+								if (errorCode === 'auth/operation-not-allowed') {
+								alert('You must enable Anonymous auth in the Firebase Console.');
+								} else {
+								console.error(error);
+								}
+								// [END_EXCLUDE]
+								});
+						// [END authanon]
+					}
+					//document.getElementById('quickstart-sign-in').disabled = true;
+				}
+
+				function exportData(index, english, meaning) {
+					// A post entry.
+					var postData = {
+						'index': index,
+						'question': english,
+						'answer': meaning,
+						'submitted': ''
+					};
+
+					// Get a key for a new Post.
+					var newPostKey = firebase.database().ref().child('englishTest/' + dataSet).push().key;
+
+					// Write the new post's data simultaneously in the posts list and the user's post list.
+					var updates = {};
+					updates['/englishTest/' + dataSet + '/' + newPostKey] = postData;
+
+					return firebase.database().ref().update(updates);
+				}
+
+				function getLine(stmt) {
+					var ret_value = "";
+					var i;
+
+					for(i=0;i<stmt.length;i++){
+						if(stmt[i] == '\n') break;
+						ret_value = ret_value + stmt[i];
+					}
+
+					return [ret_value, i];
+				}
+
+				var fileInput = document.getElementById('fileInput');
+				var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+				fileInput.addEventListener('change', function(e) {
+						var file = fileInput.files[0];
+						var textType = /text.*/;
+
+						if (file.type.match(textType)) {
+						var reader = new FileReader();
+
+						reader.onload = function(e) {
+
+						InitializeDB();
+						toggleSignIn();
+
+						var inputString = reader.result.slice(0);
+						var english = "";
+						var meaning = "";
+
+						var [stmt, idx] = getLine(inputString);
+
+						if(idx < inputString.length) inputString = inputString.slice(idx+1);
+						else inputStrng = "";
+
+						dataSet = stmt;
+
+						var cnt = 0;
+						var engIndex = 0;
+
+						while(inputString != ""){
+						cnt++;
+
+						var [stmt, idx] = getLine(inputString);
+
+						if(idx < inputString.length) inputString = inputString.slice(idx+1);
+						else inputStrng = "";
+
+						if(cnt % 2 == 0) { 
+
+							exportData(engIndex++, english, stmt);
+
+							fileDisplayArea.innerText += english + ' ' + stmt + '\n';
+						} else {
+							english = stmt;
+						}
+						}
+
+						}
+						reader.readAsText(file);	
+						} else {
+							fileDisplayArea.innerText = "File not supported!"
+						}
+				});
+			}
+
+		</script>
+
+
+	</head>
+	<body>
+
+
+		<div id="page-wrapper">
+
+			<h1>Text File Reader</h1>
+			<div>
+				Select a text file: 
+				<input type="file" id="fileInput">
+			</div>
+
+			<pre id="fileDisplayArea"><pre>
+	</div>
+
+	</body>
+</html>
+
