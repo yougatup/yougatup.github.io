@@ -8,7 +8,8 @@ function questionRowForm(element) {
 	return '<tr>' + 
 		'<td> ' + (element.index) + ' </td>' + 
 		'<td> ' + (element.question) + ' </td>' +
-		'<td> <input id=input' + (element.index) + '> </input> </td>' +
+		'<td> ' + (element.submitted) + ' </td>' +
+		'<td> ' + (element.answer) + ' </td>' +
 		'</tr>';
 }
 
@@ -20,14 +21,6 @@ $(document).ready(function() {
 	InitializeDB();
 	toggleSignIn();
 	readData();
-
-	$(document).on('click', '#submitBtn', function() {
-		// submit results
-
-		flushData();
-
-		alert("submit done!");
-	});
 });
 
 
@@ -66,11 +59,12 @@ function InitializeDB(){
 	firebase.initializeApp(config);
 }
 
-function registerWords(index, question, key) {
+function registerWords(index, question, answer, submitted) {
 	words.push({
 		index: index,
 	question: question,
-	key: key
+	answer: answer,
+	submitted: submitted
 	});
 }
 
@@ -97,15 +91,11 @@ function readData() {
 		var obj = snapshot.val()
 		for (var key in obj) {
 			if (obj.hasOwnProperty(key)) {
-				registerWords(obj[key].index, obj[key].question, key);
+				registerWords(obj[key].index, obj[key].question, obj[key].answer, obj[key].submitted);
 			}
 		}
 
 	displayWordTable();
-
-	//		words.sort(compare);
-
-	shuffle(words);
 
 	for(var i=0;i<words.length;i++) {
 		addQuestion(words[i]);
@@ -123,40 +113,9 @@ function displayWordTable() {
 			'<tr>' + 
 			'<th> Index </th>' + 
 			'<th> Word </th>' + 
+			'<th> Submitted </th>' + 
 			'<th> Answer </th>' + 
 			'</tr>' + 
-			'</table>' + 
-			'<button id=submitBtn>Submit</button>'
+			'</table>'
 			);
-}
-
-function writeToDB(index, question, answer) {
-	// A post entry.
-	var postData = {
-		'index': index,
-		'question': question,
-		'answer': answer,
-		'submitted': '',
-	};
-
-	// Get a key for a new Post.
-	var newPostKey = firebase.database().ref().child('englishTest/Day1').push().key;
-
-	// Write the new post's data simultaneously in the posts list and the user's post list.
-	var updates = {};
-	updates['/englishTest/Day1' + newPostKey] = postData;
-
-	return firebase.database().ref().update(updates);
-}
-
-function flushData() {
-	var updates = {};
-	for(var i=0;i<words.length;i++) {
-		var inputID = "input" + words[i].index;
-		var myValue = $('#' + inputID).val();
-
-		updates['/englishTest/Day1/' + words[i].key + '/submitted'] = myValue;
-	}
-
-	return firebase.database().ref().update(updates);
 }
