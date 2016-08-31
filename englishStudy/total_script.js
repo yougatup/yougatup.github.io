@@ -108,7 +108,7 @@ function readData() {
 
 function displayWordTable() {
 	$('#main').html(
-			'<h1>' + Testname + '</h1>' + 
+			'<h1> Result of '+ Testname + '</h1>' + 
 			'<table id=\'wordTable\'>' + 
 			'<tr>' + 
 			'<th> Index </th>' + 
