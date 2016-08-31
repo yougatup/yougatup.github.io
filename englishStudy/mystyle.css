@@ -1,3 +1,4 @@
 table, th, td{ border: 1px solid black; }
 input { width: 500px; }
+#submitBtn { padding: 5px; margin: 5px;}
 
