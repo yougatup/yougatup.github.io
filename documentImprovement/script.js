@@ -637,6 +637,8 @@ function registerQuestion(time, statement, displayResult) {
 
 	questionList.push(new questionType(idx, time, statement, '', $newdiv));
 
+	$newdiv.hide();
+
 	$('#rightSecond').prepend($newdiv);
 
 	if(displayResult) {

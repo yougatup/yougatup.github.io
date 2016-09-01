@@ -2,7 +2,7 @@
 var words = [];
 var cnt = 0;
 var ready = false;
-var Testname = 'Day1';
+var Testname = 'Day2';
 
 function questionRowForm(element) {
 	return '<tr>' + 
@@ -84,7 +84,7 @@ function compare(a, b) {
 }
 
 function readData() {
-	var questionRef = firebase.database().ref('englishTest/Day1');
+	var questionRef = firebase.database().ref('englishTest/' + Testname);
 
 	function shuffle(a) {
 		var j, x, i;
@@ -143,11 +143,11 @@ function writeToDB(index, question, answer) {
 	};
 
 	// Get a key for a new Post.
-	var newPostKey = firebase.database().ref().child('englishTest/Day1').push().key;
+	var newPostKey = firebase.database().ref().child('englishTest/' + Testname).push().key;
 
 	// Write the new post's data simultaneously in the posts list and the user's post list.
 	var updates = {};
-	updates['/englishTest/Day1' + newPostKey] = postData;
+	updates['/englishTest/' + Testname + '/' + newPostKey] = postData;
 
 	return firebase.database().ref().update(updates);
 }
@@ -158,7 +158,7 @@ function flushData() {
 		var inputID = "input" + words[i].index;
 		var myValue = $('#' + inputID).val();
 
-		updates['/englishTest/Day1/' + words[i].key + '/submitted'] = myValue;
+		updates['/englishTest/' + Testname + '/' + words[i].key + '/submitted'] = myValue;
 	}
 
 	return firebase.database().ref().update(updates);

@@ -75,7 +75,7 @@ function compare(a, b) {
 }
 
 function readData() {
-	var questionRef = firebase.database().ref('englishTest/Day1');
+	var questionRef = firebase.database().ref('englishTest/' + Testname);
 
 	function shuffle(a) {
 		var j, x, i;
