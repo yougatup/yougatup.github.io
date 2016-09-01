@@ -34,19 +34,6 @@ function makeQuestionStruct(names) {
 
 	return constructor;
 }
-function checkQuestion(time) {
-	while(currentPoint >= 0 && questionList[currentPoint].time >= time*1000) {
-		questionList[currentPoint].div.slideUp();
-
-		currentPoint--;
-	}
-
-	while(currentPoint+1 < questionList.length && questionList[currentPoint+1].time < time*1000) {
-		questionList[currentPoint+1].div.slideDown();
-
-		currentPoint++;
-	}
-}
 
 function moveTimeline(percent) {
 	var ctx = document.getElementById("progressBar");
@@ -61,7 +48,7 @@ function moveTimeline(percent) {
 	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
 }
 
-function plotQuestionBar() {
+function plotQuestionBar(clickedIndex) {
 	/*
 	// straight-forward way !
 	for(var i=0;i<questionList.length;i++){
@@ -95,12 +82,18 @@ function plotQuestionBar() {
 		var endPoint = ((subsInfo[i].end/1000) / player.getDuration()) * c.canvas.width;
 		var myHeight = (subsFrequency[i] / max) * c.canvas.height;
 
+		var isClicked = false;
+
+		if(clickedIndex != -1 && clickedIndex == i) {
+			isClicked = true;
+		}
+
 		questionRects.push( {
 			x: startPoint, 
 			y: (c.canvas.height - myHeight), 
 			w: endPoint - startPoint, 
 			h: myHeight,
-			c: false,
+			c: isClicked,
 			i: i
 		});
 	}
@@ -108,6 +101,9 @@ function plotQuestionBar() {
 	c.fillStyle = "#000000";
 
 	for(var i=0;i<questionRects.length;i++) {
+		if(questionRects[i].c == true) c.fillStyle = "red";
+		else c.fillStyle = "#000000";
+
 		c.fillRect(questionRects[i].x, questionRects[i].y, questionRects[i].w, questionRects[i].h);
 	}
 }
@@ -194,8 +190,6 @@ function onPlayerReady(event) {
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
 		moveTimeline(playerTimeDifference);
-
-		//checkQuestion(playerCurrentTime);
 	}, 100);        
 
 	/* --------- Initialize question list --------- */
@@ -211,18 +205,21 @@ function onPlayerReady(event) {
 	contextStack.push($('#mySlider'));
 }
 
+function updateQuestionHistogram(element) {
+	for(var i=1;i<subsInfo.length;i++){
+		if(subsInfo[i].start <= element.time && element.time < subsInfo[i].end){
+			subsFrequency[i] = subsFrequency[i] + 1;
+			break;
+		}
+	}
+}
+
 function getQuestionHistogram() {
 	for(var j=0;j<subsInfo.length;j++)
 		subsFrequency[j] = 0;
 
-	for(var i=0;i<questionList.length;i++) {
-		for(var j=1;j<subsInfo.length;j++) { // subsInfo starts from 1
-			if(subsInfo[j].start <= questionList[i].time && questionList[i].time < subsInfo[j].end) {
-				subsFrequency[j] = subsFrequency[j] + 1;
-				break;
-			}
-		}
-	}
+	for(var i=0;i<questionList.length;i++) 
+		updateQuestionHistogram(questionList[i]);
 }
 
 function loadSubsInfoFromFirebase() {
@@ -241,7 +238,7 @@ function loadSubsInfoFromFirebase() {
 		}
 
 	getQuestionHistogram();
-	plotQuestionBar();
+	plotQuestionBar(-1);
 
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
@@ -364,7 +361,7 @@ function questionBarMouseEffectSetting() {
 
 			if(rightDivAppeared && (r.c == true || c.isPointInPath(x, y))) {
 				if(selectedIdx == -1 && r.c == true) 
-					selectedIdx = i;
+					selectedIdx = r.i;
 
 				c.fillStyle = "red";
 			} else {
@@ -376,23 +373,7 @@ function questionBarMouseEffectSetting() {
 			c.fill();
 		}
 
-		if(selectedIdx != -1) {
-			var subsInfoIdx = questionRects[selectedIdx].i;
-
-			$('#forDebugging').text("# of question : " + subsFrequency[subsInfoIdx]);
-
-			for(var i=0;i<questionList.length;i++) {
-				if(subsInfo[subsInfoIdx].start <= questionList[i].time && questionList[i].time < subsInfo[subsInfoIdx].end) {
-					questionList[i].div.slideDown();
-				} else {
-					questionList[i].div.slideUp();
-				}
-			}
-		} else {
-			for(var i=0;i<questionList.length;i++) {
-				questionList[i].div.slideUp();
-			}
-		}
+		displayQuestions(selectedIdx);
 	}
 
 
@@ -523,7 +504,7 @@ function appearBtnClicked() {
 				resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
 				resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
 
-				plotQuestionBar();
+				plotQuestionBar(-1);
 			});
 		});
 	}
@@ -545,7 +526,7 @@ function disappearBtnClicked() {
 				resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
 				resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
 
-				plotQuestionBar();
+				plotQuestionBar(-1);
 			});
 		});
 	}
@@ -566,10 +547,10 @@ $(document).ready(function() {
 	$('#disappearBtn').click(function() {
 		disappearBtnClicked();
 	});
-
+/*
 	$('#popBtn').click(function() {
 		popBtnClicked();
-	});
+	});*/
 
 	/* ------ Question div click event handling ------  */
 
@@ -607,6 +588,7 @@ function contextPush(element) {
 	$('#leftFirst').append($newdiv);
 }
 
+/*
 function popBtnClicked() {
 	while(contextStack.length > 1) {
 		var popElement = contextStack.pop();
@@ -616,13 +598,13 @@ function popBtnClicked() {
 		contextStack[contextStack.length-1].show();
 	}
 }
+*/
 
 function submitBtnClicked() {
 	var playerCurrentTime = Number(player.getCurrentTime() * 1000);
 
 	registerQuestion(playerCurrentTime, getQuestionStatement(), true);
 	writeToDB(playerCurrentTime, getQuestionStatement(), '');
-	plotQuestionBar();
 	clearQuestionBox();
 }
 
@@ -634,6 +616,16 @@ function clearQuestionBox() {
 	$('#questionBox').val('');
 }
 
+function getClickedIdx() {
+	for(var i=0;i<questionRects.length;i++) {
+		if(questionRects[i].c == true) {
+			return questionRects[i].i;
+		}
+	}
+
+	return -1;
+}
+
 function registerQuestion(time, statement, displayResult) {
 	var idx = questionList.length;
 
@@ -643,32 +635,35 @@ function registerQuestion(time, statement, displayResult) {
 		'class': "questionElement",
 	});
 
-	var insertIndex = -1;
+	questionList.push(new questionType(idx, time, statement, '', $newdiv));
 
-	for(var j=0;j<questionList.length;j++) {
-		if(questionList[j].time > time) {
-			insertIndex = j;
-			break;
+	$('#rightSecond').prepend($newdiv);
+
+	if(displayResult) {
+		updateQuestionHistogram(questionList[questionList.length-1]);
+
+		var clickedIdx = getClickedIdx();
+
+		plotQuestionBar(clickedIdx);
+		displayQuestions(clickedIdx);
+	}
+}
+
+function displayQuestions(subsIndex) {
+	if(subsIndex != -1) {
+		$('#forDebugging').text("# of question : " + subsFrequency[subsIndex]);
+
+		for(var i=0;i<questionList.length;i++) {
+			if(subsInfo[subsIndex].start <= questionList[i].time && questionList[i].time < subsInfo[subsIndex].end) {
+				questionList[i].div.slideDown();
+			} else {
+				questionList[i].div.slideUp();
+			}
 		}
-	}
-
-	if(insertIndex == -1) {
-		questionList.push(new questionType(idx, time, statement, '', $newdiv));
-
-		$('#rightSecond').prepend($newdiv);
-
-		questionList[questionList.length-1].div.slideUp(0);
 	} else {
-		var Id = questionList[insertIndex].div[0].id;
-		questionList.splice(insertIndex, 0, new questionType(idx, time, statement, '', $newdiv));
-
-		$newdiv.insertAfter("#" + Id);
-
-		questionList[insertIndex].div.slideUp(0);
-	}
-
-	if(displayResult == true) {
-		plotSingleQuestion(time);
+		for(var i=0;i<questionList.length;i++) {
+			questionList[i].div.slideUp();
+		}
 	}
 }
 
