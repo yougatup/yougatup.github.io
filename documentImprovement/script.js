@@ -553,10 +553,10 @@ $(document).ready(function() {
 	});*/
 
 	/* ------ Question div click event handling ------  */
-
+/*
 	$('#rightSecond').on("click", ".questionElement", function() {
 		contextPush($(this));
-	});
+	});*/
 
 	/* ------ Question bar mouse move setting ----- */
 
@@ -626,20 +626,30 @@ function getClickedIdx() {
 	return -1;
 }
 
+function returnQuestionDiv(element){
+	return '<div id="question' + element.index + '" class="questionElement">' +
+		element.question +
+		'</div>';
+}
+
 function registerQuestion(time, statement, displayResult) {
 	var idx = questionList.length;
 
-	var $newdiv = $('<div />',{
-		'id': "question"+idx,
-		'text': statement,
-		'class': "questionElement",
-	});
+	var newQuestion = new questionType(idx, time, statement, '', '');
+	var divString = returnQuestionDiv(newQuestion);
 
-	questionList.push(new questionType(idx, time, statement, '', $newdiv));
+	$('#rightSecond').html(divString + ($('#rightSecond').html()));
 
-	$newdiv.hide();
+	var $newdiv = document.getElementById("question"+idx);
 
-	$('#rightSecond').prepend($newdiv);
+	//$newdiv.style.visibility = "hidden";
+
+	//$newdiv.hide();
+
+	newQuestion.div = $newdiv;
+
+	questionList.push(newQuestion);
+	//$('#rightSecond').prepend($newdiv);
 
 	if(displayResult) {
 		updateQuestionHistogram(questionList[questionList.length-1]);

@@ -2,7 +2,7 @@
 var words = [];
 var cnt = 0;
 var ready = false;
-var Testname = 'Day2';
+var Testname = 'Day3';
 
 function questionRowForm(element) {
 	return '<tr>' + 
