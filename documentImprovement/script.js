@@ -1,5 +1,3 @@
-
-//var questionType = makeQuestionStruct("index time question answer");
 var currentPoint = -1;
 var questionList = [];
 var videoId = '5-ZFOhHQS68';
@@ -21,20 +19,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 //    after the API code downloads.
 var player;
 var contextStack = [];
-
-/*
-function makeQuestionStruct(names) {
-	var names = names.split(' ');
-	var count = names.length;
-
-	function constructor() {
-		for (var i = 0; i < count; i++) {
-			this[names[i]] = arguments[i];
-		}
-	}
-
-	return constructor;
-}*/
 
 function questionType(index, time, question, answer) {
 	return {
@@ -212,7 +196,18 @@ function onPlayerReady(event) {
 
 	/* ----------Context stack initialize----------- */
 
-	contextStack.push($('#mySlider'));
+	//contextStack.push($('#mySlider'));
+
+	/* ---------- Subtitle initialization --------- */
+
+}
+
+function prepareSubtitle() {
+	for(var i=1;i<subsInfo.length;i++){
+		$('#myTable tr:last').after('<tr><td>'+ subsInfo[i].statement + '</td></tr>');
+
+		//$('#myTable').append('<tr><td>' + subsInfo[i].statement + '</tr></td>');
+	}
 }
 
 function updateQuestionHistogram(element) {
@@ -249,6 +244,7 @@ function loadSubsInfoFromFirebase() {
 
 	getQuestionHistogram();
 	plotQuestionBar(-1);
+	prepareSubtitle();
 
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
@@ -576,6 +572,7 @@ $(document).ready(function() {
 	progressBarMouseEffectSetting();
 });
 
+
 /*
 function contextPush(element) {
 	if (contextStack.length == 1) {
@@ -673,8 +670,7 @@ function registerQuestion(time, statement, displayResult) {
 
 function displayQuestions(subsIndex) {
 	if(subsIndex != -1) {
-		$('#forDebugging').text("# of question : " + subsFrequency[subsIndex]);
-
+		//$('#forDebugging').text("# of question : " + subsFrequency[subsIndex]);
 		for(var i=0;i<questionList.length;i++) {
 			var myDiv = document.getElementById("question"+questionList[i].index);
 			if(subsInfo[subsIndex].start <= questionList[i].time && questionList[i].time < subsInfo[subsIndex].end) {

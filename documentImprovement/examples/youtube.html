@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-		<script>
-			jQuery(document).ready(function() {
-				$("#demo6").on("click", "li", function() {
-					alert($(this).text());
-				});
-
-				$("#demo6 button").on("click", function() {
-					$("#demo6 ul").append("<li>added</li>");
-				});
-			});
-		</script>
-
+		<title>test</title>
 	</head>
 	<body>
-
-		<div id="demo6">
-			<button>ADD</button>
-			<ul>
-				<li>test1</li>
-				<li>test2</li>
-				<li>test3</li>
-			</ul>
+		<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+		<div id="ytapiplayer">
+			You need Flash player 8+ and JavaScript enabled to view this video.
 		</div>
-	</body>
-</html>
 
+		<script type="text/javascript">
+
+			var params = { allowScriptAccess: "always" };
+var atts = { id: "myytplayer" };
+swfobject.embedSWF("http://www.youtube.com/v/QRS8MkLhQmM?enablejsapi=1&playerapiid=ytplayer&version=3",
+		"ytapiplayer", "640", "480", "8", null, null, params, atts);
+
+var stateChange = function(a) {
+	if (ytplayer.getOptions().indexOf("cc") !== -1) {
+		alert("closed captions are on");
+	} else {
+		alert("closed captions are off");
+	}
+}
+function onYouTubePlayerReady(playerId) {
+	ytplayer = document.getElementById("myytplayer");
+	ytplayer.addEventListener("onStateChange","stateChange");
+}
+</script></body>
+																																		  </html>
