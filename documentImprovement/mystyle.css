@@ -28,7 +28,10 @@ html, body { height: 100%; padding: 0; margin: 0; min-height: 100% ; width: 100%
 #submitBtn {margin: 8px;box-sizing: border-box;}
 #popBtn{margin: 8px;box-sizing: border-box;}
 
-.questionElement {background: #AB0; margin: 5px 5px 5px 5px; padding: 5px 5px 5px 5px; height: 150px; box-sizing: border-box; border: 3px solid black; white-space: pre-wrap; overflow: auto;}
+.questionElement {background: #AB0; margin: 5px 5px 5px 5px; padding: 5px 5px 5px 5px; height: 150px; box-sizing: border-box; border: 3px solid black; white-space: pre-wrap;}
+.questionContents {width: 100%; height: 85%; overflow: auto;}
+.likeBtn {float: right; margin: 1px 1px 1px 1px;}
+.expandBtn {float: right; margin: 1px 1px 1px 1px; width: 57px;}
 
 .stackElement {background: #FFF; width: 100%; height: 100%; box-sizing: border-box;}
 

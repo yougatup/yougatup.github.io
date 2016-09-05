@@ -1,5 +1,5 @@
 
-var questionType = makeQuestionStruct("index time question answer div");
+//var questionType = makeQuestionStruct("index time question answer");
 var currentPoint = -1;
 var questionList = [];
 var videoId = '5-ZFOhHQS68';
@@ -22,6 +22,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var contextStack = [];
 
+/*
 function makeQuestionStruct(names) {
 	var names = names.split(' ');
 	var count = names.length;
@@ -33,6 +34,15 @@ function makeQuestionStruct(names) {
 	}
 
 	return constructor;
+}*/
+
+function questionType(index, time, question, answer) {
+	return {
+		index: index,
+		time: time,
+		question: question,
+		answer: answer
+	};
 }
 
 function moveTimeline(percent) {
@@ -566,6 +576,7 @@ $(document).ready(function() {
 	progressBarMouseEffectSetting();
 });
 
+/*
 function contextPush(element) {
 	if (contextStack.length == 1) {
 		player.pauseVideo();
@@ -587,6 +598,7 @@ function contextPush(element) {
 
 	$('#leftFirst').append($newdiv);
 }
+*/
 
 /*
 function popBtnClicked() {
@@ -626,30 +638,28 @@ function getClickedIdx() {
 	return -1;
 }
 
-function returnQuestionDiv(element){
-	return '<div id="question' + element.index + '" class="questionElement">' +
-		element.question +
-		'</div>';
-}
-
 function registerQuestion(time, statement, displayResult) {
 	var idx = questionList.length;
 
-	var newQuestion = new questionType(idx, time, statement, '', '');
-	var divString = returnQuestionDiv(newQuestion);
+	var newQuestion = questionType(idx, time, statement, '');
+
+	var divString = 
+		'<div id="question' + newQuestion.index + '" class="questionElement">' +
+		'<div class="questionContents">' + 
+		newQuestion.question +
+		'</div>' +
+		'<div>' +
+		'<button id="expandBtn' + newQuestion.index + '" class="expandBtn"> expand </button>' +
+		'<button id="likeBtn' + newQuestion.index + '" class="likeBtn"> like </button>' +
+		'</div>' +
+		'</div>';
 
 	$('#rightSecond').html(divString + ($('#rightSecond').html()));
 
 	var $newdiv = document.getElementById("question"+idx);
-
-	//$newdiv.style.visibility = "hidden";
-
-	//$newdiv.hide();
-
-	newQuestion.div = $newdiv;
+	$newdiv.style.display = 'none';
 
 	questionList.push(newQuestion);
-	//$('#rightSecond').prepend($newdiv);
 
 	if(displayResult) {
 		updateQuestionHistogram(questionList[questionList.length-1]);
@@ -666,15 +676,17 @@ function displayQuestions(subsIndex) {
 		$('#forDebugging').text("# of question : " + subsFrequency[subsIndex]);
 
 		for(var i=0;i<questionList.length;i++) {
+			var myDiv = document.getElementById("question"+questionList[i].index);
 			if(subsInfo[subsIndex].start <= questionList[i].time && questionList[i].time < subsInfo[subsIndex].end) {
-				questionList[i].div.slideDown();
+				myDiv.style.display = 'block';
 			} else {
-				questionList[i].div.slideUp();
+				myDiv.style.display = 'none';
 			}
 		}
 	} else {
 		for(var i=0;i<questionList.length;i++) {
-			questionList[i].div.slideUp();
+			var myDiv = document.getElementById("question"+questionList[i].index);
+			myDiv.style.display = 'none';
 		}
 	}
 }
