@@ -5,7 +5,7 @@ var subsInfo = [];
 var subsFrequency = [];
 var questionRects = [];
 var clickedRect;
-var rightDivAppeared = false;
+var rightDivAppeared = true;
 
 // Newton's first law of motion 2 : D1NubiWCpQg
 
@@ -40,6 +40,29 @@ function moveTimeline(percent) {
 
 	c.fillStyle = "#AAA";
 	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
+
+	var current = (player.getDuration() * percent) * 10;
+
+	var questionCtx = document.getElementById("questionBar");
+	var questionC = questionCtx.getContext("2d");
+
+	for(var i=1;i<subsInfo.length;i++) {
+		var rectIdx = subsInfo[i].rect;
+
+		if(subsInfo[i].isClicked == true){
+			questionC.fillStyle = "red";
+		questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
+		}
+		else if(subsInfo[i].start <= current && current < subsInfo[i].end) {
+			questionC.fillStyle = "green";
+			subsInfo[i].row.style.background = "yellow";
+			questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
+		} else {
+			//questionC.fillStyle = "black";
+			subsInfo[i].row.style.background = "#CCC";
+		}
+
+	}
 }
 
 function plotQuestionBar(clickedIndex) {
@@ -82,20 +105,23 @@ function plotQuestionBar(clickedIndex) {
 			isClicked = true;
 		}
 
+		subsInfo[i].isClicked = isClicked;
+
 		questionRects.push( {
 			x: startPoint, 
 			y: (c.canvas.height - myHeight), 
 			w: endPoint - startPoint, 
 			h: myHeight,
-			c: isClicked,
 			i: i
 		});
+
+		subsInfo[i].rect = questionRects.length-1;;
 	}
 
 	c.fillStyle = "#000000";
 
 	for(var i=0;i<questionRects.length;i++) {
-		if(questionRects[i].c == true) c.fillStyle = "red";
+		if(subsInfo[questionRects[i].i].isClicked == true) c.fillStyle = "red";
 		else c.fillStyle = "#000000";
 
 		c.fillRect(questionRects[i].x, questionRects[i].y, questionRects[i].w, questionRects[i].h);
@@ -202,14 +228,6 @@ function onPlayerReady(event) {
 
 }
 
-function prepareSubtitle() {
-	for(var i=1;i<subsInfo.length;i++){
-		$('#myTable tr:last').after('<tr><td>'+ subsInfo[i].statement + '</td></tr>');
-
-		//$('#myTable').append('<tr><td>' + subsInfo[i].statement + '</tr></td>');
-	}
-}
-
 function updateQuestionHistogram(element) {
 	for(var i=1;i<subsInfo.length;i++){
 		if(subsInfo[i].start <= element.time && element.time < subsInfo[i].end){
@@ -234,17 +252,25 @@ function loadSubsInfoFromFirebase() {
 		var obj = snapshot.val()
 		for (var key in obj) {
 			if (obj.hasOwnProperty(key)) {
+				$('#myTable tr:last').after(
+				'<tr id="myRow' + obj[key].index + '"><td>'+ obj[key].statement + '</td></tr>'
+				);
+
+				var myRow = document.getElementById("myRow" + obj[key].index);
+
 				subsInfo[obj[key].index] = {
 					'start': obj[key].start,
-		'end': obj[key].end,
-		'statement': obj[key].statement
+					'end': obj[key].end,
+					'statement': obj[key].statement,
+					'isClicked': false,
+					'rect': '', 
+					'row': myRow,
 				};
 			}
 		}
 
 	getQuestionHistogram();
 	plotQuestionBar(-1);
-	prepareSubtitle();
 
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
@@ -356,6 +382,7 @@ function questionBarMouseEffectSetting() {
 		var x = e.clientX - rect.left;
 		var y = e.clientY - rect.top;
 		var selectedIdx = -1;
+		var current = Number(player.getCurrentTime() * 1000);
 
 		c.clearRect(0, 0, c.canvas.width, c.canvas.height);
 
@@ -365,19 +392,27 @@ function questionBarMouseEffectSetting() {
 			c.beginPath();
 			c.rect(r.x, 0, r.w, c.canvas.height);
 
-			if(rightDivAppeared && (r.c == true || c.isPointInPath(x, y))) {
-				if(selectedIdx == -1 && r.c == true) 
+			if(rightDivAppeared && (subsInfo[r.i].isClicked == true || c.isPointInPath(x, y))) {
+				if(selectedIdx == -1 && subsInfo[r.i].isClicked == true) {
 					selectedIdx = r.i;
-
-				c.fillStyle = "red";
+					c.fillStyle = "red";
+				} else {
+					c.fillStyle = "green";
+					//subsInfo[r.i].row.style.background = "yellow";
+				}
+			} else if(subsInfo[r.i].start <= current && current < subsInfo[r.i].end) {
+				c.fillStyle = "green";
+					subsInfo[r.i].row.style.background = "yellow";
 			} else {
 				c.fillStyle = "black";
+				subsInfo[r.i].row.style.background = "#CCC";
 			}
 
 			c.beginPath();
 			c.rect(r.x, r.y, r.w, r.h);
 			c.fill();
 		}
+
 
 		displayQuestions(selectedIdx);
 	}
@@ -395,7 +430,7 @@ function questionBarMouseEffectSetting() {
 		c.moveTo(posX, 0);
 		c.lineTo(posX, c.canvas.height);
 
-		c.strokeStyle = "red";
+		c.strokeStyle = "green";
 		c.stroke();
 	}
 
@@ -430,12 +465,12 @@ function questionBarMouseEffectSetting() {
 
 			if(idx == -1) {
 				for(var i=0;i<questionRects.length;i++) {
-					questionRects[i].c = false;
+					subsInfo[questionRects[i].i].isClicked = false;
 				}
 			} else {
 				for(var i=0;i<questionRects.length;i++) {
-					if(i == idx) questionRects[i].c = true;
-					else questionRects[i].c = false;
+					if(i == idx) subsInfo[questionRects[i].i].isClicked = true;
+					else subsInfo[questionRects[i].i].isClicked = false;
 				}
 			}
 
@@ -476,6 +511,8 @@ function progressBarMouseEffectSetting() {
 		if(mouseIsDown) mouseClick(e, x, y);
 
 		mouseIsDown = false;
+
+		c.fillStyle = "blue";
 
 		function mouseClick(e, x, y) {
 			var relativePosition = (x / c.canvas.width);
@@ -553,6 +590,14 @@ $(document).ready(function() {
 	$('#disappearBtn').click(function() {
 		disappearBtnClicked();
 	});
+
+	$('#leftSecond').on("mouseover", ".captionTable tr", function() {
+		//captionOver($(this));
+	});
+
+	$('#leftSecond').on("mouseleave", ".captionTable tr", function() {
+		//captionLeave($(this));
+	});
 /*
 	$('#popBtn').click(function() {
 		popBtnClicked();
@@ -572,6 +617,13 @@ $(document).ready(function() {
 	progressBarMouseEffectSetting();
 });
 
+function captionOver(row) {
+	row.css("background", "yellow");
+}
+
+function captionLeave(row) {
+	row.css("background", "#CCC");
+}
 
 /*
 function contextPush(element) {
@@ -627,7 +679,7 @@ function clearQuestionBox() {
 
 function getClickedIdx() {
 	for(var i=0;i<questionRects.length;i++) {
-		if(questionRects[i].c == true) {
+		if(subsInfo[questionRects[i].i].isClicked == true) {
 			return questionRects[i].i;
 		}
 	}
