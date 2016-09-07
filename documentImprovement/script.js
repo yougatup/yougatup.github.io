@@ -29,6 +29,21 @@ function questionType(index, time, question, answer) {
 	};
 }
 
+var currentRow = -1;
+
+function focusRow(index) {
+	if(currentRow != -1) {
+		subsInfo[currentRow].row.style.background = "#CCC";
+	}
+
+	subsInfo[index].row.style.background = "yellow";
+	currentRow = index;
+	
+	$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - subsInfo[index].row.style.height);
+
+	//$("#leftSecond").scrollTo(subsInfo[index].row.offsetTop);
+}
+
 function moveTimeline(percent) {
 	var ctx = document.getElementById("progressBar");
 	var c = ctx.getContext("2d");
@@ -51,17 +66,14 @@ function moveTimeline(percent) {
 
 		if(subsInfo[i].isClicked == true){
 			questionC.fillStyle = "red";
-		questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
+			questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
 		}
 		else if(subsInfo[i].start <= current && current < subsInfo[i].end) {
 			questionC.fillStyle = "green";
-			subsInfo[i].row.style.background = "yellow";
 			questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
-		} else {
-			//questionC.fillStyle = "black";
-			subsInfo[i].row.style.background = "#CCC";
-		}
 
+			focusRow(i);
+		}
 	}
 }
 
@@ -398,14 +410,14 @@ function questionBarMouseEffectSetting() {
 					c.fillStyle = "red";
 				} else {
 					c.fillStyle = "green";
-					//subsInfo[r.i].row.style.background = "yellow";
 				}
 			} else if(subsInfo[r.i].start <= current && current < subsInfo[r.i].end) {
 				c.fillStyle = "green";
-					subsInfo[r.i].row.style.background = "yellow";
+				focusRow(r.i);
+					//subsInfo[r.i].row.style.background = "yellow";
 			} else {
 				c.fillStyle = "black";
-				subsInfo[r.i].row.style.background = "#CCC";
+				//subsInfo[r.i].row.style.background = "#CCC";
 			}
 
 			c.beginPath();

@@ -1,0 +1,54 @@
+#include <iostream>
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+using namespace std;
+class MyClass{
+	public:
+		int x, y, z;
+		MyClass(int _x = 0, int _y = 0, int _z = 0) {
+			x = _x; y = _y; z = _z;
+		}
+};
+bool LargerFirst (const MyClass &s, const MyClass &t){
+	if(s.x > t.x) return true;
+	else if(s.x == t.x){
+		if(s.y > t.y) return true;
+		else if(s.y == t.y){
+			if(s.z > t.z) return true;
+			else return false;
+		}
+		else return false;
+	}
+	else return false;
+}
+bool operator< (const MyClass& s, const MyClass& t){
+	if(t.x > s.x) return true;
+	else if(t.x == s.x){
+		if(t.y > s.y) return true;
+		else if(t.y == s.y){
+			if(t.z > s.z) return true;
+			else return false;
+		}
+		else return false;
+	}
+	else return false;
+}
+int main(){
+	MyClass obj1(1, 2, 3);
+	MyClass obj2(4, 5, 6);
+	MyClass obj3;
+
+	vector <MyClass> my_vector;
+	MyClass A, B;
+
+	my_vector.push_back(obj1);
+	my_vector.push_back(obj2);
+	my_vector.push_back(MyClass(5, 5, 5));
+	my_vector.push_back(MyClass(2, 2, 2));
+	my_vector.push_back(MyClass(10, 9, 8));
+
+	sort(my_vector.begin(), my_vector.end());
+	sort(my_vector.begin(), my_vector.end(), LargerFirst);
+	return 0;
+}
