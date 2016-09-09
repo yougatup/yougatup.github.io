@@ -4,7 +4,7 @@ var videoId = '5-ZFOhHQS68';
 var subsInfo = [];
 var subsFrequency = [];
 var questionRects = [];
-var clickedRect;
+var clickedRect = -1;
 var rightDivAppeared = true;
 
 var subTitleMouseOver = false;
@@ -33,19 +33,36 @@ function questionType(index, time, question, answer) {
 
 var currentRow = -1;
 
-function focusRow(index) {
-	if(currentRow != -1) {
-		subsInfo[currentRow].row.style.background = "#CCC";
+function fillMyRect(index, color) {
+	var questionCtx = document.getElementById("questionBar");
+	var questionC = questionCtx.getContext("2d");
+
+	questionC.fillStyle = color;
+	questionC.fillRect(questionRects[index].x, questionRects[index].y, questionRects[index].w, questionRects[index].h);
+}
+
+function focusRow(index, scroll) {
+	if(index != currentRow){
+		if(currentRow != -1) {
+			if(subsInfo[currentRow].rect != clickedRect){
+				subsInfo[currentRow].row.style.background = "#CCC";
+				fillMyRect(subsInfo[currentRow].rect, "black");
+			}
+		}
+
+		currentRow = index;
+
+		if(subsInfo[index].rect != clickedRect){
+			fillMyRect(subsInfo[index].rect, "green");
+			subsInfo[currentRow].row.style.background = "yellow";
+		}
 	}
 
-	subsInfo[index].row.style.background = "yellow";
-	currentRow = index;
-	
-	if(!subTitleMouseOver)
+	if(scroll == true)
 		$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - 30);
 }
 
-function moveTimeline(percent) {
+function moveTimeline(percent, timeLineOnly) {
 	var ctx = document.getElementById("progressBar");
 	var c = ctx.getContext("2d");
 
@@ -57,34 +74,20 @@ function moveTimeline(percent) {
 	c.fillStyle = "#AAA";
 	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
 
-	var current = (player.getDuration() * percent) * 10;
+	if(!timeLineOnly){
+		var current = (player.getDuration() * percent) * 10;
 
-	var questionCtx = document.getElementById("questionBar");
-	var questionC = questionCtx.getContext("2d");
+		for(var i=1;i<subsInfo.length;i++) {
+			var rectIdx = subsInfo[i].rect;
 
-	for(var i=1;i<subsInfo.length;i++) {
-		var rectIdx = subsInfo[i].rect;
-
-		if(subsInfo[i].isClicked == true){
-			questionC.fillStyle = "red";
-			questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
-		}
-		else if(subsInfo[i].start <= current && current < subsInfo[i].end) {
-			questionC.fillStyle = "green";
-			questionC.fillRect(questionRects[rectIdx].x, questionRects[rectIdx].y, questionRects[rectIdx].w, questionRects[rectIdx].h);
-
-			focusRow(i);
+			if(subsInfo[i].start <= current && current < subsInfo[i].end) {
+				focusRow(i, !subTitleMouseOver);
+			}
 		}
 	}
 }
 
 function plotQuestionBar(clickedIndex) {
-	/*
-	// straight-forward way !
-	for(var i=0;i<questionList.length;i++){
-	plotSingleQuestion(questionList[i].time);
-	}*/
-
 	var max = 0;
 	for(var i=0;i<subsFrequency.length;i++) {
 		if(max < subsFrequency[i])
@@ -95,13 +98,6 @@ function plotQuestionBar(clickedIndex) {
 	var c = ctx.getContext("2d");
 
 	c.clearRect(0, 0, c.canvas.width, c.canvas.height);
-
-	clickedRects = {
-		x: -1,
-		y: -1,
-		w: -1,
-		h: -1
-	};
 
 	questionRects = [];
 
@@ -222,7 +218,7 @@ function onPlayerReady(event) {
 
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
-		moveTimeline(playerTimeDifference);
+		moveTimeline(playerTimeDifference, subTitleMouseOver);
 	}, 100);        
 
 	/* --------- Initialize question list --------- */
@@ -384,6 +380,30 @@ function stopVideo() {
 	player.stopVideo();
 }
 
+function barClick(index){
+	if(index == -1) {
+		for(var i=0;i<questionRects.length;i++) {
+			subsInfo[questionRects[i].i].isClicked = false;
+		}
+	} else {
+		for(var i=0;i<questionRects.length;i++) {
+			if(i == index) subsInfo[questionRects[i].i].isClicked = true;
+			else subsInfo[questionRects[i].i].isClicked = false;
+		}
+	}
+
+	if(clickedRect != -1){
+		fillMyRect(clickedRect, "black");
+		subsInfo[questionRects[clickedRect].i].row.style.background = "#CCC";
+	}
+
+	clickedRect = index;
+
+	fillMyRect(clickedRect, "red");
+	displayQuestions(questionRects[clickedRect].i);
+	subsInfo[questionRects[clickedRect].i].row.style.background = "lightgreen";
+}
+
 function questionBarMouseEffectSetting() {
 	var ctx = document.getElementById("questionBar");
 	var c = ctx.getContext("2d");
@@ -394,10 +414,7 @@ function questionBarMouseEffectSetting() {
 		var rect = c.canvas.getBoundingClientRect();
 		var x = e.clientX - rect.left;
 		var y = e.clientY - rect.top;
-		var selectedIdx = -1;
 		var current = Number(player.getCurrentTime() * 1000);
-
-		c.clearRect(0, 0, c.canvas.width, c.canvas.height);
 
 		for(var i=0;i<questionRects.length;i++) {
 			var r = questionRects[i];
@@ -405,29 +422,10 @@ function questionBarMouseEffectSetting() {
 			c.beginPath();
 			c.rect(r.x, 0, r.w, c.canvas.height);
 
-			if(rightDivAppeared && (subsInfo[r.i].isClicked == true || c.isPointInPath(x, y))) {
-				if(selectedIdx == -1 && subsInfo[r.i].isClicked == true) {
-					selectedIdx = r.i;
-					c.fillStyle = "red";
-				} else {
-					c.fillStyle = "green";
-				}
-			} else if(subsInfo[r.i].start <= current && current < subsInfo[r.i].end) {
-				c.fillStyle = "green";
-				focusRow(r.i);
-					//subsInfo[r.i].row.style.background = "yellow";
-			} else {
-				c.fillStyle = "black";
-				//subsInfo[r.i].row.style.background = "#CCC";
-			}
-
-			c.beginPath();
-			c.rect(r.x, r.y, r.w, r.h);
-			c.fill();
+			if(rightDivAppeared && c.isPointInPath(x, y)) {
+				focusRow(r.i, true);
+			} 
 		}
-
-
-		displayQuestions(selectedIdx);
 	}
 
 
@@ -458,7 +456,7 @@ function questionBarMouseEffectSetting() {
 
 		if(mouseIsDown && rightDivAppeared) mouseClick(e, x, y);
 
-		drawCursorLine(e);
+		//drawCursorLine(e);
 		mouseIsDown = false;
 
 		function mouseClick(e, x, y) {
@@ -476,28 +474,19 @@ function questionBarMouseEffectSetting() {
 				}
 			}
 
-			if(idx == -1) {
-				for(var i=0;i<questionRects.length;i++) {
-					subsInfo[questionRects[i].i].isClicked = false;
-				}
-			} else {
-				for(var i=0;i<questionRects.length;i++) {
-					if(i == idx) subsInfo[questionRects[i].i].isClicked = true;
-					else subsInfo[questionRects[i].i].isClicked = false;
-				}
-			}
-
-			checkcolor(e);
+			barClick(idx);
 		}
 	}
 
 	c.canvas.onmousemove = function(e) {
+		subTitleMouseOver = true;
 		checkcolor(e);
-		drawCursorLine(e);
+	//	drawCursorLine(e);
 	}
 
 	c.canvas.onmouseleave = function(e) {
 		checkcolor(e);
+		subTitleMouseOver = false;
 
 		// not to draw cursor line
 	}
@@ -525,23 +514,25 @@ function progressBarMouseEffectSetting() {
 
 		mouseIsDown = false;
 
-		c.fillStyle = "blue";
+	//	c.fillStyle = "blue";
 
 		function mouseClick(e, x, y) {
 			var relativePosition = (x / c.canvas.width);
 
-			moveTimeline(relativePosition);
+			moveTimeline(relativePosition, false);
 			player.seekTo(relativePosition * player.getDuration());
 		}
 	}
 
+	/*
 	c.canvas.onmousemove = function(e) {
-		questionBarC.canvas.onmousemove(e);
+	//	questionBarC.canvas.onmousemove(e);
 	}
 
 	c.canvas.onmouseleave = function(e) {
-		questionBarC.canvas.onmouseleave(e);
+	//	questionBarC.canvas.onmouseleave(e);
 	}
+	*/
 }
 
 function appearBtnClicked() {
@@ -611,10 +602,23 @@ $(document).ready(function() {
 	$('#leftSecond').on("mouseleave", ".captionTable", function() {
 		subTitleMouseOver = false;
 	});
-/*
-	$('#popBtn').click(function() {
-		popBtnClicked();
-	});*/
+
+	$('#leftSecond').on("mouseover", ".captionTable tr", function() {
+		for(var i=1;i<subsInfo.length;i++) {
+			if(subsInfo[i].row == this) {
+				focusRow(i, false);
+			}
+		}
+	});
+
+	$('#leftSecond').on("click", ".captionTable tr", function() {
+		for(var i=1;i<subsInfo.length;i++) {
+			if(subsInfo[i].row == this) {
+				barClick(subsInfo[i].rect);
+				break;
+			}
+		}
+	});
 
 	/* ------ Question div click event handling ------  */
 /*
