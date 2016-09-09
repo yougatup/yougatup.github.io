@@ -7,6 +7,8 @@ var questionRects = [];
 var clickedRect;
 var rightDivAppeared = true;
 
+var subTitleMouseOver = false;
+
 // Newton's first law of motion 2 : D1NubiWCpQg
 
 var tag = document.createElement('script');
@@ -39,9 +41,8 @@ function focusRow(index) {
 	subsInfo[index].row.style.background = "yellow";
 	currentRow = index;
 	
-	$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - subsInfo[index].row.style.height);
-
-	//$("#leftSecond").scrollTo(subsInfo[index].row.offsetTop);
+	if(!subTitleMouseOver)
+		$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - 30);
 }
 
 function moveTimeline(percent) {
@@ -603,12 +604,12 @@ $(document).ready(function() {
 		disappearBtnClicked();
 	});
 
-	$('#leftSecond').on("mouseover", ".captionTable tr", function() {
-		//captionOver($(this));
+	$('#leftSecond').on("mouseover", ".captionTable", function() {
+		subTitleMouseOver = true;
 	});
 
-	$('#leftSecond').on("mouseleave", ".captionTable tr", function() {
-		//captionLeave($(this));
+	$('#leftSecond').on("mouseleave", ".captionTable", function() {
+		subTitleMouseOver = false;
 	});
 /*
 	$('#popBtn').click(function() {
