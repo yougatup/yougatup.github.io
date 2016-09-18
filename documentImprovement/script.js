@@ -75,7 +75,7 @@ function moveTimeline(percent, timeLineOnly) {
 	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
 
 	if(!timeLineOnly){
-		var current = (player.getDuration() * percent) * 10;
+		var current = (getVideoDuration() * percent) * 10;
 
 		for(var i=1;i<subsInfo.length;i++) {
 			var rectIdx = subsInfo[i].rect;
@@ -87,6 +87,9 @@ function moveTimeline(percent, timeLineOnly) {
 	}
 }
 
+function getVideoDuration() {
+	return player.getDuration();
+}
 function plotQuestionBar(clickedIndex) {
 	var max = 0;
 	for(var i=0;i<subsFrequency.length;i++) {
@@ -104,8 +107,8 @@ function plotQuestionBar(clickedIndex) {
 	for(var i=1;i<subsFrequency.length;i++) { // subsInfo starts from 1
 		// plot rectangle in subsInfo[i].start ~ subsInfo[i].end
 
-		var startPoint = ((subsInfo[i].start/1000) / player.getDuration()) * c.canvas.width;
-		var endPoint = ((subsInfo[i].end/1000) / player.getDuration()) * c.canvas.width;
+		var startPoint = ((subsInfo[i].start/1000) / getVideoDuration()) * c.canvas.width;
+		var endPoint = ((subsInfo[i].end/1000) / getVideoDuration()) * c.canvas.width;
 		var myHeight = (subsFrequency[i] / max) * c.canvas.height;
 
 		var isClicked = false;
@@ -145,7 +148,7 @@ function plotSingleQuestion(questionTime) {
 		var ctx = document.getElementById("questionBar");
 		var c = ctx.getContext("2d");
 
-		var playerTotalTime = player.getDuration();
+		var playerTotalTime = getVideoDuration();
 		var relativePosition = (questionTime / playerTotalTime) * 100;
 
 		var drawPosition = relativePosition * c.canvas.width / 100;
@@ -211,10 +214,10 @@ function onPlayerReady(event) {
 
 	/* ------ Preparing for regular job ----- */
 
-	var playerTotalTime = player.getDuration();
+	var playerTotalTime = getVideoDuration();
 
 	setInterval(function() {
-		var playerCurrentTime = player.getCurrentTime();
+		var playerCurrentTime = getVideoCurrentTime();
 
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
@@ -402,6 +405,28 @@ function barClick(index){
 	fillMyRect(clickedRect, "red");
 	displayQuestions(questionRects[clickedRect].i);
 	subsInfo[questionRects[clickedRect].i].row.style.background = "lightgreen";
+
+	$('#timeArea').html("My question was raised at " + printTime(subsInfo[questionRects[clickedRect].i].start) + " ~ " + printTime(subsInfo[questionRects[clickedRect].i].end));
+
+}
+
+function printTime(time) {
+	time = time / 1000;
+
+	var h = parseInt(time/60/60);
+	time = time - h * 60 * 60;
+
+	var m = parseInt(time/60);
+	time = time - m * 60;
+
+	s = parseInt(time);
+
+	if(h > 0) return h + ":" + m + ":" + s;
+	else return m + ":" + s;
+}
+
+function getVideoCurrentTime() {
+	return player.getCurrentTime();
 }
 
 function questionBarMouseEffectSetting() {
@@ -414,7 +439,7 @@ function questionBarMouseEffectSetting() {
 		var rect = c.canvas.getBoundingClientRect();
 		var x = e.clientX - rect.left;
 		var y = e.clientY - rect.top;
-		var current = Number(player.getCurrentTime() * 1000);
+		var current = Number(getVideoCurrentTime() * 1000);
 
 		for(var i=0;i<questionRects.length;i++) {
 			var r = questionRects[i];
@@ -492,6 +517,10 @@ function questionBarMouseEffectSetting() {
 	}
 }
 
+function videoSeekTo(position) {
+	player.seekTo(position);
+}
+
 function progressBarMouseEffectSetting() {
 	var ctx = document.getElementById("progressBar");
 	var c = ctx.getContext("2d");
@@ -520,7 +549,7 @@ function progressBarMouseEffectSetting() {
 			var relativePosition = (x / c.canvas.width);
 
 			moveTimeline(relativePosition, false);
-			player.seekTo(relativePosition * player.getDuration());
+			videoSeekTo(relativePosition * getVideoDuration());
 		}
 	}
 
@@ -679,7 +708,7 @@ function popBtnClicked() {
 */
 
 function submitBtnClicked() {
-	var playerCurrentTime = Number(player.getCurrentTime() * 1000);
+	var playerCurrentTime = Number(getVideoCurrentTime() * 1000);
 
 	registerQuestion(playerCurrentTime, getQuestionStatement(), true);
 	writeToDB(playerCurrentTime, getQuestionStatement(), '');
