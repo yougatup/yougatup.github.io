@@ -6,8 +6,10 @@ var subsFrequency = [];
 var questionRects = [];
 var clickedRect = -1;
 var rightDivAppeared = true;
-
 var subTitleMouseOver = false;
+var playTimeDiv = document.getElementById("playTime");
+var playBtn = document.getElementById("playBtn");
+var pauseBtn = document.getElementById("pauseBtn");
 
 // Newton's first law of motion 2 : D1NubiWCpQg
 
@@ -52,9 +54,11 @@ function focusRow(index, scroll) {
 
 		currentRow = index;
 
-		if(subsInfo[index].rect != clickedRect){
-			fillMyRect(subsInfo[index].rect, "green");
-			subsInfo[currentRow].row.style.background = "yellow";
+		if(currentRow != -1) {
+			if(subsInfo[currentRow].rect != clickedRect){
+				fillMyRect(subsInfo[currentRow].rect, "green");
+				subsInfo[currentRow].row.style.background = "yellow";
+			}
 		}
 	}
 
@@ -74,22 +78,39 @@ function moveTimeline(percent, timeLineOnly) {
 	c.fillStyle = "#AAA";
 	c.fillRect(progressBarWidth, 0, c.canvas.width, c.canvas.height);
 
+	$('#playTime').html(printTime(getVideoCurrentTime() * 1000) + " / " + printTime(getVideoDuration() * 1000));
+
 	if(!timeLineOnly){
 		var current = (getVideoDuration() * percent) * 10;
+		var flag = false;
 
 		for(var i=1;i<subsInfo.length;i++) {
 			var rectIdx = subsInfo[i].rect;
 
 			if(subsInfo[i].start <= current && current < subsInfo[i].end) {
+				flag = true;
 				focusRow(i, !subTitleMouseOver);
 			}
+		}
+		
+		if(!flag) {
+			focusRow(-1, !subTitleMouseOver);
 		}
 	}
 }
 
-function getVideoDuration() {
-	return player.getDuration();
+function getVideoCurrentTime() {
+	return player.currentTime;
 }
+
+function getVideoDuration() {
+	return player.duration;
+}
+
+function videoSeekTo(position) {
+	player.currentTime = position;
+}
+
 function plotQuestionBar(clickedIndex) {
 	var max = 0;
 	for(var i=0;i<subsFrequency.length;i++) {
@@ -164,80 +185,10 @@ function plotSingleQuestion(questionTime) {
 	}
 }
 
-
-
-function onYouTubeIframeAPIReady() {
-	player = new YT.Player('mySlider', {
-		height: '540',
-		   width: '960',
-		   videoId: videoId,
-		   playerVars: {
-			   'modestbranding' : 1,
-		   'rel' : 0,
-		   'showinfo' : 0
-		   },
-		   events: {
-					   'onReady': onPlayerReady,
-		   'onStateChange': onPlayerStateChange
-				   }
-	});
-}
-
 function resizeCanvas(elementId, width, height) {
 	c = document.getElementById(elementId);
 	c.setAttribute('width', width);
 	c.setAttribute('height', height);
-}
-
-// 4. The API will call this function when the video player is ready.
-function onPlayerReady(event) {
-	//event.target.playVideo();
-	clearQuestionBox();
-
-	/* ------ bind ctrl + l to submitting question -- */
-
-	jQuery('#questionBox').bind('keydown', 'ctrl+l', submitBtnClicked);
-
-	/* ------ Progress Bar Initialization ------ */
-
-	var progressBarWidth = $('#progressBar').width();
-	var progressBarHeight = $('#progressBar').height();
-
-	var questionBarWidth = $('#questionBar').width();
-	var questionBarHeight = $('#questionBar').height();
-
-	resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
-	resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
-
-	$('#progressBar').show();
-	$('#questionBar').show();
-
-	/* ------ Preparing for regular job ----- */
-
-	var playerTotalTime = getVideoDuration();
-
-	setInterval(function() {
-		var playerCurrentTime = getVideoCurrentTime();
-
-		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
-
-		moveTimeline(playerTimeDifference, subTitleMouseOver);
-	}, 100);        
-
-	/* --------- Initialize question list --------- */
-
-	loadDataFromFirebase();
-
-	/* --------- Initialize subtitle information ---- */
-
-	loadSubsInfoFromFirebase();
-
-	/* ----------Context stack initialize----------- */
-
-	//contextStack.push($('#mySlider'));
-
-	/* ---------- Subtitle initialization --------- */
-
 }
 
 function updateQuestionHistogram(element) {
@@ -421,13 +372,14 @@ function printTime(time) {
 
 	s = parseInt(time);
 
+	h = ("0" + h).slice(-2);
+	m = ("0" + m).slice(-2);
+	s = ("0" + s).slice(-2);
+
 	if(h > 0) return h + ":" + m + ":" + s;
 	else return m + ":" + s;
 }
 
-function getVideoCurrentTime() {
-	return player.getCurrentTime();
-}
 
 function questionBarMouseEffectSetting() {
 	var ctx = document.getElementById("questionBar");
@@ -517,9 +469,6 @@ function questionBarMouseEffectSetting() {
 	}
 }
 
-function videoSeekTo(position) {
-	player.seekTo(position);
-}
 
 function progressBarMouseEffectSetting() {
 	var ctx = document.getElementById("progressBar");
@@ -546,10 +495,10 @@ function progressBarMouseEffectSetting() {
 	//	c.fillStyle = "blue";
 
 		function mouseClick(e, x, y) {
-			var relativePosition = (x / c.canvas.width);
+			var relativePosition = (x / c.canvas.width) * 100;
 
 			moveTimeline(relativePosition, false);
-			videoSeekTo(relativePosition * getVideoDuration());
+			videoSeekTo(relativePosition/100 * getVideoDuration());
 		}
 	}
 
@@ -609,8 +558,58 @@ function disappearBtnClicked() {
 
 }
 
-$(document).ready(function() {
-	/* ------ Submit button click event handling ------  */
+function loadVideo() {
+	player = document.getElementById("myVideo");
+}
+
+
+function prepare() {
+	//event.target.playVideo();
+	clearQuestionBox();
+
+	/* ------ bind ctrl + l to submitting question -- */
+
+	jQuery('#questionBox').bind('keydown', 'ctrl+l', submitBtnClicked);
+
+	/* ------ Progress Bar Initialization ------ */
+
+	var progressBarWidth = $('#progressBar').width();
+	var progressBarHeight = $('#progressBar').height();
+
+	var questionBarWidth = $('#questionBar').width();
+	var questionBarHeight = $('#questionBar').height();
+
+	resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
+	resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
+
+	$('#progressBar').show();
+	$('#questionBar').show();
+
+	/* ------ Preparing for regular job ----- */
+
+	setInterval(function() {
+		var playerTotalTime = getVideoDuration();
+
+		var playerCurrentTime = getVideoCurrentTime();
+
+		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
+
+		moveTimeline(playerTimeDifference, subTitleMouseOver);
+	}, 100);        
+
+	/* --------- Initialize question list --------- */
+
+	loadDataFromFirebase();
+
+	/* --------- Initialize subtitle information ---- */
+
+	loadSubsInfoFromFirebase();
+
+	/* ----------Context stack initialize----------- */
+
+	//contextStack.push($('#mySlider'));
+
+	/* ---------- Subtitle initialization --------- */
 
 	$('#submitBtn').click(function() {
 		submitBtnClicked();
@@ -624,6 +623,13 @@ $(document).ready(function() {
 		disappearBtnClicked();
 	});
 
+	$('#playBtn').click(function() {
+		player.play();
+	});
+
+	$('#pauseBtn').click(function() {
+		player.pause();
+	});
 	$('#leftSecond').on("mouseover", ".captionTable", function() {
 		subTitleMouseOver = true;
 	});
@@ -661,6 +667,13 @@ $(document).ready(function() {
 
 	/* ------ play bar mouse move setting ------ */
 	progressBarMouseEffectSetting();
+}
+$(document).ready(function() {
+	/* ------ Submit button click event handling ------  */
+
+	loadVideo();
+
+	prepare();
 });
 
 function captionOver(row) {

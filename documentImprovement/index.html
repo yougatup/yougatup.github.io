@@ -16,12 +16,9 @@
 		<div id="main">
 			<div id="leftDiv">
 				<div id="leftFirst">
-					<div id="mySlider" class="bxslider">
-					</div>
-				</div>
-				<div id="bars">
-					<canvas id="progressBar"> </canvas>
-					<canvas id="questionBar"> </canvas> 
+					<video id="myVideo" autobuffer >
+						<source id="mp4" src="./video/NL1.mp4" type="video/mp4">
+					</video>
 				</div>
 				<div id="leftSecond">
 					<!--
@@ -32,10 +29,18 @@
 
 					<div id=forDebugging> </div>
 					-->
-
 					<table id="myTable" class="captionTable" style="width: 100%">
 						<tr> Subtitle </tr>
 					</table>
+				</div>
+				<div id="bars">
+					<div id="playBar">  
+						<div id="playTime" style="display: inline"> 0:00 / 0:00 </div>
+						<button id="playBtn" style="display: inline"> play </button>
+						<button id="pauseBtn" style="display: inline"> pause </button>
+					</div>
+					<canvas id="progressBar"> </canvas>
+					<canvas id="questionBar"> </canvas> 
 				</div>
 			</div>
 			<div id="rightDiv">
