@@ -3,12 +3,11 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="mystyle.css">
 
-		<script src="./html2canvas.js"></script>
 		<script src="//cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="./jquery.hotkeys/jquery.hotkeys.js"></script>
-		<script src="./THREEx.screenshot.js"></script>
+		<script src="./sketch.js"></script>
 		
 		<script src="./script.js"></script>
 	</head>
@@ -38,6 +37,9 @@
 						<div id="playTime" style="display: inline"> 0:00 / 0:00 </div>
 						<button id="playBtn" style="display: inline"> play </button>
 						<button id="pauseBtn" style="display: inline"> pause </button>
+						<button id="annotateBtn" style="display: inline"> annotate </button>
+						<button id="backVideoBtn" style="display: inline"> back to video </button>
+						<a href="#myCanvas" data-download="png" style="float: right; width: 100px;">Download</a>
 					</div>
 					<canvas id="progressBar"> </canvas>
 					<canvas id="questionBar"> </canvas> 

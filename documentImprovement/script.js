@@ -7,6 +7,8 @@ var questionRects = [];
 var clickedRect = -1;
 var rightDivAppeared = true;
 var subTitleMouseOver = false;
+var myVideo = document.getElementById("myVideo");
+var myCanvas;
 var playTimeDiv = document.getElementById("playTime");
 var playBtn = document.getElementById("playBtn");
 var pauseBtn = document.getElementById("pauseBtn");
@@ -562,10 +564,79 @@ function loadVideo() {
 	player = document.getElementById("myVideo");
 }
 
+function isNowPlaying() {
+	return !player.paused;
+}
+
+function toggleVideoStatus() {
+	if(isNowPlaying()) pauseVideo();
+	else playVideo();
+}
+
+function playVideo() {
+	player.play();
+}
+
+function pauseVideo() {
+	player.pause();
+}
+
+function backToVideo() {
+	var canvas = document.getElementById("myCanvas");
+
+	canvas.style.display = "none";
+	myVideo.style.display = "inline";
+}
+
+function annotateVideo() {
+	pauseVideo();
+
+	myVideo = document.getElementById("myVideo");
+
+	myVideo.style.display = "none";
+	myCanvas.style.display = "inline";
+
+	var context = myCanvas.getContext('2d');
+	var videoRatio = myVideo.videoHeight / myVideo.videoWidth;
+	var canvasRatio = myCanvas.height / myCanvas.width;
+
+	if(videoRatio < canvasRatio) {
+		var adjust = (myCanvas.height - (videoRatio * myCanvas.width)) / 2;
+		context.drawImage(myVideo, 0, adjust, myCanvas.width, videoRatio * myCanvas.width);
+	} else {
+		var adjust = (myCanvas.width - (1/videoRatio * myCanvas.height)) / 2;
+		context.drawImage(myVideo, adjust, 0, 1/videoRatio * myCanvas.height, myCanvas.height);
+	}
+
+	myCanvas.style.backgroundImage = "url(" + myCanvas.toDataURL() + ")";
+
+
+//	alert(canvas.toDataURL());
+
+	//var Img = new Image();
+	//Img.src = canvas.toDataURL();
+
+	//$('#myCanvas').erase();
+	$('#myCanvas').sketch({defaultColor: "#ff0"});
+}
+
+function downloadCanvas() {
+}
 
 function prepare() {
 	//event.target.playVideo();
 	clearQuestionBox();
+
+	myCanvas = document.createElement('canvas');
+	myCanvas.id     = "myCanvas";
+	myCanvas.width = $('#leftFirst').width();
+	myCanvas.height = $('#leftFirst').height();
+	myCanvas.style.display = "none";
+
+	$('#leftFirst').prepend(myCanvas);
+
+	myVideo = document.getElementById('myVideo');
+	//myVideo.setAttribute('crossOrigin', 'anonymous');
 
 	/* ------ bind ctrl + l to submitting question -- */
 
@@ -615,6 +686,9 @@ function prepare() {
 		submitBtnClicked();
 	});
 
+	$('#myVideo').click(function() {
+		toggleVideoStatus();
+	});
 	$('#appearBtn').click(function() {
 		appearBtnClicked();
 	});
@@ -624,12 +698,25 @@ function prepare() {
 	});
 
 	$('#playBtn').click(function() {
-		player.play();
+		playVideo();
 	});
 
 	$('#pauseBtn').click(function() {
-		player.pause();
+		pauseVideo();
 	});
+
+	$('#annotateBtn').click(function() {
+		annotateVideo();
+	});
+
+	$('#backVideoBtn').click(function() {
+		backToVideo();
+	});
+
+	$('#downloadBtn').click(function() {
+		downloadCanvas();
+	});
+
 	$('#leftSecond').on("mouseover", ".captionTable", function() {
 		subTitleMouseOver = true;
 	});

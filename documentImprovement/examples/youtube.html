@@ -4,28 +4,37 @@
 		<title>test</title>
 	</head>
 	<body>
-		<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-		<div id="ytapiplayer">
-			You need Flash player 8+ and JavaScript enabled to view this video.
-		</div>
 
-		<script type="text/javascript">
+		<canvas id="myCanvas">
+		</canvas>
 
-			var params = { allowScriptAccess: "always" };
-var atts = { id: "myytplayer" };
-swfobject.embedSWF("http://www.youtube.com/v/QRS8MkLhQmM?enablejsapi=1&playerapiid=ytplayer&version=3",
-		"ytapiplayer", "640", "480", "8", null, null, params, atts);
+		<video id="myVideo" src="../video/NL1.mp4" autobuffer controls >
+		</video>
 
-var stateChange = function(a) {
-	if (ytplayer.getOptions().indexOf("cc") !== -1) {
-		alert("closed captions are on");
-	} else {
-		alert("closed captions are off");
-	}
-}
-function onYouTubePlayerReady(playerId) {
-	ytplayer = document.getElementById("myytplayer");
-	ytplayer.addEventListener("onStateChange","stateChange");
-}
-</script></body>
-																																		  </html>
+
+		<button id="myBtn"> clickMe </button>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script>
+
+			var vid = document.getElementById("myVideo");
+
+			vid.onloadstart = function() {
+				var canvas = document.getElementById("myCanvas").getContext("2d");
+				canvas.drawImage(vid, 0, 0, 200, 200);
+				alert("loade!");
+			};
+
+			$(document).ready(function() {
+				$("#myBtn").click(function() {
+
+				//vid.setAttribute("crossorigin", "anonymous");
+				var canvas = document.getElementById("myCanvas").getContext("2d");
+				canvas.drawImage(vid, 0, 0, 200, 200);
+				alert(canvas.canvas.toDataURL());
+				});
+			});
+
+		</script>
+
+	</body>
+</html>
