@@ -4,24 +4,20 @@
 		<title>test</title>
 	</head>
 	<body>
-
 		<canvas id="myCanvas">
 		</canvas>
 
-		<video id="myVideo" src="../video/NL1.mp4" autobuffer controls >
+		<video id="myVideo" src="https://firebasestorage.googleapis.com/v0/b/documentimprovement-ebf04.appspot.com/o/NL1.mp4?alt=media&token=bef827a5-1c99-488c-892b-90b29e958aae" autobuffer controls crossorigin="anonymous">
 		</video>
-
 
 		<button id="myBtn"> clickMe </button>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script>
-
 			var vid = document.getElementById("myVideo");
 
 			vid.onloadstart = function() {
 				var canvas = document.getElementById("myCanvas").getContext("2d");
 				canvas.drawImage(vid, 0, 0, 200, 200);
-				alert("loade!");
 			};
 
 			$(document).ready(function() {
