@@ -130,9 +130,10 @@ function plotQuestionBar(clickedIndex) {
 	for(var i=1;i<subsFrequency.length;i++) { // subsInfo starts from 1
 		// plot rectangle in subsInfo[i].start ~ subsInfo[i].end
 
-		var startPoint = ((subsInfo[i].start/1000) / getVideoDuration()) * c.canvas.width;
-		var endPoint = ((subsInfo[i].end/1000) / getVideoDuration()) * c.canvas.width;
-		var myHeight = (subsFrequency[i] / max) * c.canvas.height;
+		var startPoint = (i-1)/subsFrequency.length * c.canvas.height;
+		var endPoint = i/subsFrequency.length * c.canvas.height;
+
+		var myHeight = (subsFrequency[i] / max) * c.canvas.width;
 
 		var isClicked = false;
 
@@ -143,14 +144,14 @@ function plotQuestionBar(clickedIndex) {
 		subsInfo[i].isClicked = isClicked;
 
 		questionRects.push( {
-			x: startPoint, 
-			y: (c.canvas.height - myHeight), 
-			w: endPoint - startPoint, 
-			h: myHeight,
+			x: (c.canvas.width - myHeight),
+			y: startPoint, 
+			w: myHeight, 
+			h: endPoint - startPoint,
 			i: i
 		});
 
-		subsInfo[i].rect = questionRects.length-1;;
+		subsInfo[i].rect = questionRects.length-1;
 	}
 
 	c.fillStyle = "#000000";
@@ -235,6 +236,11 @@ function loadSubsInfoFromFirebase() {
 		}
 
 	getQuestionHistogram();
+/*
+	var questionBarWidth = $('#myTable').width();
+	var questionBarHeight = $('#myTable').height();
+	resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
+*/
 	plotQuestionBar(-1);
 
 	}, function (errorObject) {
@@ -399,7 +405,7 @@ function questionBarMouseEffectSetting() {
 			var r = questionRects[i];
 
 			c.beginPath();
-			c.rect(r.x, 0, r.w, c.canvas.height);
+			c.rect(0, r.y, c.canvas.width, r.h);
 
 			if(rightDivAppeared && c.isPointInPath(x, y)) {
 				focusRow(r.i, true);
@@ -445,7 +451,7 @@ function questionBarMouseEffectSetting() {
 				var r = questionRects[i];
 
 				c.beginPath();
-				c.rect(r.x, 0, r.w, c.canvas.height);
+				c.rect(0, r.y, c.canvas.width, r.h);
 
 				if(c.isPointInPath(x, y)) {
 					idx = i;
@@ -681,6 +687,46 @@ function prepare() {
 	//contextStack.push($('#mySlider'));
 
 	/* ---------- Subtitle initialization --------- */
+
+	function scrollSubtitle() {
+		var tableHeight = $("#myTable").height();
+		var leftSecondHeight = $("#leftSecond").height();
+		var scrollTop = $("#leftSecond").scrollTop();
+
+		var heightRatio = leftSecondHeight / tableHeight;
+		var scrollRatio = scrollTop / tableHeight;
+		
+		var rectWidth = $("#questionBar").width();
+		var rectHeight = $("#questionBar").height() * heightRatio;
+		var rectYpos = $("#questionBar").height() * scrollRatio;
+
+		var questionCtx = document.getElementById("questionBar");
+		var questionC = questionCtx.getContext("2d");
+
+		var clickedIdx = getClickedIdx();
+		plotQuestionBar(clickedIdx);
+
+		questionC.strokeStyle= "red";
+		questionC.lindWidth = 10;
+		questionC.strokeRect(0, rectYpos, rectWidth, rectHeight);
+
+		//var $cache = $('#questionBar');
+		///var pos = $("#leftSecond").scrollTop();
+
+		//$('#questionBar').css('top',pos);
+/*
+		if ($("#leftSecond").scrollTop() >= 0)
+			$cache.css({
+				'top': $("#leftSecond").scrollTop()
+			});
+		else
+			$cache.css({
+				'position': 'relative',
+				'top': 'auto'
+			});*/
+	}
+
+	$("#leftSecond").scroll(scrollSubtitle);
 
 	$('#submitBtn').click(function() {
 		submitBtnClicked();

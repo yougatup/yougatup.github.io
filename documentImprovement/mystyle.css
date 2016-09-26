@@ -20,8 +20,9 @@ html, body { height: 100%; padding: 0; margin: 0; min-height: 100% ; width: 100%
 #bars {height:25%; width: 100%; float: left;}
 #progressBar {height: 15%; width: 100%; float: left; box-sizing: border-box; border: 1px solid black;}
 #playBar{height: 15%; width: 100%; float: left; box-sizing: border-box; border: 1px solid black; padding: 3px;}
-#questionBar {height: 70%; width: 100%; float: left;box-sizing: border-box;border: 1px solid black;}
-#leftSecond {background: #CCC; height: 20%; width: 100%; float: left; box-sizing: border-box;border: 1px solid black; overflow: auto;}
+#questionBar { height:35%; width: 10%; float: right;box-sizing: border-box;border: 1px solid black; position: relative}
+#myTable{height: 100%; width: 100%; float: left;box-sizing: border-box;border: 1px solid black;}
+#leftSecond {background: #CCC; height: 35%; width: 90%; float: left; box-sizing: border-box;border: 1px solid black; overflow: auto;}
 #rightDiv {background: #EEE;  height: 100%; width: 35%;  float: right;box-sizing: border-box; }
 #rightFirst {background: #FFF; width:100%; height: 30%; box-sizing: border-box; border: 3px solid black; }
 #rightSecond {background: #ABC; width: 100%; height: 70%; box-sizing: border-box; border: 3px solid black; overflow: auto;}
