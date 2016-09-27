@@ -41,16 +41,37 @@ function fillMyRect(index, color) {
 	var questionCtx = document.getElementById("questionBar");
 	var questionC = questionCtx.getContext("2d");
 
+	if(color == "green") {
+		questionC.fillStyle = "yellow";
+		questionC.fillRect(0, questionRects[index].y, questionC.canvas.width - questionRects[index].w, questionRects[index].h);
+	} else {
+		questionC.fillStyle = "#DDD";
+		questionC.fillRect(0, questionRects[index].y, questionC.canvas.width - questionRects[index].w, questionRects[index].h);
+	}
+
 	questionC.fillStyle = color;
 	questionC.fillRect(questionRects[index].x, questionRects[index].y, questionRects[index].w, questionRects[index].h);
+
+	strokeRedRect();
 }
 
 function focusRow(index, scroll) {
 	if(index != currentRow){
 		if(currentRow != -1) {
 			if(subsInfo[currentRow].rect != clickedRect){
-				subsInfo[currentRow].row.style.background = "#CCC";
+				subsInfo[currentRow].row.style.background = getGradientString(subsInfo[currentRow].row.fillPercent, "#CCC", "red");
 				fillMyRect(subsInfo[currentRow].rect, "black");
+			}
+
+			if(currentRow > 1 && subsInfo[currentRow-1].rect != clickedRect){
+				subsInfo[currentRow-1].row.style.background = getGradientString(subsInfo[currentRow-1].row.fillPercent, "#CCC", "red");
+				fillMyRect(subsInfo[currentRow-1].rect, "black");
+			}
+
+
+			if(currentRow+1 < subsInfo.length && subsInfo[currentRow+1].rect != clickedRect){
+				subsInfo[currentRow+1].row.style.background = getGradientString(subsInfo[currentRow+1].row.fillPercent, "#CCC", "red");
+				fillMyRect(subsInfo[currentRow+1].rect, "black");
 			}
 		}
 
@@ -59,12 +80,12 @@ function focusRow(index, scroll) {
 		if(currentRow != -1) {
 			if(subsInfo[currentRow].rect != clickedRect){
 				fillMyRect(subsInfo[currentRow].rect, "green");
-				subsInfo[currentRow].row.style.background = "yellow";
+				subsInfo[currentRow].row.style.background = getGradientString(subsInfo[currentRow].row.fillPercent, "yellow", "green");
 			}
 		}
 	}
 
-	if(scroll == true)
+	if(scroll == true && index != -1)
 		$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - 30);
 }
 
@@ -132,7 +153,6 @@ function plotQuestionBar(clickedIndex) {
 
 		var startPoint = (i-1)/subsFrequency.length * c.canvas.height;
 		var endPoint = i/subsFrequency.length * c.canvas.height;
-
 		var myHeight = (subsFrequency[i] / max) * c.canvas.width;
 
 		var isClicked = false;
@@ -142,6 +162,7 @@ function plotQuestionBar(clickedIndex) {
 		}
 
 		subsInfo[i].isClicked = isClicked;
+		subsInfo[i].row.fillPercent = subsFrequency[i] / max * 100;
 
 		questionRects.push( {
 			x: (c.canvas.width - myHeight),
@@ -160,8 +181,42 @@ function plotQuestionBar(clickedIndex) {
 		if(subsInfo[questionRects[i].i].isClicked == true) c.fillStyle = "red";
 		else c.fillStyle = "#000000";
 
-		c.fillRect(questionRects[i].x, questionRects[i].y, questionRects[i].w, questionRects[i].h);
+		fillMyRect(i, c.fillStyle);
+
+		//captionLeave(subsInfo[questionRects[i].i].row);
+
+		subsInfo[questionRects[i].i].row.style.backgroundImage = getGradientString(subsInfo[questionRects[i].i].row.fillPercent, "#CCC", "red");
 	}
+}
+
+function getGradientString(percent, c1, c2) {
+	return getCssValuePrefix() + 'linear-gradient(0deg, '+c1+', '+c1+' '+(100 - percent) + '%, '+ c2 +' '+ (100 - percent) + '%)';
+}
+
+function getCssValuePrefix()
+{
+	var rtrnVal = '';//default to standard syntax
+	var prefixes = ['-o-', '-ms-', '-moz-', '-webkit-'];
+
+	// Create a temporary DOM object for testing
+	var dom = document.createElement('div');
+
+	for (var i = 0; i < prefixes.length; i++)
+	{
+		// Attempt to set the style
+		dom.style.background = prefixes[i] + 'linear-gradient(#000000, #ffffff)';
+
+		// Detect if the style was successfully set
+		if (dom.style.background)
+		{
+			rtrnVal = prefixes[i];
+		}
+	}
+
+	dom = null;
+	delete dom;
+
+	return rtrnVal;
 }
 
 function plotSingleQuestion(questionTime) {
@@ -223,7 +278,6 @@ function loadSubsInfoFromFirebase() {
 				);
 
 				var myRow = document.getElementById("myRow" + obj[key].index);
-
 				subsInfo[obj[key].index] = {
 					'start': obj[key].start,
 					'end': obj[key].end,
@@ -395,6 +449,7 @@ function questionBarMouseEffectSetting() {
 	var mouseIsDown;
 	var mouseIsOver = false;
 
+	/*
 	function checkcolor(e) {
 		var rect = c.canvas.getBoundingClientRect();
 		var x = e.clientX - rect.left;
@@ -475,8 +530,45 @@ function questionBarMouseEffectSetting() {
 
 		// not to draw cursor line
 	}
-}
+	*/
 
+		function moveScroll(e, x, y) {
+			var tableHeight = $("#myTable").height();
+			var leftSecondHeight = $("#leftSecond").height();
+
+			var heightRatio = leftSecondHeight / tableHeight;
+			var rectHeight = $("#questionBar").height() * heightRatio;
+
+			var scrollRatio = (y - rectHeight/2) / c.canvas.height;
+
+			$("#leftSecond").scrollTop(Math.max(0, scrollRatio * tableHeight));
+		}
+
+	c.canvas.onmousemove = function(e) {
+		if(mouseIsDown) {
+
+			var rect = this.getBoundingClientRect();
+			var x = e.clientX - rect.left;
+			var y = e.clientY - rect.top;
+
+			moveScroll(e, x, y);
+		}
+	}
+
+	c.canvas.onmousedown = function(e) {
+		mouseIsDown = true;
+
+		var rect = this.getBoundingClientRect();
+		var x = e.clientX - rect.left;
+		var y = e.clientY - rect.top;
+
+		moveScroll(e, x, y);
+	}
+
+	c.canvas.onmouseup = function(e) {
+		mouseIsDown = false;
+	}
+}
 
 function progressBarMouseEffectSetting() {
 	var ctx = document.getElementById("progressBar");
@@ -500,8 +592,6 @@ function progressBarMouseEffectSetting() {
 
 		mouseIsDown = false;
 
-	//	c.fillStyle = "blue";
-
 		function mouseClick(e, x, y) {
 			var relativePosition = (x / c.canvas.width) * 100;
 
@@ -509,61 +599,6 @@ function progressBarMouseEffectSetting() {
 			videoSeekTo(relativePosition/100 * getVideoDuration());
 		}
 	}
-
-	/*
-	c.canvas.onmousemove = function(e) {
-	//	questionBarC.canvas.onmousemove(e);
-	}
-
-	c.canvas.onmouseleave = function(e) {
-	//	questionBarC.canvas.onmouseleave(e);
-	}
-	*/
-}
-
-function appearBtnClicked() {
-	if(rightDivAppeared == false){
-		rightDivAppeared = true;
-
-		$('#leftDiv').animate({width: '65%'}, 200, function() { 
-			$('#rightDiv').show(200, function() {
-
-				var progressBarWidth = $('#progressBar').width();
-				var progressBarHeight = $('#progressBar').height();
-
-				var questionBarWidth = $('#questionBar').width();
-				var questionBarHeight = $('#questionBar').height();
-
-				resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
-				resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
-
-				plotQuestionBar(-1);
-			});
-		});
-	}
-}
-
-function disappearBtnClicked() {
-	if(rightDivAppeared == true) {
-		rightDivAppeared = false;
-
-		$('#rightDiv').hide(200, function() {
-			$('#leftDiv').animate({width: '100%'}, 200, function() {
-
-				var progressBarWidth = $('#progressBar').width();
-				var progressBarHeight = $('#progressBar').height();
-
-				var questionBarWidth = $('#questionBar').width();
-				var questionBarHeight = $('#questionBar').height();
-
-				resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
-				resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
-
-				plotQuestionBar(-1);
-			});
-		});
-	}
-
 }
 
 function loadVideo() {
@@ -629,6 +664,25 @@ function annotateVideo() {
 function downloadCanvas() {
 }
 
+function strokeRedRect() {
+	var questionCtx = document.getElementById("questionBar");
+	var questionC = questionCtx.getContext("2d");
+
+	var tableHeight = $("#myTable").height();
+	var leftSecondHeight = $("#leftSecond").height();
+	var scrollTop = $("#leftSecond").scrollTop();
+
+	var heightRatio = leftSecondHeight / tableHeight;
+	var scrollRatio = scrollTop / tableHeight;
+
+	var rectWidth = $("#questionBar").width();
+	var rectHeight = $("#questionBar").height() * heightRatio;
+	var rectYpos = $("#questionBar").height() * scrollRatio;
+
+	questionC.strokeStyle= "red";
+	questionC.lineWidth = 3;
+	questionC.strokeRect(0, rectYpos, rectWidth, rectHeight);
+}
 function prepare() {
 	//event.target.playVideo();
 	clearQuestionBox();
@@ -689,41 +743,10 @@ function prepare() {
 	/* ---------- Subtitle initialization --------- */
 
 	function scrollSubtitle() {
-		var tableHeight = $("#myTable").height();
-		var leftSecondHeight = $("#leftSecond").height();
-		var scrollTop = $("#leftSecond").scrollTop();
-
-		var heightRatio = leftSecondHeight / tableHeight;
-		var scrollRatio = scrollTop / tableHeight;
-		
-		var rectWidth = $("#questionBar").width();
-		var rectHeight = $("#questionBar").height() * heightRatio;
-		var rectYpos = $("#questionBar").height() * scrollRatio;
-
-		var questionCtx = document.getElementById("questionBar");
-		var questionC = questionCtx.getContext("2d");
-
 		var clickedIdx = getClickedIdx();
 		plotQuestionBar(clickedIdx);
 
-		questionC.strokeStyle= "red";
-		questionC.lindWidth = 10;
-		questionC.strokeRect(0, rectYpos, rectWidth, rectHeight);
-
-		//var $cache = $('#questionBar');
-		///var pos = $("#leftSecond").scrollTop();
-
-		//$('#questionBar').css('top',pos);
-/*
-		if ($("#leftSecond").scrollTop() >= 0)
-			$cache.css({
-				'top': $("#leftSecond").scrollTop()
-			});
-		else
-			$cache.css({
-				'position': 'relative',
-				'top': 'auto'
-			});*/
+		strokeRedRect();
 	}
 
 	$("#leftSecond").scroll(scrollSubtitle);
@@ -809,13 +832,6 @@ $(document).ready(function() {
 	prepare();
 });
 
-function captionOver(row) {
-	row.css("background", "yellow");
-}
-
-function captionLeave(row) {
-	row.css("background", "#CCC");
-}
 
 /*
 function contextPush(element) {
