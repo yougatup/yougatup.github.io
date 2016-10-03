@@ -68,7 +68,6 @@ function focusRow(index, scroll) {
 				fillMyRect(subsInfo[currentRow-1].rect, "black");
 			}
 
-
 			if(currentRow+1 < subsInfo.length && subsInfo[currentRow+1].rect != clickedRect){
 				subsInfo[currentRow+1].row.style.background = getGradientString(subsInfo[currentRow+1].row.fillPercent, "#CCC", "red");
 				fillMyRect(subsInfo[currentRow+1].rect, "black");
@@ -84,9 +83,10 @@ function focusRow(index, scroll) {
 			}
 		}
 	}
-
+/*
 	if(scroll == true && index != -1)
 		$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - 30);
+		*/
 }
 
 function moveTimeline(percent, timeLineOnly) {
@@ -178,14 +178,19 @@ function plotQuestionBar(clickedIndex) {
 	c.fillStyle = "#000000";
 
 	for(var i=0;i<questionRects.length;i++) {
-		if(subsInfo[questionRects[i].i].isClicked == true) c.fillStyle = "red";
-		else c.fillStyle = "#000000";
+		if(subsInfo[questionRects[i].i].isClicked == true){
+			c.fillStyle = "red";
+		}
+		else{
+			c.fillStyle = "#000000";
+
+			subsInfo[questionRects[i].i].row.style.backgroundImage = getGradientString(subsInfo[questionRects[i].i].row.fillPercent, "#CCC", "red");
+		}
 
 		fillMyRect(i, c.fillStyle);
 
 		//captionLeave(subsInfo[questionRects[i].i].row);
 
-		subsInfo[questionRects[i].i].row.style.backgroundImage = getGradientString(subsInfo[questionRects[i].i].row.fillPercent, "#CCC", "red");
 	}
 }
 
@@ -417,7 +422,7 @@ function barClick(index){
 
 	fillMyRect(clickedRect, "red");
 	displayQuestions(questionRects[clickedRect].i);
-	subsInfo[questionRects[clickedRect].i].row.style.background = "lightgreen";
+	subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "yellow", "green");
 
 	$('#timeArea').html("My question was raised at " + printTime(subsInfo[questionRects[clickedRect].i].start) + " ~ " + printTime(subsInfo[questionRects[clickedRect].i].end));
 
@@ -680,7 +685,7 @@ function strokeRedRect() {
 	var rectYpos = $("#questionBar").height() * scrollRatio;
 
 	questionC.strokeStyle= "red";
-	questionC.lineWidth = 3;
+	questionC.lineWidth = 1;
 	questionC.strokeRect(0, rectYpos, rectWidth, rectHeight);
 }
 function prepare() {

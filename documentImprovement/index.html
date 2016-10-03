@@ -19,6 +19,17 @@
 						<source id="mp4" src="https://firebasestorage.googleapis.com/v0/b/documentimprovement-ebf04.appspot.com/o/NL1.mp4?alt=media&token=bef827a5-1c99-488c-892b-90b29e958aae" type="video/mp4">
 					</video>
 				</div>
+				<div id="bars">
+					<div id="playBar">  
+						<div id="playTime" style="display: inline"> 0:00 / 0:00 </div>
+						<button id="playBtn" style="display: inline"> play </button>
+						<button id="pauseBtn" style="display: inline"> pause </button>
+						<button id="annotateBtn" style="display: inline"> annotate </button>
+						<button id="backVideoBtn" style="display: inline"> back to video </button>
+						<a href="#myCanvas" data-download="png" style="float: right; width: 100px;">Download</a>
+					</div>
+					<canvas id="progressBar"> </canvas>
+				</div>
 				<div id="leftSecond">
 					<!--
 					<button id="appearBtn"> appear </button>
@@ -33,17 +44,6 @@
 					</table>
 				</div>
 				<canvas id="questionBar"> </canvas> 
-				<div id="bars">
-					<div id="playBar">  
-						<div id="playTime" style="display: inline"> 0:00 / 0:00 </div>
-						<button id="playBtn" style="display: inline"> play </button>
-						<button id="pauseBtn" style="display: inline"> pause </button>
-						<button id="annotateBtn" style="display: inline"> annotate </button>
-						<button id="backVideoBtn" style="display: inline"> back to video </button>
-						<a href="#myCanvas" data-download="png" style="float: right; width: 100px;">Download</a>
-					</div>
-					<canvas id="progressBar"> </canvas>
-				</div>
 			</div>
 			<div id="rightDiv">
 				<div id="rightFirst">

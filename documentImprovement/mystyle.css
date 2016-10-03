@@ -1,4 +1,4 @@
-html, body { height: 100%; padding: 0; margin: 0; min-height: 100% ; width: 100%;}
+html, body { height: 100%; padding: 0; margin: 0; min-height: 100% ; width: 100%; position: fixed;}
 
 /* main layout */
 
@@ -17,9 +17,9 @@ html, body { height: 100%; padding: 0; margin: 0; min-height: 100% ; width: 100%
 #leftFirst {background: #000; height: 55%; width: 100%; float: left; box-sizing: border-box; }
 #myCanvas {background: #BBB; height: 100%; width: 100%; float: left; box-sizing: border-box; }
 #mySlider {background: #BBB; height: 100%; width: 100%; float: left; box-sizing: border-box; }
-#bars {height:25%; width: 100%; float: left;}
-#progressBar {height: 15%; width: 100%; float: left; box-sizing: border-box; border: 1px solid black;}
-#playBar{height: 15%; width: 100%; float: left; box-sizing: border-box; border: 1px solid black; padding: 3px;}
+#bars {height:8%; width: 100%; float: left;}
+#progressBar {height: 50%; width: 100%; float: left; box-sizing: border-box; border: 1px solid black;}
+#playBar{height: 50%; width: 100%; float: left; box-sizing: border-box; border: 1px solid black; padding: 3px;}
 #questionBar { height:35%; width: 10%; float: right;box-sizing: border-box;border: 1px solid black; position: relative}
 #myTable{height: 100%; width: 100%; float: left;box-sizing: border-box;border: 1px solid black;}
 #leftSecond {background: #CCC; height: 35%; width: 90%; float: left; box-sizing: border-box;border: 1px solid black; overflow: auto;}
