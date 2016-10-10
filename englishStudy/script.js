@@ -48,7 +48,7 @@ $(document).ready(function() {
 
 		alert("submit done! Let's see the answer sheet !");
 
-		window.location.replace("http://yougatup.github.io/englishStudy/total.html");
+		window.location.replace("http://yougatup.github.io/englishStudy/total.html?testname=" + Testname);
 
 	});
 });
