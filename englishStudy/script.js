@@ -2,7 +2,17 @@
 var words = [];
 var cnt = 0;
 var ready = false;
-var Testname = 'Day11';
+var Testname = '';
+
+function getParameterByName(name, url) {
+	if (!url) url = window.location.href;
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 function questionRowForm(element) {
 	return '<tr>' + 
@@ -16,10 +26,20 @@ function addQuestion(element) {
 	$('#wordTable tr:last').after(questionRowForm(element));
 }
 
+function displayLoadingString() {
+	$('#main').html(
+			'Now loading ...'
+			);
+}
 $(document).ready(function() {
-	InitializeDB();
-	toggleSignIn();
-	readData();
+	Testname = getParameterByName('testname');
+
+	if(Testname != "" && Testname != null) {
+		displayLoadingString();
+		InitializeDB();
+		toggleSignIn();
+		readData();
+	}
 
 	$(document).on('click', '#submitBtn', function() {
 		// submit results
@@ -72,8 +92,8 @@ function InitializeDB(){
 function registerWords(index, question, key) {
 	words.push({
 		index: index,
-	question: question,
-	key: key
+		question: question,
+		key: key
 	});
 }
 
@@ -98,21 +118,21 @@ function readData() {
 
 	questionRef.once("value", function(snapshot) {
 		var obj = snapshot.val()
-		for (var key in obj) {
-			if (obj.hasOwnProperty(key)) {
-				registerWords(obj[key].index, obj[key].question, key);
+			for (var key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					registerWords(obj[key].index, obj[key].question, key);
+				}
 			}
+
+		displayWordTable();
+
+		//		words.sort(compare);
+
+		shuffle(words);
+
+		for(var i=0;i<words.length;i++) {
+			addQuestion(words[i]);
 		}
-
-	displayWordTable();
-
-	//		words.sort(compare);
-
-	shuffle(words);
-
-	for(var i=0;i<words.length;i++) {
-		addQuestion(words[i]);
-	}
 
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
