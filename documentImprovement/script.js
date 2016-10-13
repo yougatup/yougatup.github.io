@@ -29,12 +29,13 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var contextStack = [];
 
-function questionType(index, time, question, answer) {
+function questionType(index, time, question, answer, image) {
 	return {
 		index: index,
 		time: time,
 		question: question,
-		answer: answer
+		answer: answer,
+		image: image
 	};
 }
 
@@ -328,6 +329,7 @@ function loadSubsInfoFromFirebase() {
 				);
 
 				var myRow = document.getElementById("myRow" + obj[key].index);
+
 				subsInfo[obj[key].index] = {
 					'start': obj[key].start,
 					'end': obj[key].end,
@@ -359,7 +361,7 @@ function readData() {
 		var obj = snapshot.val()
 		for (var key in obj) {
 			if (obj.hasOwnProperty(key)) {
-				registerQuestion(obj[key].time, obj[key].question, false);
+				registerQuestion(obj[key].time, obj[key].question, false, obj[key].image);
 			}
 		}
 	}, function (errorObject) {
@@ -384,12 +386,13 @@ function loadDataFromFirebase(){
 	readData();
 }
 
-function writeToDB(time, question, answer) {
+function writeToDB(time, question, answer, imageIdentifier) {
 	// A post entry.
 	var postData = {
 		'time': time,
 		'question': question,
-		'answer': answer
+		'answer': answer,
+		'image': imageIdentifier
 	};
 
 	// Get a key for a new Post.
@@ -399,7 +402,9 @@ function writeToDB(time, question, answer) {
 	var updates = {};
 	updates['/questions/' + videoId + '/' + newPostKey] = postData;
 
-	return firebase.database().ref().update(updates);
+	return firebase.database().ref().update(updates,function() {
+		registerQuestion(time, question, true, imageIdentifier);
+	});
 }
 
 function toggleSignIn() {
@@ -920,8 +925,26 @@ function submitBtnClicked() {
 		questionTime = subsInfo[questionRects[clickedRect].i].start;
 	}
 
-	registerQuestion(questionTime, getQuestionStatement(), true);
-	writeToDB(questionTime, getQuestionStatement(), '');
+	var identifier = '';
+	if(haveQuestion && !haveGeneralQuestion) {
+		// upload img to firebase
+
+		var myQuestion = getQuestionStatement();
+
+		document.getElementById('myCanvas').toBlob(function(blob) {
+			identifier = Math.random().toString(36).substring(7);
+
+			var storageRef = firebase.storage().ref();
+			var imageRef = storageRef.child('imageDB/' + identifier + '.jpg');
+
+			imageRef.put(blob).then(function(snapshot) {
+				writeToDB(questionTime, myQuestion, '', snapshot.downloadURL);
+			});
+		});
+	} else {
+		writeToDB(questionTime, getQuestionStatement(), '', identifier);
+	}
+
 	clearQuestionBox();
 
 	backToVideo();
@@ -953,13 +976,14 @@ function getClickedIdx() {
 	return -1;
 }
 
-function registerQuestion(time, statement, displayResult) {
+function registerQuestion(time, statement, displayResult, imageIdentifier) {
 	var idx = questionList.length;
 
-	var newQuestion = questionType(idx, time, statement, '');
+	var newQuestion = questionType(idx, time, statement, '', imageIdentifier);
 
 	var divString = 
 		'<div id="question' + newQuestion.index + '" class="questionElement">' +
+		'<img class="questionImage" id="myQuestionImage' + newQuestion.index + '"></img>' + 
 		'<div class="questionContents">' + 
 		newQuestion.question +
 		'</div>' +
@@ -982,6 +1006,25 @@ function registerQuestion(time, statement, displayResult) {
 	}
 }
 
+function readError(error) {
+	switch (error.code) {
+		case 'storage/object_not_found':
+			// File doesn't exist
+			break;
+
+		case 'storage/unauthorized':
+			// User doesn't have permission to access the object
+			break;
+
+		case 'storage/canceled':
+			// User canceled the upload
+			break;
+
+		case 'storage/unknown':
+			// Unknown error occurred, inspect the server response
+			break;
+	}
+}
 function displayQuestions(subsIndex) {
 	if(subsIndex != -1) {
 		//$('#forDebugging').text("# of question : " + subsFrequency[subsIndex]);
@@ -989,6 +1032,14 @@ function displayQuestions(subsIndex) {
 			var myDiv = document.getElementById("question"+questionList[i].index);
 			if(subsInfo[subsIndex].start <= questionList[i].time && questionList[i].time < subsInfo[subsIndex].end) {
 				myDiv.style.display = 'block';
+
+				if(questionList[i].image != '') {
+					var myPath = questionList[i].image;
+					var myImage = document.getElementById('myQuestionImage' + questionList[i].index);
+
+					myImage.src = myPath;
+				}
+
 			} else {
 				myDiv.style.display = 'none';
 			}
