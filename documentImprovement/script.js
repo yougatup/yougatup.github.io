@@ -751,8 +751,16 @@ function prepare() {
 		for(var i=1;i<subsInfo.length;i++) {
 			if(subsInfo[i].row == this) {
 				//focusRow(i, "orange");
-				barClick(subsInfo[i].rect);
-				break;
+				if(subsInfo[i].isClicked == true) {
+					subsInfo[i].isClicked = false;
+					clickedRect = -1;
+					focusRow(-1, "yellow");
+					displayQuestions(-1);
+				}
+				else {
+					barClick(subsInfo[i].rect);
+					break;
+				}
 			}
 		}
 	});
@@ -816,10 +824,14 @@ function popBtnClicked() {
 */
 
 function submitBtnClicked() {
-	var playerCurrentTime = Number(getVideoCurrentTime() * 1000);
+	var questionTime = -1;
 
-	registerQuestion(playerCurrentTime, getQuestionStatement(), true);
-	writeToDB(playerCurrentTime, getQuestionStatement(), '');
+	if(clickedRect != -1) {
+		questionTime = subsInfo[questionRects[clickedRect].i].start;
+	}
+
+	registerQuestion(questionTime, getQuestionStatement(), true);
+	writeToDB(questionTime, getQuestionStatement(), '');
 	clearQuestionBox();
 }
 
