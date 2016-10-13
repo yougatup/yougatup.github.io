@@ -13,8 +13,9 @@ var playTimeDiv = document.getElementById("playTime");
 var playBtn = document.getElementById("playBtn");
 var pauseBtn = document.getElementById("pauseBtn");
 
-// Newton's first law of motion 2 : D1NubiWCpQg
+var focusPosition = {};
 
+// Newton's first law of motion 2 : D1NubiWCpQg
 var tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -37,59 +38,63 @@ function questionType(index, time, question, answer) {
 
 var currentRow = -1;
 
-function fillMyRect(index, color) {
+function fillMyRect(index, c1, c2) {
 	var questionCtx = document.getElementById("questionBar");
 	var questionC = questionCtx.getContext("2d");
 
-	if(color == "green") {
-		questionC.fillStyle = "yellow";
-		questionC.fillRect(0, questionRects[index].y, questionC.canvas.width - questionRects[index].w, questionRects[index].h);
-	} else {
-		questionC.fillStyle = "#DDD";
-		questionC.fillRect(0, questionRects[index].y, questionC.canvas.width - questionRects[index].w, questionRects[index].h);
-	}
+	questionC.fillStyle = c1;
 
-	questionC.fillStyle = color;
+	questionC.fillRect(0, questionRects[index].y, questionC.canvas.width - questionRects[index].w, questionRects[index].h);
+
+	questionC.fillStyle = c2;
 	questionC.fillRect(questionRects[index].x, questionRects[index].y, questionRects[index].w, questionRects[index].h);
 
 	strokeRedRect();
 }
 
-function focusRow(index, scroll) {
-	if(index != currentRow){
-		if(currentRow != -1) {
-			if(subsInfo[currentRow].rect != clickedRect){
-				subsInfo[currentRow].row.style.background = getGradientString(subsInfo[currentRow].row.fillPercent, "#CCC", "red");
-				fillMyRect(subsInfo[currentRow].rect, "black");
-			}
+function focusRow(index, color) {
+	if(focusPosition[color] != null && focusPosition[color] != -1 && focusPosition[color] != index) {
+		var rowIdx = focusPosition[color];
 
-			if(currentRow > 1 && subsInfo[currentRow-1].rect != clickedRect){
-				subsInfo[currentRow-1].row.style.background = getGradientString(subsInfo[currentRow-1].row.fillPercent, "#CCC", "red");
-				fillMyRect(subsInfo[currentRow-1].rect, "black");
-			}
-
-			if(currentRow+1 < subsInfo.length && subsInfo[currentRow+1].rect != clickedRect){
-				subsInfo[currentRow+1].row.style.background = getGradientString(subsInfo[currentRow+1].row.fillPercent, "#CCC", "red");
-				fillMyRect(subsInfo[currentRow+1].rect, "black");
-			}
+		if(subsInfo[rowIdx].rect != clickedRect){
+			fillMyRect(subsInfo[rowIdx].rect, "#DDD", "black");
+			subsInfo[rowIdx].row.style.background = getGradientString(subsInfo[rowIdx].row.fillPercent, "#CCC", "red");
 		}
 
-		currentRow = index;
+		if(rowIdx > 1 && subsInfo[rowIdx-1].rect != clickedRect) {
+			fillMyRect(subsInfo[rowIdx-1].rect, "#DDD", "black");
+			subsInfo[rowIdx-1].row.style.background = getGradientString(subsInfo[rowIdx-1].row.fillPercent, "#CCC", "red");
+		}
 
-		if(currentRow != -1) {
-			if(subsInfo[currentRow].rect != clickedRect){
-				fillMyRect(subsInfo[currentRow].rect, "green");
-				subsInfo[currentRow].row.style.background = getGradientString(subsInfo[currentRow].row.fillPercent, "yellow", "green");
-			}
+		if(rowIdx+1 < subsInfo.length && subsInfo[rowIdx+1].rect != clickedRect) {
+			fillMyRect(subsInfo[rowIdx+1].rect, "#DDD", "black");
+			subsInfo[rowIdx+1].row.style.background = getGradientString(subsInfo[rowIdx+1].row.fillPercent, "#CCC", "red");
 		}
 	}
-/*
-	if(scroll == true && index != -1)
-		$("#leftSecond").scrollTop(subsInfo[index].row.offsetTop - 30);
-		*/
+
+	focusPosition[color] = index;
+
+	if(focusPosition["orange"] != null && focusPosition["orange"] != -1 && focusPosition["orange"] != focusPosition["yellow"] && subsInfo[focusPosition["orange"]].rect != clickedRect) {
+		var myIndex = focusPosition["orange"];
+
+		if(subsInfo[myIndex].rect != clickedRect) {
+			fillMyRect(subsInfo[myIndex].rect, "orange", "green");
+			subsInfo[myIndex].row.style.background = getGradientString(subsInfo[myIndex].row.fillPercent, "orange", "green");
+		}
+	}
+
+	if(focusPosition["yellow"] != null && focusPosition["yellow"] != -1) {
+		var myIndex = focusPosition["yellow"];
+
+		if(subsInfo[myIndex].rect != clickedRect) {
+			fillMyRect(subsInfo[myIndex].rect, "yellow", "green");
+			subsInfo[myIndex].row.style.background = getGradientString(subsInfo[myIndex].row.fillPercent, "yellow", "green");
+		}
+	}
+
 }
 
-function moveTimeline(percent, timeLineOnly) {
+function moveTimeline(percent) {
 	var ctx = document.getElementById("progressBar");
 	var c = ctx.getContext("2d");
 
@@ -103,22 +108,20 @@ function moveTimeline(percent, timeLineOnly) {
 
 	$('#playTime').html(printTime(getVideoCurrentTime() * 1000) + " / " + printTime(getVideoDuration() * 1000));
 
-	if(!timeLineOnly){
-		var current = (getVideoDuration() * percent) * 10;
-		var flag = false;
+	var current = (getVideoDuration() * percent) * 10;
+	var flag = false;
 
-		for(var i=1;i<subsInfo.length;i++) {
-			var rectIdx = subsInfo[i].rect;
+	for(var i=1;i<subsInfo.length;i++) {
+		var rectIdx = subsInfo[i].rect;
 
-			if(subsInfo[i].start <= current && current < subsInfo[i].end) {
-				flag = true;
-				focusRow(i, !subTitleMouseOver);
-			}
+		if(subsInfo[i].start <= current && current < subsInfo[i].end) {
+			flag = true;
+			focusRow(i, "orange");
 		}
-		
-		if(!flag) {
-			focusRow(-1, !subTitleMouseOver);
-		}
+	}
+
+	if(!flag) {
+		focusRow(-1, "orange");
 	}
 }
 
@@ -187,10 +190,28 @@ function plotQuestionBar(clickedIndex) {
 			subsInfo[questionRects[i].i].row.style.backgroundImage = getGradientString(subsInfo[questionRects[i].i].row.fillPercent, "#CCC", "red");
 		}
 
-		fillMyRect(i, c.fillStyle);
+		fillMyRect(subsInfo[questionRects[i].i].rect, "#DDD", c.fillStyle);
 
 		//captionLeave(subsInfo[questionRects[i].i].row);
+	}
 
+	if(focusPosition["orange"] != null && focusPosition["orange"] != -1 && focusPosition["orange"] != focusPosition["yellow"] && subsInfo[focusPosition["orange"]].rect != clickedRect) {
+		var myPosition = focusPosition["orange"];
+
+		fillMyRect(subsInfo[myPosition].rect, "orange", "green");
+		subsInfo[myPosition].row.style.background = getGradientString(subsInfo[myPosition].row.fillPercent, "orange", "green");
+	}
+
+	if(focusPosition["yellow"] != null && focusPosition["yellow"] != -1) {
+		var myPosition = focusPosition["yellow"];
+
+		fillMyRect(subsInfo[myPosition].rect, "yellow", "green");
+		subsInfo[myPosition].row.style.background = getGradientString(subsInfo[myPosition].row.fillPercent, "yellow", "green");
+	}
+
+	if(clickedRect != -1) {
+		fillMyRect(clickedRect, "yellow", "red");
+		subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "yellow", "green");
 	}
 }
 
@@ -414,17 +435,17 @@ function barClick(index){
 	}
 
 	if(clickedRect != -1){
-		fillMyRect(clickedRect, "black");
-		subsInfo[questionRects[clickedRect].i].row.style.background = "#CCC";
+		fillMyRect(clickedRect, "#DDD", "black");
+		subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "#CCC", "red");
 	}
 
 	clickedRect = index;
 
-	fillMyRect(clickedRect, "red");
+	fillMyRect(clickedRect, "yellow", "red");
 	displayQuestions(questionRects[clickedRect].i);
 	subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "yellow", "green");
 
-	$('#timeArea').html("My question was raised at " + printTime(subsInfo[questionRects[clickedRect].i].start) + " ~ " + printTime(subsInfo[questionRects[clickedRect].i].end));
+	//$('#timeArea').html("My question was raised at " + printTime(subsInfo[questionRects[clickedRect].i].start) + " ~ " + printTime(subsInfo[questionRects[clickedRect].i].end));
 
 }
 
@@ -454,100 +475,17 @@ function questionBarMouseEffectSetting() {
 	var mouseIsDown;
 	var mouseIsOver = false;
 
-	/*
-	function checkcolor(e) {
-		var rect = c.canvas.getBoundingClientRect();
-		var x = e.clientX - rect.left;
-		var y = e.clientY - rect.top;
-		var current = Number(getVideoCurrentTime() * 1000);
+	function moveScroll(e, x, y) {
+		var tableHeight = $("#myTable").height();
+		var leftSecondHeight = $("#leftSecond").height();
 
-		for(var i=0;i<questionRects.length;i++) {
-			var r = questionRects[i];
+		var heightRatio = leftSecondHeight / tableHeight;
+		var rectHeight = $("#questionBar").height() * heightRatio;
 
-			c.beginPath();
-			c.rect(0, r.y, c.canvas.width, r.h);
+		var scrollRatio = (y - rectHeight/2) / c.canvas.height;
 
-			if(rightDivAppeared && c.isPointInPath(x, y)) {
-				focusRow(r.i, true);
-			} 
-		}
+		$("#leftSecond").scrollTop(Math.max(0, scrollRatio * tableHeight));
 	}
-
-
-	function drawCursorLine(e) {
-		var rect = c.canvas.getBoundingClientRect();
-		var x = e.clientX - rect.left;
-		var y = e.clientY - rect.top;
-
-		var relativeX = x / c.canvas.width;
-		var posX = relativeX * c.canvas.width;
-
-		c.beginPath();
-		c.moveTo(posX, 0);
-		c.lineTo(posX, c.canvas.height);
-
-		c.strokeStyle = "green";
-		c.stroke();
-	}
-
-	c.canvas.onmousedown = function(e) {
-		mouseIsDown = true;
-	}
-
-	c.canvas.onmouseup = function(e) {
-		var rect = this.getBoundingClientRect();
-		var x = e.clientX - rect.left;
-		var y = e.clientY - rect.top;
-
-		if(mouseIsDown && rightDivAppeared) mouseClick(e, x, y);
-
-		//drawCursorLine(e);
-		mouseIsDown = false;
-
-		function mouseClick(e, x, y) {
-			var idx = -1;
-
-			for(var i=0;i<questionRects.length;i++) {
-				var r = questionRects[i];
-
-				c.beginPath();
-				c.rect(0, r.y, c.canvas.width, r.h);
-
-				if(c.isPointInPath(x, y)) {
-					idx = i;
-					break;
-				}
-			}
-
-			barClick(idx);
-		}
-	}
-
-	c.canvas.onmousemove = function(e) {
-		subTitleMouseOver = true;
-		checkcolor(e);
-	//	drawCursorLine(e);
-	}
-
-	c.canvas.onmouseleave = function(e) {
-		checkcolor(e);
-		subTitleMouseOver = false;
-
-		// not to draw cursor line
-	}
-	*/
-
-		function moveScroll(e, x, y) {
-			var tableHeight = $("#myTable").height();
-			var leftSecondHeight = $("#leftSecond").height();
-
-			var heightRatio = leftSecondHeight / tableHeight;
-			var rectHeight = $("#questionBar").height() * heightRatio;
-
-			var scrollRatio = (y - rectHeight/2) / c.canvas.height;
-
-			$("#leftSecond").scrollTop(Math.max(0, scrollRatio * tableHeight));
-		}
 
 	c.canvas.onmousemove = function(e) {
 		if(mouseIsDown) {
@@ -600,7 +538,7 @@ function progressBarMouseEffectSetting() {
 		function mouseClick(e, x, y) {
 			var relativePosition = (x / c.canvas.width) * 100;
 
-			moveTimeline(relativePosition, false);
+			moveTimeline(relativePosition);
 			videoSeekTo(relativePosition/100 * getVideoDuration());
 		}
 	}
@@ -718,7 +656,7 @@ function prepare() {
 	resizeCanvas('progressBar', progressBarWidth, progressBarHeight);
 	resizeCanvas('questionBar', questionBarWidth, questionBarHeight);
 
-	$('#progressBar').show();
+//	$('#progressBar').show();
 	$('#questionBar').show();
 
 	/* ------ Preparing for regular job ----- */
@@ -730,7 +668,7 @@ function prepare() {
 
 		var playerTimeDifference = (playerCurrentTime / playerTotalTime) * 100;
 
-		moveTimeline(playerTimeDifference, subTitleMouseOver);
+		moveTimeline(playerTimeDifference);
 	}, 100);        
 
 	/* --------- Initialize question list --------- */
@@ -797,12 +735,14 @@ function prepare() {
 
 	$('#leftSecond').on("mouseleave", ".captionTable", function() {
 		subTitleMouseOver = false;
+
+		focusRow(-1, "yellow");
 	});
 
 	$('#leftSecond').on("mouseover", ".captionTable tr", function() {
 		for(var i=1;i<subsInfo.length;i++) {
 			if(subsInfo[i].row == this) {
-				focusRow(i, false);
+				focusRow(i, "yellow");
 			}
 		}
 	});
@@ -810,6 +750,7 @@ function prepare() {
 	$('#leftSecond').on("click", ".captionTable tr", function() {
 		for(var i=1;i<subsInfo.length;i++) {
 			if(subsInfo[i].row == this) {
+				//focusRow(i, "orange");
 				barClick(subsInfo[i].rect);
 				break;
 			}
