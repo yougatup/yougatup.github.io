@@ -1,6 +1,6 @@
 var currentPoint = -1;
 var questionList = [];
-var videoId = '5-ZFOhHQS68';
+var videoId = 'ItjWvbGaJ-Y';
 var subsInfo = [];
 var subsFrequency = [];
 var questionRects = [];
@@ -164,10 +164,13 @@ function videoSeekTo(position) {
 
 function plotQuestionBar(clickedIndex) {
 	var max = 0;
+
 	for(var i=0;i<subsFrequency.length;i++) {
 		if(max < subsFrequency[i])
 			max = subsFrequency[i];
 	}
+
+	if(max == 0) max = 1;
 
 	var ctx = document.getElementById("questionBar");
 	var c = ctx.getContext("2d");
