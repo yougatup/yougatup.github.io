@@ -12,6 +12,8 @@ var myCanvas;
 var playTimeDiv = document.getElementById("playTime");
 var playBtn = document.getElementById("playBtn");
 var pauseBtn = document.getElementById("pauseBtn");
+var haveQuestion = false;
+var haveGeneralQuestion = false;
 
 var focusPosition = {};
 
@@ -52,29 +54,31 @@ function fillMyRect(index, c1, c2) {
 	strokeRedRect();
 }
 
+function cleanAround(index) {
+	if(subsInfo[index].rect != clickedRect){
+		fillMyRect(subsInfo[index].rect, "#DDD", "black");
+		subsInfo[index].row.style.background = getGradientString(subsInfo[index].row.fillPercent, "#CCC", "red");
+	}
+
+	if(index > 1 && (subsInfo[index-1].rect != clickedRect)) {
+		fillMyRect(subsInfo[index-1].rect, "#DDD", "black");
+	}
+
+	if(index+1 < subsInfo.length && (subsInfo[index+1].rect != clickedRect)) {
+		fillMyRect(subsInfo[index+1].rect, "#DDD", "black");
+	}
+}
+
 function focusRow(index, color) {
 	if(focusPosition[color] != null && focusPosition[color] != -1 && focusPosition[color] != index) {
 		var rowIdx = focusPosition[color];
 
-		if(subsInfo[rowIdx].rect != clickedRect){
-			fillMyRect(subsInfo[rowIdx].rect, "#DDD", "black");
-			subsInfo[rowIdx].row.style.background = getGradientString(subsInfo[rowIdx].row.fillPercent, "#CCC", "red");
-		}
-
-		if(rowIdx > 1 && subsInfo[rowIdx-1].rect != clickedRect) {
-			fillMyRect(subsInfo[rowIdx-1].rect, "#DDD", "black");
-			subsInfo[rowIdx-1].row.style.background = getGradientString(subsInfo[rowIdx-1].row.fillPercent, "#CCC", "red");
-		}
-
-		if(rowIdx+1 < subsInfo.length && subsInfo[rowIdx+1].rect != clickedRect) {
-			fillMyRect(subsInfo[rowIdx+1].rect, "#DDD", "black");
-			subsInfo[rowIdx+1].row.style.background = getGradientString(subsInfo[rowIdx+1].row.fillPercent, "#CCC", "red");
-		}
+		cleanAround(rowIdx);
 	}
 
 	focusPosition[color] = index;
 
-	if(focusPosition["orange"] != null && focusPosition["orange"] != -1 && focusPosition["orange"] != focusPosition["yellow"] && subsInfo[focusPosition["orange"]].rect != clickedRect) {
+	if(focusPosition["orange"] != null && focusPosition["orange"] != -1 && subsInfo[focusPosition["orange"]].rect != clickedRect) {
 		var myIndex = focusPosition["orange"];
 
 		if(subsInfo[myIndex].rect != clickedRect) {
@@ -83,7 +87,7 @@ function focusRow(index, color) {
 		}
 	}
 
-	if(focusPosition["yellow"] != null && focusPosition["yellow"] != -1) {
+	if(focusPosition["yellow"] != null && focusPosition["yellow"] != -1 && focusPosition["orange"] != focusPosition["yellow"]) {
 		var myIndex = focusPosition["yellow"];
 
 		if(subsInfo[myIndex].rect != clickedRect) {
@@ -114,14 +118,25 @@ function moveTimeline(percent) {
 	for(var i=1;i<subsInfo.length;i++) {
 		var rectIdx = subsInfo[i].rect;
 
-		if(subsInfo[i].start <= current && current < subsInfo[i].end) {
+		if(i+1 >= subsInfo.length || subsInfo[i].start > current /*&& current < subsInfo[i].end*/ ) { // there are some point that corresponds to no caption.
+			if(i <= 1) break;
+			else if(!(i+1 >= subsInfo.length)) i--;
+
 			flag = true;
-			focusRow(i, "orange");
+
+			if(haveQuestion && !haveGeneralQuestion){
+				cleanAround(i);
+				barClick(subsInfo[i].rect);
+			}
+			else if(!haveGeneralQuestion) focusRow(i, "orange");
+
+			break;
 		}
 	}
 
 	if(!flag) {
-		focusRow(-1, "orange");
+		if(haveQuestion) barClick(-1);
+		else focusRow(-1, "orange");
 	}
 }
 
@@ -135,6 +150,15 @@ function getVideoDuration() {
 
 function videoSeekTo(position) {
 	player.currentTime = position;
+
+	if(haveQuestion) {
+		for(var i=1;i<subsInfo.length;i++){
+			if(subsInfo[i].start <= position && position < subsInfo[i].end){
+				barClick(subsInfo[i].rect);
+				break;
+			}
+		}
+	}
 }
 
 function plotQuestionBar(clickedIndex) {
@@ -195,14 +219,14 @@ function plotQuestionBar(clickedIndex) {
 		//captionLeave(subsInfo[questionRects[i].i].row);
 	}
 
-	if(focusPosition["orange"] != null && focusPosition["orange"] != -1 && focusPosition["orange"] != focusPosition["yellow"] && subsInfo[focusPosition["orange"]].rect != clickedRect) {
+	if(focusPosition["orange"] != null && focusPosition["orange"] != -1 && subsInfo[focusPosition["orange"]].rect != clickedRect) {
 		var myPosition = focusPosition["orange"];
 
 		fillMyRect(subsInfo[myPosition].rect, "orange", "green");
 		subsInfo[myPosition].row.style.background = getGradientString(subsInfo[myPosition].row.fillPercent, "orange", "green");
 	}
 
-	if(focusPosition["yellow"] != null && focusPosition["yellow"] != -1) {
+	if(focusPosition["yellow"] != null && focusPosition["yellow"] != -1 && focusPosition["orange"] != focusPosition["yellow"] ) {
 		var myPosition = focusPosition["yellow"];
 
 		fillMyRect(subsInfo[myPosition].rect, "yellow", "green");
@@ -423,30 +447,33 @@ function stopVideo() {
 }
 
 function barClick(index){
-	if(index == -1) {
-		for(var i=0;i<questionRects.length;i++) {
-			subsInfo[questionRects[i].i].isClicked = false;
+	if(clickedRect != index) {
+		if(index == -1) {
+			for(var i=0;i<questionRects.length;i++) {
+				subsInfo[questionRects[i].i].isClicked = false;
+			}
+		} else {
+			for(var i=0;i<questionRects.length;i++) {
+				if(i == index) subsInfo[questionRects[i].i].isClicked = true;
+				else subsInfo[questionRects[i].i].isClicked = false;
+			}
 		}
-	} else {
-		for(var i=0;i<questionRects.length;i++) {
-			if(i == index) subsInfo[questionRects[i].i].isClicked = true;
-			else subsInfo[questionRects[i].i].isClicked = false;
+
+		if(clickedRect != -1){
+			fillMyRect(clickedRect, "#DDD", "black");
+			subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "#CCC", "red");
 		}
+
+		clickedRect = index;
+
+		if(index != -1) {
+			fillMyRect(clickedRect, "yellow", "red");
+			displayQuestions(questionRects[clickedRect].i);
+			subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "yellow", "green");
+
+		}
+		//$('#timeArea').html("My question was raised at " + printTime(subsInfo[questionRects[clickedRect].i].start) + " ~ " + printTime(subsInfo[questionRects[clickedRect].i].end));
 	}
-
-	if(clickedRect != -1){
-		fillMyRect(clickedRect, "#DDD", "black");
-		subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "#CCC", "red");
-	}
-
-	clickedRect = index;
-
-	fillMyRect(clickedRect, "yellow", "red");
-	displayQuestions(questionRects[clickedRect].i);
-	subsInfo[questionRects[clickedRect].i].row.style.background = getGradientString(subsInfo[questionRects[clickedRect].i].row.fillPercent, "yellow", "green");
-
-	//$('#timeArea').html("My question was raised at " + printTime(subsInfo[questionRects[clickedRect].i].start) + " ~ " + printTime(subsInfo[questionRects[clickedRect].i].end));
-
 }
 
 function printTime(time) {
@@ -694,7 +721,7 @@ function prepare() {
 
 	$("#leftSecond").scroll(scrollSubtitle);
 
-	$('#submitBtn').click(function() {
+	$('#rightFirst').on("click", "#submitBtn", function() {
 		submitBtnClicked();
 	});
 
@@ -763,6 +790,46 @@ function prepare() {
 				}
 			}
 		}
+
+		if(haveQuestion && clickedRect != -1) {
+			var start = subsInfo[questionRects[clickedRect].i].start;
+			var end = subsInfo[questionRects[clickedRect].i].end;
+			var mid = (start + end) / 2;
+
+			var percent = (mid/1000) / getVideoDuration() * 100;
+
+			moveTimeline(percent);
+			videoSeekTo(percent/100 * getVideoDuration());
+		}
+	});
+
+	$('#rightFirst').on("click", "#hereBtn", function() {
+		goQuestion(clickedRect);
+	});
+
+	$('#rightFirst').on("click", "#generalBtn", function() {
+		goQuestion(-1);
+	});
+
+	$('#rightFirst').on("click", "#questionBtn", function() {
+		haveQuestion = true;
+
+		pauseVideo();
+
+		focusPosition["orange"] = -1;
+		focusPosition["yellow"] = -1;
+		barClick(-1);
+
+		plotQuestionBar(clickedRect);
+
+		var divString = 
+			'If you have a question on the instructor\'s description, please click the description on the captions and press [HERE] <br><br>' + 
+			'If you have a question on the lecture material (a frame of video), please move the timeline to the frame and press [HERE]<br><br>' +
+			'If you\'re not in the above cases, press [GENERAL] <br><br>' + 
+			'<button id="hereBtn"> HERE </button>' + 
+			'<button id="generalBtn"> GENERAL </button>';
+
+		$('#questionBoxArea').html(divString);
 	});
 
 	/* ------ Question div click event handling ------  */
@@ -786,6 +853,29 @@ $(document).ready(function() {
 	prepare();
 });
 
+function goQuestion(index) {
+	var divString;
+
+	if(index == -1) {
+		divString = 
+			'Please post your general question <br>' + 
+			'<textarea id="questionBox" type="text" name="question"> </textarea>' +
+			'<button id="submitBtn" style="float:right"> submit </button>';
+
+		haveGeneralQuestion = true;
+		barClick(-1);
+	} else {
+		divString = 
+			'Please post your question on this frame/description <br>' + 
+			'You can annotate on the frame if necessary <br> ' + 
+			'<textarea id="questionBox" type="text" name="question"> </textarea>' +
+			'<button id="submitBtn" style="float:right"> submit </button>';
+
+		annotateVideo();
+	}
+
+	$('#questionBoxArea').html(divString);
+}
 
 /*
 function contextPush(element) {
@@ -833,6 +923,16 @@ function submitBtnClicked() {
 	registerQuestion(questionTime, getQuestionStatement(), true);
 	writeToDB(questionTime, getQuestionStatement(), '');
 	clearQuestionBox();
+
+	backToVideo();
+
+	var divString = 
+		'<button id="questionBtn"> Question </button>'
+
+	$('#questionBoxArea').html(divString);
+
+	haveQuestion = false;
+	haveGeneralQuestion = false;
 }
 
 function getQuestionStatement() {
@@ -862,10 +962,6 @@ function registerQuestion(time, statement, displayResult) {
 		'<div id="question' + newQuestion.index + '" class="questionElement">' +
 		'<div class="questionContents">' + 
 		newQuestion.question +
-		'</div>' +
-		'<div>' +
-		'<button id="expandBtn' + newQuestion.index + '" class="expandBtn"> expand </button>' +
-		'<button id="likeBtn' + newQuestion.index + '" class="likeBtn"> like </button>' +
 		'</div>' +
 		'</div>';
 
