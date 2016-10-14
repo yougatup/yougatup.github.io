@@ -636,7 +636,7 @@ function annotateVideo() {
 	//Img.src = canvas.toDataURL();
 
 	//$('#myCanvas').erase();
-	$('#myCanvas').sketch({defaultColor: "#ff0"});
+	$('#myCanvas').sketch({defaultColor: "#0ff"});
 }
 
 function downloadCanvas() {
